@@ -10,7 +10,15 @@ public class DadBetPolicy implements BetPolicy {
 
   @Override
   public BetChecked applyPolicy(CheckBetMatchEvent checkBetMatchEvent) {
-    return null;
+    if (isGoalsEqual(checkBetMatchEvent.getBetAwayGoals(), checkBetMatchEvent.getExpectedAwayGoals()) && isGoalsEqual(checkBetMatchEvent.getBetHomeGoals(),
+        checkBetMatchEvent.getExpectedHomeGoals())) {
+      return new BetChecked(checkBetMatchEvent.getBetId(), POINTS_FOR_CORRECT_RESULT);
+    }
+    return new BetChecked(checkBetMatchEvent.getBetId(), POINTS_FOR_INCORRECT_RESULT);
   }
 
+
+  private boolean isGoalsEqual(Long predictedGoals, Long expectedGoals) {
+    return predictedGoals == expectedGoals;
+  }
 }
