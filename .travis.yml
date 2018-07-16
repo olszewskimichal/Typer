@@ -14,7 +14,7 @@ cache:
 
 addons:
     sonarcloud:
-        organization: "Typer"
+        organization: "typer"
         token:
           secure: ${SONAR_TOKEN}
         branches:
