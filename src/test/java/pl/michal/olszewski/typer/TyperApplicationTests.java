@@ -11,6 +11,7 @@ public class TyperApplicationTests {
 
   @Test
   public void contextLoads() {
+    
   }
 
 }
