@@ -35,7 +35,7 @@ class DadBetPolicyTest {
   @Test
   void shouldReturnZeroPointsOnlyWhenResultIsWrong() {
     //given
-    CheckBetMatchEvent betEvent = CheckBetMatchEvent.builder().betAwayGoals(2L).betHomeGoals(1L).expectedAwayGoals(2L).expectedHomeGoals(1L).build();
+    CheckBetMatchEvent betEvent = CheckBetMatchEvent.builder().betAwayGoals(2L).betHomeGoals(1L).expectedAwayGoals(1L).expectedHomeGoals(2L).build();
     //when
     BetChecked betChecked = policy.applyPolicy(betEvent);
     //then

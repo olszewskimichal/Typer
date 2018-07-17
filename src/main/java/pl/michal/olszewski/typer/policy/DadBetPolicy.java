@@ -24,8 +24,4 @@ public class DadBetPolicy implements BetPolicy {
     return isGoalsEqual(checkBetMatchEvent.getBetAwayGoals(), checkBetMatchEvent.getExpectedAwayGoals());
   }
 
-
-  private boolean isGoalsEqual(Long predictedGoals, Long expectedGoals) {
-    return predictedGoals.equals(expectedGoals);
-  }
 }

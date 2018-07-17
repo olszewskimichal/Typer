@@ -5,4 +5,8 @@ import pl.michal.olszewski.typer.bet.CheckBetMatchEvent;
 
 interface BetPolicy {
     BetChecked applyPolicy(CheckBetMatchEvent checkBetMatchEvent);
+
+    default boolean isGoalsEqual(Long predictedGoals, Long expectedGoals) {
+        return predictedGoals.equals(expectedGoals);
+    }
 }
