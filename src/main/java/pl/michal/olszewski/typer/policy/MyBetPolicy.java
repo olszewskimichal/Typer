@@ -15,6 +15,7 @@ public class MyBetPolicy implements BetPolicy {
         isGoalsEqual(checkBet.getBetAwayGoals(), checkBet.getExpectedAwayGoals())) {
       return new BetChecked(checkBet.getBetId(), POINTS_FOR_EXACTLY_THE_SAME_RESULT);
     }
+
     long expectedDifference = checkBet.getExpectedHomeGoals() - checkBet.getExpectedAwayGoals();
     long predictedDifference = checkBet.getBetHomeGoals() - checkBet.getBetAwayGoals();
     if (isTheSameDifference(expectedDifference, predictedDifference)) {
