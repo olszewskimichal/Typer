@@ -6,9 +6,9 @@ import org.junit.jupiter.api.Test;
 import pl.michal.olszewski.typer.bet.BetChecked;
 import pl.michal.olszewski.typer.bet.CheckBetMatchEvent;
 
-class DadBetPolicyTest {
+class MyBeyPolicyTest {
 
-  private BetPolicy policy = new DadBetPolicy();
+  private BetPolicy policy = new MyBetPolicy();
 
   @Test
   void shouldReturnOnePointOnlyWhenResultIsExactlyTheSame() {
@@ -18,7 +18,7 @@ class DadBetPolicyTest {
     BetChecked betChecked = policy.applyPolicy(betEvent);
     //then
     assertThat(betChecked).isNotNull();
-    assertThat(betChecked.getPoints()).isEqualTo(DadBetPolicy.POINTS_FOR_CORRECT_RESULT);
+    assertThat(betChecked.getPoints()).isEqualTo(MyBetPolicy.POINTS_FOR_EXACTLY_THE_SAME_RESULT);
   }
 
   @Test
@@ -29,7 +29,7 @@ class DadBetPolicyTest {
     BetChecked betChecked = policy.applyPolicy(betEvent);
     //then
     assertThat(betChecked).isNotNull();
-    assertThat(betChecked.getPoints()).isEqualTo(DadBetPolicy.POINTS_FOR_INCORRECT_RESULT);
+    assertThat(betChecked.getPoints()).isEqualTo(MyBetPolicy.POINTS_FOR_CORRECT_RESULT);
   }
 
   @Test
@@ -40,7 +40,7 @@ class DadBetPolicyTest {
     BetChecked betChecked = policy.applyPolicy(betEvent);
     //then
     assertThat(betChecked).isNotNull();
-    assertThat(betChecked.getPoints()).isEqualTo(DadBetPolicy.POINTS_FOR_INCORRECT_RESULT);
+    assertThat(betChecked.getPoints()).isEqualTo(MyBetPolicy.POINTS_FOR_INCORRECT_RESULT);
   }
 
 }
