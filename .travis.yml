@@ -17,9 +17,6 @@ addons:
         organization: "typer"
         token:
           secure: ${SONAR_TOKEN}
-        branches:
-          - master
-          - develop
 script:
     - sonar-scanner
 

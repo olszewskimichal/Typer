@@ -13,7 +13,13 @@ class DadBetPolicyTest {
   @Test
   void shouldReturnOnePointOnlyWhenResultIsExactlyTheSame() {
     //given
-    CheckBetMatchEvent betEvent = CheckBetMatchEvent.builder().betAwayGoals(1L).betHomeGoals(1L).expectedAwayGoals(1L).expectedHomeGoals(1L).build();
+    CheckBetMatchEvent betEvent = CheckBetMatchEvent
+        .builder()
+        .betAwayGoals(1L)
+        .betHomeGoals(1L)
+        .expectedAwayGoals(1L)
+        .expectedHomeGoals(1L)
+        .build();
     //when
     BetChecked betChecked = policy.applyPolicy(betEvent);
     //then
@@ -24,7 +30,13 @@ class DadBetPolicyTest {
   @Test
   void shouldReturnZeroPointsOnlyWhenResultIsGoodBytNotExactlyTheSame() {
     //given
-    CheckBetMatchEvent betEvent = CheckBetMatchEvent.builder().betAwayGoals(2L).betHomeGoals(2L).expectedAwayGoals(1L).expectedHomeGoals(1L).build();
+    CheckBetMatchEvent betEvent = CheckBetMatchEvent
+        .builder()
+        .betAwayGoals(2L)
+        .betHomeGoals(2L)
+        .expectedAwayGoals(1L)
+        .expectedHomeGoals(1L)
+        .build();
     //when
     BetChecked betChecked = policy.applyPolicy(betEvent);
     //then
@@ -35,7 +47,13 @@ class DadBetPolicyTest {
   @Test
   void shouldReturnZeroPointsOnlyWhenResultIsWrong() {
     //given
-    CheckBetMatchEvent betEvent = CheckBetMatchEvent.builder().betAwayGoals(2L).betHomeGoals(1L).expectedAwayGoals(1L).expectedHomeGoals(2L).build();
+    CheckBetMatchEvent betEvent = CheckBetMatchEvent
+        .builder()
+        .betAwayGoals(2L)
+        .betHomeGoals(1L)
+        .expectedAwayGoals(1L)
+        .expectedHomeGoals(2L)
+        .build();
     //when
     BetChecked betChecked = policy.applyPolicy(betEvent);
     //then

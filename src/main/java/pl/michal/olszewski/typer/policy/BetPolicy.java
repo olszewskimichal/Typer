@@ -9,4 +9,5 @@ interface BetPolicy {
     default boolean isGoalsEqual(Long predictedGoals, Long expectedGoals) {
         return predictedGoals.equals(expectedGoals);
     }
+
 }
