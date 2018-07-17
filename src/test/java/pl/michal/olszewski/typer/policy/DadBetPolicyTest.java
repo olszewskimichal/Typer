@@ -45,14 +45,31 @@ class DadBetPolicyTest {
   }
 
   @Test
-  void shouldReturnZeroPointsOnlyWhenResultIsWrong() {
+  void shouldReturnZeroPointsOnlyWhenHomeGoalsResultIsWrong() {
+    //given
+    CheckBetMatchEvent betEvent = CheckBetMatchEvent
+        .builder()
+        .betAwayGoals(1L)
+        .betHomeGoals(1L)
+        .expectedAwayGoals(1L)
+        .expectedHomeGoals(2L)
+        .build();
+    //when
+    BetChecked betChecked = policy.applyPolicy(betEvent);
+    //then
+    assertThat(betChecked).isNotNull();
+    assertThat(betChecked.getPoints()).isEqualTo(DadBetPolicy.POINTS_FOR_INCORRECT_RESULT);
+  }
+
+  @Test
+  void shouldReturnZeroPointsOnlyWhenAwayGoalsResultIsWrong() {
     //given
     CheckBetMatchEvent betEvent = CheckBetMatchEvent
         .builder()
         .betAwayGoals(2L)
         .betHomeGoals(1L)
         .expectedAwayGoals(1L)
-        .expectedHomeGoals(2L)
+        .expectedHomeGoals(1L)
         .build();
     //when
     BetChecked betChecked = policy.applyPolicy(betEvent);
