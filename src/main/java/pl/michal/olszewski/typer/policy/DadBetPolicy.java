@@ -5,8 +5,8 @@ import pl.michal.olszewski.typer.bet.CheckBetMatchEvent;
 
 public class DadBetPolicy implements BetPolicy {
 
-  static final long POINTS_FOR_CORRECT_RESULT = 1L;
-  static final long POINTS_FOR_INCORRECT_RESULT = 0L;
+  private static final long POINTS_FOR_CORRECT_RESULT = 1L;
+  private static final long POINTS_FOR_INCORRECT_RESULT = 0L;
 
   @Override
   public BetChecked applyPolicy(CheckBetMatchEvent checkBet) {
