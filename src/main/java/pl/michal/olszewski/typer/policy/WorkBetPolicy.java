@@ -16,35 +16,36 @@ public class WorkBetPolicy implements BetPolicy {
   @Override
   public BetChecked applyPolicy(CheckBetMatchEvent betMatchEvent) {
     if (resultIsDraw(betMatchEvent) && predictedWasDraw(betMatchEvent)) {
-      if (isGoalsEqual(betMatchEvent.getExpectedHomeGoals(), betMatchEvent.getBetHomeGoals())) {
-        return new BetChecked(betMatchEvent.getBetId(), 5L);
-      }
-      return new BetChecked(betMatchEvent.getBetId(), 3L);
+      return checkResultWhenDraw(betMatchEvent);
     }
 
     if (betMatchEvent.getBetAwayGoals() > betMatchEvent.getBetHomeGoals() && betMatchEvent.getExpectedAwayGoals() > betMatchEvent.getExpectedHomeGoals()) {
-      if (betMatchEvent.getBetAwayGoals() - betMatchEvent.getBetHomeGoals() == betMatchEvent.getExpectedAwayGoals() - betMatchEvent.getExpectedHomeGoals()) {
-        return new BetChecked(betMatchEvent.getBetId(), 4L);
-      }
-
-      if (isGoalsEqual(betMatchEvent.getBetAwayGoals(), betMatchEvent.getExpectedAwayGoals()) || isGoalsEqual(betMatchEvent.getBetHomeGoals(), betMatchEvent.getExpectedHomeGoals())) {
-        return new BetChecked(betMatchEvent.getBetId(), 2L);
-      }
-      return new BetChecked(betMatchEvent.getBetId(), 1L);
+      return checkResultWhenIsNotDraw(betMatchEvent);
     }
 
     if (betMatchEvent.getBetAwayGoals() < betMatchEvent.getBetHomeGoals() && betMatchEvent.getExpectedAwayGoals() < betMatchEvent.getExpectedHomeGoals()) {
-      if (betMatchEvent.getBetAwayGoals() - betMatchEvent.getBetHomeGoals() == betMatchEvent.getExpectedAwayGoals() - betMatchEvent.getExpectedHomeGoals()) {
-        return new BetChecked(betMatchEvent.getBetId(), 4L);
-      }
-
-      if (isGoalsEqual(betMatchEvent.getBetAwayGoals(), betMatchEvent.getExpectedAwayGoals()) || isGoalsEqual(betMatchEvent.getBetHomeGoals(), betMatchEvent.getExpectedHomeGoals())) {
-        return new BetChecked(betMatchEvent.getBetId(), 2L);
-      }
-      return new BetChecked(betMatchEvent.getBetId(), 1L);
+      return checkResultWhenIsNotDraw(betMatchEvent);
     }
 
     return new BetChecked(betMatchEvent.getBetId(), 0L);
+  }
+
+  private BetChecked checkResultWhenDraw(CheckBetMatchEvent betMatchEvent) {
+    if (isGoalsEqual(betMatchEvent.getExpectedHomeGoals(), betMatchEvent.getBetHomeGoals())) {
+      return new BetChecked(betMatchEvent.getBetId(), 5L);
+    }
+    return new BetChecked(betMatchEvent.getBetId(), 3L);
+  }
+
+  private BetChecked checkResultWhenIsNotDraw(CheckBetMatchEvent betMatchEvent) {
+    if (betMatchEvent.getBetAwayGoals() - betMatchEvent.getBetHomeGoals() == betMatchEvent.getExpectedAwayGoals() - betMatchEvent.getExpectedHomeGoals()) {
+      return new BetChecked(betMatchEvent.getBetId(), 4L);
+    }
+
+    if (isGoalsEqual(betMatchEvent.getBetAwayGoals(), betMatchEvent.getExpectedAwayGoals()) || isGoalsEqual(betMatchEvent.getBetHomeGoals(), betMatchEvent.getExpectedHomeGoals())) {
+      return new BetChecked(betMatchEvent.getBetId(), 2L);
+    }
+    return new BetChecked(betMatchEvent.getBetId(), 1L);
   }
 
   private boolean resultIsDraw(CheckBetMatchEvent betMatchEvent) {
