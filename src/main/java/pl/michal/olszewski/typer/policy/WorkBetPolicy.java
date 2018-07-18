@@ -15,15 +15,19 @@ public class WorkBetPolicy implements BetPolicy {
 
   @Override
   public BetChecked applyPolicy(CheckBetMatchEvent betMatchEvent) {
-    if (resultIsDraw(betMatchEvent) && predictedWasDraw(betMatchEvent)) {
+    if (resultIsDraw(betMatchEvent)
+        && predictedWasDraw(betMatchEvent)) {
       return checkResultWhenDraw(betMatchEvent);
     }
 
-    if (betMatchEvent.getBetAwayGoals() > betMatchEvent.getBetHomeGoals() && betMatchEvent.getExpectedAwayGoals() > betMatchEvent.getExpectedHomeGoals()) {
+    if (
+        betMatchEvent.getBetAwayGoals() > betMatchEvent.getBetHomeGoals()
+            && betMatchEvent.getExpectedAwayGoals() > betMatchEvent.getExpectedHomeGoals()) {
       return checkResultWhenIsNotDraw(betMatchEvent);
     }
 
-    if (betMatchEvent.getBetAwayGoals() < betMatchEvent.getBetHomeGoals() && betMatchEvent.getExpectedAwayGoals() < betMatchEvent.getExpectedHomeGoals()) {
+    if (betMatchEvent.getBetAwayGoals() < betMatchEvent.getBetHomeGoals()
+        && betMatchEvent.getExpectedAwayGoals() < betMatchEvent.getExpectedHomeGoals()) {
       return checkResultWhenIsNotDraw(betMatchEvent);
     }
 
@@ -42,7 +46,8 @@ public class WorkBetPolicy implements BetPolicy {
       return new BetChecked(betMatchEvent.getBetId(), 4L);
     }
 
-    if (isGoalsEqual(betMatchEvent.getBetAwayGoals(), betMatchEvent.getExpectedAwayGoals()) || isGoalsEqual(betMatchEvent.getBetHomeGoals(), betMatchEvent.getExpectedHomeGoals())) {
+    if (isGoalsEqual(betMatchEvent.getBetAwayGoals(), betMatchEvent.getExpectedAwayGoals())
+        || isGoalsEqual(betMatchEvent.getBetHomeGoals(), betMatchEvent.getExpectedHomeGoals())) {
       return new BetChecked(betMatchEvent.getBetId(), 2L);
     }
     return new BetChecked(betMatchEvent.getBetId(), 1L);
