@@ -111,4 +111,21 @@ class WorkBetPolicyTest {
     assertThat(betChecked).isNotNull();
     assertThat(betChecked.getPoints()).isEqualTo(0L);
   }
+
+  @Test
+  void shouldReturnZeroPointsOnlyWhenAwayGoalsResultIsWrong2() {
+    //given
+    CheckBetMatchEvent betEvent = CheckBetMatchEvent
+        .builder()
+        .betAwayGoals(2L)
+        .betHomeGoals(1L)
+        .expectedAwayGoals(2L)
+        .expectedHomeGoals(3L)
+        .build();
+    //when
+    BetChecked betChecked = policy.applyPolicy(betEvent);
+    //then
+    assertThat(betChecked).isNotNull();
+    assertThat(betChecked.getPoints()).isEqualTo(0L);
+  }
 }
