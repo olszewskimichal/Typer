@@ -22,8 +22,8 @@ class MatchCreatorTest {
 
     CreateNewMatch createNewMatch = CreateNewMatch
         .builder()
-        .awayTeamId(1L)
-        .homeTeamId(2L)
+        .awayTeamId(2L)
+        .homeTeamId(1L)
         .build();
     //when
     Match from = matchCreator.from(createNewMatch);
