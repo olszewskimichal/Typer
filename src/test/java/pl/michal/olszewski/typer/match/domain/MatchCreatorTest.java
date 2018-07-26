@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Test;
 import pl.michal.olszewski.typer.match.dto.CreateNewMatch;
+import pl.michal.olszewski.typer.match.dto.IllegalMatchMemberException;
 
 class MatchCreatorTest {
 
@@ -35,11 +36,10 @@ class MatchCreatorTest {
   @Test
   void shouldThrowExceptionWhenOneOfTeamsIsNull() {
     //given
-    CreateNewMatch createNewMatch = CreateNewMatch.builder().awayTeamId(null).homeTeamId(1L).build();
-
     //when
     //then
-    assertThrows(Exception.class, () -> matchCreator.from(createNewMatch));
+    assertThrows(IllegalMatchMemberException.class, () -> matchCreator.from(CreateNewMatch.builder().awayTeamId(null).homeTeamId(1L).build()));
+    assertThrows(IllegalMatchMemberException.class, () -> matchCreator.from(CreateNewMatch.builder().awayTeamId(1L).homeTeamId(null).build()));
   }
 
   @Test
@@ -49,7 +49,7 @@ class MatchCreatorTest {
 
     //when
     //then
-    assertThrows(Exception.class, () -> matchCreator.from(createNewMatch));
+    assertThrows(IllegalMatchMemberException.class, () -> matchCreator.from(createNewMatch));
   }
 
 }
