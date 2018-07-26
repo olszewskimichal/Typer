@@ -1,11 +1,9 @@
-package pl.michal.olszewski.typer.policy;
+package pl.michal.olszewski.typer.bet;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-import pl.michal.olszewski.typer.bet.BetChecked;
-import pl.michal.olszewski.typer.bet.CheckBetMatchEvent;
 
 class WorkBetPolicyTest {
 
@@ -34,7 +32,7 @@ class WorkBetPolicyTest {
         .expectedHomeGoals(expectedHomeGoals)
         .build();
     //when
-    BetChecked betChecked = policy.applyPolicy(betEvent);
+    BetChecked betChecked = betEvent.checkPrediction(policy);
     //then
     assertThat(betChecked).isNotNull();
     assertThat(betChecked.getPoints()).isEqualTo(points);
