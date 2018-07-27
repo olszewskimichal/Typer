@@ -1,4 +1,7 @@
-package pl.michal.olszewski.typer.bet;
+package pl.michal.olszewski.typer.bet.domain;
+
+import pl.michal.olszewski.typer.bet.dto.BetChecked;
+import pl.michal.olszewski.typer.bet.dto.CheckBetMatchEvent;
 
 /**
  * Zasady punktacji:
@@ -11,7 +14,7 @@ package pl.michal.olszewski.typer.bet;
 class WorkBetPolicy implements BetPolicy {
 
   @Override
-  public long calculatePoints(CheckBetMatchEvent betMatchEvent) {
+  public BetChecked calculatePoints(CheckBetMatchEvent betMatchEvent) {
     if (resultIsDraw(betMatchEvent)
         && predictedWasDraw(betMatchEvent)) {
       return checkResultWhenDraw(betMatchEvent);
@@ -28,26 +31,26 @@ class WorkBetPolicy implements BetPolicy {
       return checkResultWhenIsNotDraw(betMatchEvent);
     }
 
-    return 0L;
+    return new BetChecked(betMatchEvent.getBetId(), 0L);
   }
 
-  private long checkResultWhenDraw(CheckBetMatchEvent betMatchEvent) {
+  private BetChecked checkResultWhenDraw(CheckBetMatchEvent betMatchEvent) {
     if (isGoalsEqual(betMatchEvent.getExpectedHomeGoals(), betMatchEvent.getBetHomeGoals())) {
-      return 5L;
+      return new BetChecked(betMatchEvent.getBetId(), 5L);
     }
-    return 3L;
+    return new BetChecked(betMatchEvent.getBetId(), 3L);
   }
 
-  private long checkResultWhenIsNotDraw(CheckBetMatchEvent betMatchEvent) {
+  private BetChecked checkResultWhenIsNotDraw(CheckBetMatchEvent betMatchEvent) {
     if (betMatchEvent.getBetAwayGoals() - betMatchEvent.getBetHomeGoals() == betMatchEvent.getExpectedAwayGoals() - betMatchEvent.getExpectedHomeGoals()) {
-      return 4L;
+      return new BetChecked(betMatchEvent.getBetId(), 4L);
     }
 
     if (isGoalsEqual(betMatchEvent.getBetAwayGoals(), betMatchEvent.getExpectedAwayGoals())
         || isGoalsEqual(betMatchEvent.getBetHomeGoals(), betMatchEvent.getExpectedHomeGoals())) {
-      return 2L;
+      return new BetChecked(betMatchEvent.getBetId(), 2L);
     }
-    return 1L;
+    return new BetChecked(betMatchEvent.getBetId(), 1L);
   }
 
   private boolean resultIsDraw(CheckBetMatchEvent betMatchEvent) {

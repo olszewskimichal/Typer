@@ -1,4 +1,4 @@
-package pl.michal.olszewski.typer.bet;
+package pl.michal.olszewski.typer.bet.domain;
 
 enum BetStatus {
   NEW,

@@ -1,4 +1,4 @@
-package pl.michal.olszewski.typer.bet;
+package pl.michal.olszewski.typer.bet.domain;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

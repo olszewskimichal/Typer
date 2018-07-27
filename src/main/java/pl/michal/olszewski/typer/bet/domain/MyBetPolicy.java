@@ -1,4 +1,7 @@
-package pl.michal.olszewski.typer.bet;
+package pl.michal.olszewski.typer.bet.domain;
+
+import pl.michal.olszewski.typer.bet.dto.BetChecked;
+import pl.michal.olszewski.typer.bet.dto.CheckBetMatchEvent;
 
 class MyBetPolicy implements BetPolicy {
 
@@ -7,18 +10,18 @@ class MyBetPolicy implements BetPolicy {
   private static final long POINTS_FOR_INCORRECT_RESULT = 0L;
 
   @Override
-  public long calculatePoints(CheckBetMatchEvent checkBet) {
+  public BetChecked calculatePoints(CheckBetMatchEvent checkBet) {
     if (isGoalsEqual(checkBet.getBetHomeGoals(), checkBet.getExpectedHomeGoals()) &&
         isGoalsEqual(checkBet.getBetAwayGoals(), checkBet.getExpectedAwayGoals())) {
-      return POINTS_FOR_EXACTLY_THE_SAME_RESULT;
+      return new BetChecked(checkBet.getBetId(), POINTS_FOR_EXACTLY_THE_SAME_RESULT);
     }
 
     long expectedDifference = checkBet.getExpectedHomeGoals() - checkBet.getExpectedAwayGoals();
     long predictedDifference = checkBet.getBetHomeGoals() - checkBet.getBetAwayGoals();
     if (isTheSameDifference(expectedDifference, predictedDifference)) {
-      return POINTS_FOR_CORRECT_RESULT;
+      return new BetChecked(checkBet.getBetId(), POINTS_FOR_CORRECT_RESULT);
     }
-    return POINTS_FOR_INCORRECT_RESULT;
+    return new BetChecked(checkBet.getBetId(), POINTS_FOR_INCORRECT_RESULT);
   }
 
   private boolean isTheSameDifference(Long expectedDifference, Long predictedDifference) {
