@@ -2,6 +2,7 @@ package pl.michal.olszewski.typer.match.domain;
 
 import java.util.Objects;
 import pl.michal.olszewski.typer.match.dto.command.CancelMatch;
+import pl.michal.olszewski.typer.match.dto.command.FinishMatch;
 
 class MatchUpdater {
 
@@ -28,5 +29,8 @@ class MatchUpdater {
    * aktualizuje mecz ze statusem zakończony
    * wrzucam event o zakończeniu meczu z wynikiem
    */
+  Match finishMatch(FinishMatch command) {
+    return null;
+  }
 
 }
