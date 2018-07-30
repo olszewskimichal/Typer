@@ -21,4 +21,6 @@ class Match {
 
   private Long awayTeamId;
 
+  private MatchStatus matchStatus;
+
 }
