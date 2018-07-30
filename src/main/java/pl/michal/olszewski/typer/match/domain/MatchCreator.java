@@ -12,6 +12,7 @@ class MatchCreator {
     return Match.builder()
         .homeTeamId(createNewMatch.getHomeTeamId())
         .awayTeamId(createNewMatch.getAwayTeamId())
+        .matchStatus(MatchStatus.NEW)
         .build();
   }
 
