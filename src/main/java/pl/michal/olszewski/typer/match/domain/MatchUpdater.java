@@ -30,7 +30,8 @@ class MatchUpdater {
    * wrzucam event o zakończeniu meczu z wynikiem
    */
   Match finishMatch(FinishMatch command) {
-    return null;
+    Objects.requireNonNull(command);
+    return matchFinder.findOneOrThrow(command.getMatchId());
   }
 
 }
