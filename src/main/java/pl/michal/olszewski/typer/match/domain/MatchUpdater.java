@@ -1,5 +1,6 @@
 package pl.michal.olszewski.typer.match.domain;
 
+import java.util.Objects;
 import pl.michal.olszewski.typer.match.dto.command.CancelMatch;
 
 class MatchUpdater {
@@ -17,7 +18,15 @@ class MatchUpdater {
   }
 
   Match cancelMatch(CancelMatch command) {
-    return null;
+    Objects.requireNonNull(command);
+    return matchFinder.findOneOrThrow(command.getMatchId());
   }
+
+  /**
+   * finishMatch -> zwraca Match
+   * pobiera mecz z bazy o id
+   * aktualizuje mecz ze statusem zakończony
+   * wrzucam event o zakończeniu meczu z wynikiem
+   */
 
 }
