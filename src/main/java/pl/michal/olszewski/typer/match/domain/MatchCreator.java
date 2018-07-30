@@ -1,7 +1,7 @@
 package pl.michal.olszewski.typer.match.domain;
 
 import java.util.Objects;
-import pl.michal.olszewski.typer.match.dto.CreateNewMatch;
+import pl.michal.olszewski.typer.match.dto.command.CreateNewMatch;
 
 class MatchCreator {
 

@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Test;
-import pl.michal.olszewski.typer.match.dto.CreateNewMatch;
+import pl.michal.olszewski.typer.match.dto.command.CreateNewMatch;
 import pl.michal.olszewski.typer.match.dto.IllegalMatchMemberException;
 
 class MatchCreatorTest {
