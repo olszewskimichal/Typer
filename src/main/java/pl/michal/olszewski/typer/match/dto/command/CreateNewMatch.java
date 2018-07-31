@@ -1,11 +1,13 @@
 package pl.michal.olszewski.typer.match.dto.command;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Value;
+import lombok.Getter;
 import pl.michal.olszewski.typer.CommandValid;
 import pl.michal.olszewski.typer.match.dto.IllegalMatchMemberException;
 
-@Value
+@AllArgsConstructor
+@Getter
 @Builder
 public class CreateNewMatch implements CommandValid {
 

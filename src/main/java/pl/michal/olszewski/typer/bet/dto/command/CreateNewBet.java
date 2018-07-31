@@ -1,12 +1,14 @@
 package pl.michal.olszewski.typer.bet.dto.command;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Value;
+import lombok.Getter;
 import pl.michal.olszewski.typer.CommandValid;
 import pl.michal.olszewski.typer.bet.dto.IllegalGoalArgumentException;
 import pl.michal.olszewski.typer.match.dto.MatchNotFoundException;
 
-@Value
+@AllArgsConstructor
+@Getter
 @Builder
 public class CreateNewBet implements CommandValid {
 

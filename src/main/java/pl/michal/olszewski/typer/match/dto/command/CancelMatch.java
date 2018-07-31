@@ -1,9 +1,11 @@
 package pl.michal.olszewski.typer.match.dto.command;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Value;
+import lombok.Getter;
 
-@Value
+@AllArgsConstructor
+@Getter
 @Builder
 public class CancelMatch {
 
