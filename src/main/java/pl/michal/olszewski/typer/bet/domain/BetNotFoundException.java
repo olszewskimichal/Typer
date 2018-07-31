@@ -1,8 +1,8 @@
 package pl.michal.olszewski.typer.bet.domain;
 
-public class BetNotFoundException extends RuntimeException {
+class BetNotFoundException extends RuntimeException {
 
-  public BetNotFoundException(String msg) {
+  BetNotFoundException(String msg) {
     super(msg);
   }
 }
