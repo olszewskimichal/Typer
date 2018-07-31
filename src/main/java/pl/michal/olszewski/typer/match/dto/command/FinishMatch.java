@@ -6,6 +6,7 @@ import lombok.Value;
 @Value
 @Builder
 public class FinishMatch {
+
   private Long matchId;
 
 }

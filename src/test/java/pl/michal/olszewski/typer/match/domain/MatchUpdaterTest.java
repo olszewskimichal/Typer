@@ -41,7 +41,7 @@ class MatchUpdaterTest {
 
   @Test
   void shouldCancelMatchWhenCommandIsValidAndMatchIsFound() {
-    ((InMemoryMatchFinder)matchFinder).save(2L, Match.builder().build());
+    ((InMemoryMatchFinder) matchFinder).save(2L, Match.builder().build());
 
     CancelMatch cancelMatch = CancelMatch
         .builder()
@@ -81,7 +81,7 @@ class MatchUpdaterTest {
 
   @Test
   void shouldFinishMatchWhenCommandIsValidAndMatchIsFound() {
-    ((InMemoryMatchFinder)matchFinder).save(3L, Match.builder().build());
+    ((InMemoryMatchFinder) matchFinder).save(3L, Match.builder().build());
 
     FinishMatch finishMatch = FinishMatch
         .builder()
