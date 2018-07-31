@@ -4,8 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Test;
-import pl.michal.olszewski.typer.match.dto.CreateNewMatch;
 import pl.michal.olszewski.typer.match.dto.IllegalMatchMemberException;
+import pl.michal.olszewski.typer.match.dto.command.CreateNewMatch;
 
 class MatchCreatorTest {
 
@@ -17,9 +17,9 @@ class MatchCreatorTest {
   }
 
   @Test
-  void shouldCreateMatchWhenCommandIsValid() {
+  void shouldCreateMatchWhenCommandIsValidAndSetStatusAsNEW() {
     //given
-    Match expected = Match.builder().homeTeamId(1L).awayTeamId(2L).build();
+    Match expected = Match.builder().homeTeamId(1L).awayTeamId(2L).matchStatus(MatchStatus.NEW).build();
 
     CreateNewMatch createNewMatch = CreateNewMatch
         .builder()

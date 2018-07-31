@@ -1,7 +1,7 @@
 package pl.michal.olszewski.typer.match.domain;
 
 import java.util.Objects;
-import pl.michal.olszewski.typer.match.dto.CreateNewMatch;
+import pl.michal.olszewski.typer.match.dto.command.CreateNewMatch;
 
 class MatchCreator {
 
@@ -12,6 +12,7 @@ class MatchCreator {
     return Match.builder()
         .homeTeamId(createNewMatch.getHomeTeamId())
         .awayTeamId(createNewMatch.getAwayTeamId())
+        .matchStatus(MatchStatus.NEW)
         .build();
   }
 

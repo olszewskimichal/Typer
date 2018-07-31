@@ -1,8 +1,9 @@
-package pl.michal.olszewski.typer.match.dto;
+package pl.michal.olszewski.typer.match.dto.command;
 
 import lombok.Builder;
 import lombok.Value;
 import pl.michal.olszewski.typer.CommandValid;
+import pl.michal.olszewski.typer.match.dto.IllegalMatchMemberException;
 
 @Value
 @Builder
