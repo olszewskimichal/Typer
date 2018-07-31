@@ -28,6 +28,9 @@ public class BetUpdater {
   }
 
   public Bet blockBet(BlockBet command) {
-    return null;
+    Objects.requireNonNull(command);
+    Bet bet = betFinder.findOneOrThrow(command.getBetId());
+    bet.blockBet();
+    return bet;
   }
 }

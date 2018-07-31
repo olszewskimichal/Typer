@@ -131,7 +131,7 @@ public class BetUpdaterTest {
     Bet bet = betUpdater.blockBet(blockBet);
 
     assertThat(bet).isNotNull();
-    assertThat(bet.getStatus()).isEqualTo(BetStatus.CHECKED);
+    assertThat(bet.getStatus()).isEqualTo(BetStatus.IN_PROGRESS);
   }
 
 }
