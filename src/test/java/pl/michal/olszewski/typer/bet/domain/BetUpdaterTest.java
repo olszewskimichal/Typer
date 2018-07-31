@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Test;
+import pl.michal.olszewski.typer.bet.dto.command.BlockBet;
 import pl.michal.olszewski.typer.bet.dto.command.CancelBet;
 import pl.michal.olszewski.typer.bet.dto.command.CheckBet;
 
@@ -88,6 +89,46 @@ public class BetUpdaterTest {
         .build();
 
     Bet bet = betUpdater.checkBet(finishBet);
+
+    assertThat(bet).isNotNull();
+    assertThat(bet.getStatus()).isEqualTo(BetStatus.CHECKED);
+  }
+
+  @Test
+  void shouldThrowExceptionWhenBlockBetCommandIsNull() {
+    assertThrows(NullPointerException.class, () -> betUpdater.blockBet(null));
+  }
+
+  @Test
+  void shouldThrowExceptionWhenBlockBetIdIsNull() {
+    BlockBet blockBet = BlockBet
+        .builder()
+        .betId(null)
+        .build();
+
+    assertThrows(NullPointerException.class, () -> betUpdater.blockBet(blockBet));
+  }
+
+  @Test
+  void shouldThrowExceptionWhenBlockBetIsNotFound() {
+    BlockBet blockBet = BlockBet
+        .builder()
+        .betId(1L)
+        .build();
+
+    assertThrows(BetNotFoundException.class, () -> betUpdater.blockBet(blockBet));
+  }
+
+  @Test
+  void shouldBlockBetWhenCommandIsValidAndBetIsFound() {
+    ((InMemoryBetFinder) betFinder).save(3L, Bet.builder().build());
+
+    BlockBet blockBet = BlockBet
+        .builder()
+        .betId(3L)
+        .build();
+
+    Bet bet = betUpdater.blockBet(blockBet);
 
     assertThat(bet).isNotNull();
     assertThat(bet.getStatus()).isEqualTo(BetStatus.CHECKED);

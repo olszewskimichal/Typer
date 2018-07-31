@@ -1,6 +1,7 @@
 package pl.michal.olszewski.typer.bet.domain;
 
 import java.util.Objects;
+import pl.michal.olszewski.typer.bet.dto.command.BlockBet;
 import pl.michal.olszewski.typer.bet.dto.command.CancelBet;
 import pl.michal.olszewski.typer.bet.dto.command.CheckBet;
 
@@ -24,5 +25,9 @@ public class BetUpdater {
     Bet bet = betFinder.findOneOrThrow(command.getBetId());
     bet.checkBet();
     return bet;
+  }
+
+  public Bet blockBet(BlockBet command) {
+    return null;
   }
 }
