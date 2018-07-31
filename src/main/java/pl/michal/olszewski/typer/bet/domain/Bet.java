@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import pl.michal.olszewski.typer.match.domain.MatchStatus;
 
 @Entity
 @NoArgsConstructor
@@ -25,4 +26,12 @@ class Bet {
   private Long betHomeGoals;
   private Long betAwayGoals;
   private Long matchId;
+
+  void checkBet() {
+    status = BetStatus.CHECKED;
+  }
+
+  void cancelBet() {
+    status = BetStatus.CANCELED;
+  }
 }

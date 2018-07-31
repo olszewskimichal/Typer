@@ -55,7 +55,7 @@ public class BetUpdaterTest {
 
   @Test
   void shouldThrowExceptionWhenFinishedBetCommandIsNull() {
-    assertThrows(NullPointerException.class, () -> betUpdater.finishBet(null));
+    assertThrows(NullPointerException.class, () -> betUpdater.checkBet(null));
   }
 
   @Test
@@ -65,7 +65,7 @@ public class BetUpdaterTest {
         .betId(null)
         .build();
 
-    assertThrows(NullPointerException.class, () -> betUpdater.finishBet(finishBet));
+    assertThrows(NullPointerException.class, () -> betUpdater.checkBet(finishBet));
   }
 
   @Test
@@ -75,7 +75,7 @@ public class BetUpdaterTest {
         .betId(1L)
         .build();
 
-    assertThrows(BetNotFoundException.class, () -> betUpdater.finishBet(finishBet));
+    assertThrows(BetNotFoundException.class, () -> betUpdater.checkBet(finishBet));
   }
 
   @Test
@@ -87,7 +87,7 @@ public class BetUpdaterTest {
         .betId(3L)
         .build();
 
-    Bet bet = betUpdater.finishBet(finishBet);
+    Bet bet = betUpdater.checkBet(finishBet);
 
     assertThat(bet).isNotNull();
     assertThat(bet.getStatus()).isEqualTo(BetStatus.CHECKED);

@@ -1,5 +1,6 @@
 package pl.michal.olszewski.typer.bet.domain;
 
+import java.util.Objects;
 import pl.michal.olszewski.typer.bet.dto.command.CancelBet;
 import pl.michal.olszewski.typer.bet.dto.command.CheckBet;
 
@@ -11,11 +12,17 @@ public class BetUpdater {
     this.betFinder = betFinder;
   }
 
-  public Bet cancelBet(CancelBet cancelBet) {
-    return null;
+  public Bet cancelBet(CancelBet command) {
+    Objects.requireNonNull(command);
+    Bet bet = betFinder.findOneOrThrow(command.getBetId());
+    bet.cancelBet();
+    return bet;
   }
 
-  public Bet finishBet(CheckBet finishBet) {
-    return null;
+  public Bet checkBet(CheckBet command) {
+    Objects.requireNonNull(command);
+    Bet bet = betFinder.findOneOrThrow(command.getBetId());
+    bet.checkBet();
+    return bet;
   }
 }
