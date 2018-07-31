@@ -41,10 +41,11 @@ class MatchUpdaterTest {
 
   @Test
   void shouldCancelMatchWhenCommandIsValidAndMatchIsFound() {
+    ((InMemoryMatchFinder)matchFinder).save(2L, Match.builder().build());
 
     CancelMatch cancelMatch = CancelMatch
         .builder()
-        .matchId(1L)
+        .matchId(2L)
         .build();
 
     Match match = matchUpdater.cancelMatch(cancelMatch);
@@ -80,10 +81,11 @@ class MatchUpdaterTest {
 
   @Test
   void shouldFinishMatchWhenCommandIsValidAndMatchIsFound() {
+    ((InMemoryMatchFinder)matchFinder).save(3L, Match.builder().build());
 
     FinishMatch finishMatch = FinishMatch
         .builder()
-        .matchId(1L)
+        .matchId(3L)
         .build();
 
     Match match = matchUpdater.finishMatch(finishMatch);

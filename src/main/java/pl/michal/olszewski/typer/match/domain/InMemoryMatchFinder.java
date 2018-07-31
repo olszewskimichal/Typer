@@ -10,4 +10,8 @@ class InMemoryMatchFinder implements MatchFinder {
   public Match findById(Long id) {
     return matchMap.get(id);
   }
+
+  void save(Long id, Match match) {
+    matchMap.put(id, match);
+  }
 }
