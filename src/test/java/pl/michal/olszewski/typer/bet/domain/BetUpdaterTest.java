@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Test;
+import pl.michal.olszewski.typer.bet.dto.BetNotFoundException;
 import pl.michal.olszewski.typer.bet.dto.command.BlockBet;
 import pl.michal.olszewski.typer.bet.dto.command.CancelBet;
 import pl.michal.olszewski.typer.bet.dto.command.CheckBet;
@@ -26,7 +27,7 @@ public class BetUpdaterTest {
         .betId(null)
         .build();
 
-    assertThrows(NullPointerException.class, () -> betUpdater.cancelBet(cancelBet));
+    assertThrows(BetNotFoundException.class, () -> betUpdater.cancelBet(cancelBet));
   }
 
   @Test
@@ -66,7 +67,7 @@ public class BetUpdaterTest {
         .betId(null)
         .build();
 
-    assertThrows(NullPointerException.class, () -> betUpdater.checkBet(finishBet));
+    assertThrows(BetNotFoundException.class, () -> betUpdater.checkBet(finishBet));
   }
 
   @Test
@@ -106,7 +107,7 @@ public class BetUpdaterTest {
         .betId(null)
         .build();
 
-    assertThrows(NullPointerException.class, () -> betUpdater.blockBet(blockBet));
+    assertThrows(BetNotFoundException.class, () -> betUpdater.blockBet(blockBet));
   }
 
   @Test

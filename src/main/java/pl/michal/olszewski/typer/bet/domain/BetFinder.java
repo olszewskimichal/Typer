@@ -1,6 +1,7 @@
 package pl.michal.olszewski.typer.bet.domain;
 
 import org.springframework.data.repository.Repository;
+import pl.michal.olszewski.typer.bet.dto.BetNotFoundException;
 
 @org.springframework.stereotype.Repository
 interface BetFinder extends Repository<Bet, Long> {

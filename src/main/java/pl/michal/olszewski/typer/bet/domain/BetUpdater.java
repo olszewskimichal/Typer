@@ -15,6 +15,7 @@ class BetUpdater {
 
   Bet cancelBet(CancelBet command) {
     Objects.requireNonNull(command);
+    command.validCommand();
     Bet bet = betFinder.findOneOrThrow(command.getBetId());
     bet.cancelBet();
     return bet;
@@ -22,6 +23,7 @@ class BetUpdater {
 
   Bet checkBet(CheckBet command) {
     Objects.requireNonNull(command);
+    command.validCommand();
     Bet bet = betFinder.findOneOrThrow(command.getBetId());
     bet.checkBet();
     return bet;
@@ -29,6 +31,7 @@ class BetUpdater {
 
   Bet blockBet(BlockBet command) {
     Objects.requireNonNull(command);
+    command.validCommand();
     Bet bet = betFinder.findOneOrThrow(command.getBetId());
     bet.blockBet();
     return bet;
