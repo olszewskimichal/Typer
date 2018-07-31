@@ -1,7 +1,7 @@
 package pl.michal.olszewski.typer.bet.domain;
 
 import java.util.Objects;
-import pl.michal.olszewski.typer.bet.dto.CreateNewBet;
+import pl.michal.olszewski.typer.bet.dto.command.CreateNewBet;
 
 
 class BetCreator {
