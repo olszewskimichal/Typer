@@ -9,7 +9,7 @@ import pl.michal.olszewski.typer.bet.dto.command.BlockBet;
 import pl.michal.olszewski.typer.bet.dto.command.CancelBet;
 import pl.michal.olszewski.typer.bet.dto.command.CheckBet;
 
-public class BetUpdaterTest {
+class BetUpdaterTest {
 
   private BetFinder betFinder = new InMemoryBetFinder();
 
