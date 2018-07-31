@@ -20,6 +20,7 @@ class MatchUpdater {
 
   Match cancelMatch(CancelMatch command) {
     Objects.requireNonNull(command);
+    command.validCommand();
     Match match = matchFinder.findOneOrThrow(command.getMatchId());
     match.cancelMatch();
     return match;
@@ -33,6 +34,7 @@ class MatchUpdater {
    */
   Match finishMatch(FinishMatch command) {
     Objects.requireNonNull(command);
+    command.validCommand();
     Match match = matchFinder.findOneOrThrow(command.getMatchId());
     match.finishMatch();
     return match;

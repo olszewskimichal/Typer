@@ -26,7 +26,7 @@ class MatchUpdaterTest {
         .matchId(null)
         .build();
 
-    assertThrows(NullPointerException.class, () -> matchUpdater.cancelMatch(cancelMatch));
+    assertThrows(MatchNotFoundException.class, () -> matchUpdater.cancelMatch(cancelMatch));
   }
 
   @Test
@@ -66,7 +66,7 @@ class MatchUpdaterTest {
         .matchId(null)
         .build();
 
-    assertThrows(NullPointerException.class, () -> matchUpdater.finishMatch(finishMatch));
+    assertThrows(MatchNotFoundException.class, () -> matchUpdater.finishMatch(finishMatch));
   }
 
   @Test
