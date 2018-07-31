@@ -75,6 +75,10 @@ class BetUpdaterTest {
     CheckBet finishBet = CheckBet
         .builder()
         .betId(1L)
+        .expectedHomeGoals(1L)
+        .expectedAwayGoals(2L)
+        .betHomeGoals(3L)
+        .betAwayGoals(4L)
         .build();
 
     assertThrows(BetNotFoundException.class, () -> betUpdater.checkBet(finishBet));
@@ -87,6 +91,10 @@ class BetUpdaterTest {
     CheckBet finishBet = CheckBet
         .builder()
         .betId(3L)
+        .expectedHomeGoals(1L)
+        .expectedAwayGoals(2L)
+        .betHomeGoals(3L)
+        .betAwayGoals(4L)
         .build();
 
     Bet bet = betUpdater.checkBet(finishBet);

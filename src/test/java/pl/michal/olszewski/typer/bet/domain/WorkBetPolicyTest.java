@@ -1,11 +1,14 @@
 package pl.michal.olszewski.typer.bet.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-import pl.michal.olszewski.typer.bet.dto.BetChecked;
-import pl.michal.olszewski.typer.bet.dto.CheckBetMatchEvent;
+import pl.michal.olszewski.typer.bet.dto.IllegalGoalArgumentException;
+import pl.michal.olszewski.typer.bet.dto.command.CheckBet;
+import pl.michal.olszewski.typer.bet.dto.events.BetChecked;
 
 class WorkBetPolicyTest {
 
@@ -26,8 +29,9 @@ class WorkBetPolicyTest {
   })
   void shouldCalculatePoints(Long betAwayGoals, Long betHomeGoals, Long expectedAwayGoals, Long expectedHomeGoals, Long points) {
     //given
-    CheckBetMatchEvent betEvent = CheckBetMatchEvent
+    CheckBet betEvent = CheckBet
         .builder()
+        .betId(3L)
         .betAwayGoals(betAwayGoals)
         .betHomeGoals(betHomeGoals)
         .expectedAwayGoals(expectedAwayGoals)
@@ -38,5 +42,21 @@ class WorkBetPolicyTest {
     //then
     assertThat(betChecked).isNotNull();
     assertThat(betChecked.getPoints()).isEqualTo(points);
+  }
+
+  @Test
+  void shouldThrowExceptionWhenOneOfBetGoalsAreNotSet() {
+    assertThrows(IllegalGoalArgumentException.class,
+        () -> policy.calculatePoints(CheckBet.builder().betId(1L).betAwayGoals(1L).betHomeGoals(null).expectedAwayGoals(1L).expectedHomeGoals(1L).build()));
+    assertThrows(IllegalGoalArgumentException.class,
+        () -> policy.calculatePoints(CheckBet.builder().betId(1L).betAwayGoals(null).betHomeGoals(2L).expectedAwayGoals(1L).expectedHomeGoals(1L).build()));
+  }
+
+  @Test
+  void shouldThrowExceptionWhenOneOfExpectedGoalsAreNotSet() {
+    assertThrows(IllegalGoalArgumentException.class,
+        () -> policy.calculatePoints(CheckBet.builder().betId(1L).betAwayGoals(1L).betHomeGoals(2L).expectedAwayGoals(null).expectedHomeGoals(1L).build()));
+    assertThrows(IllegalGoalArgumentException.class,
+        () -> policy.calculatePoints(CheckBet.builder().betId(1L).betAwayGoals(1L).betHomeGoals(2L).expectedAwayGoals(1L).expectedHomeGoals(null).build()));
   }
 }

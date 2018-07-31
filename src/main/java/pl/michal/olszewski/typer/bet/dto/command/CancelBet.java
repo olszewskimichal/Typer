@@ -10,6 +10,7 @@ import pl.michal.olszewski.typer.bet.dto.BetNotFoundException;
 @Builder
 @Getter
 public class CancelBet implements CommandValid {
+
   private final Long betId;
 
   @Override

@@ -1,11 +1,11 @@
 package pl.michal.olszewski.typer.bet.domain;
 
-import pl.michal.olszewski.typer.bet.dto.BetChecked;
-import pl.michal.olszewski.typer.bet.dto.CheckBetMatchEvent;
+import pl.michal.olszewski.typer.bet.dto.command.CheckBet;
+import pl.michal.olszewski.typer.bet.dto.events.BetChecked;
 
 interface BetPolicy {
 
-  BetChecked calculatePoints(CheckBetMatchEvent checkBetMatchEvent);
+  BetChecked calculatePoints(CheckBet checkBetMatchEvent);
 
   default boolean isGoalsEqual(Long predictedGoals, Long expectedGoals) {
     return predictedGoals.equals(expectedGoals);
