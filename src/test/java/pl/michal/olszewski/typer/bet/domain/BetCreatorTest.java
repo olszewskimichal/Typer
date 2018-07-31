@@ -4,11 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Test;
-import pl.michal.olszewski.typer.bet.domain.Bet;
-import pl.michal.olszewski.typer.bet.domain.BetCreator;
-import pl.michal.olszewski.typer.bet.domain.BetStatus;
-import pl.michal.olszewski.typer.bet.dto.CreateNewBet;
 import pl.michal.olszewski.typer.bet.dto.IllegalGoalArgumentException;
+import pl.michal.olszewski.typer.bet.dto.command.CreateNewBet;
 import pl.michal.olszewski.typer.match.dto.MatchNotFoundException;
 
 class BetCreatorTest {

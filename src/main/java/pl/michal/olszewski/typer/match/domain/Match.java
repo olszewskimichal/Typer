@@ -25,11 +25,11 @@ class Match {
   @Getter
   private MatchStatus matchStatus;
 
-  public void finishMatch() {
+  void finishMatch() {
     matchStatus = MatchStatus.FINISHED;
   }
 
-  public void cancelMatch() {
+  void cancelMatch() {
     matchStatus = MatchStatus.CANCELED;
   }
 }

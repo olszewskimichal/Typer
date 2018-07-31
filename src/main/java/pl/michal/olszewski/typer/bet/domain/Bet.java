@@ -5,6 +5,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
@@ -17,10 +18,23 @@ class Bet {
   @GeneratedValue
   private Long id;
   @Builder.Default
+  @Getter
   private BetStatus status = BetStatus.NEW;
   @Builder.Default
   private Long points = 0L;
   private Long betHomeGoals;
   private Long betAwayGoals;
   private Long matchId;
+
+  void checkBet() {
+    status = BetStatus.CHECKED;
+  }
+
+  void cancelBet() {
+    status = BetStatus.CANCELED;
+  }
+
+  void blockBet() {
+    status = BetStatus.IN_PROGRESS;
+  }
 }

@@ -1,7 +1,8 @@
 package pl.michal.olszewski.typer.bet.domain;
 
-import pl.michal.olszewski.typer.bet.dto.BetChecked;
-import pl.michal.olszewski.typer.bet.dto.CheckBetMatchEvent;
+
+import pl.michal.olszewski.typer.bet.dto.command.CheckBet;
+import pl.michal.olszewski.typer.bet.dto.events.BetChecked;
 
 /**
  * Zasady punktacji:
@@ -14,51 +15,52 @@ import pl.michal.olszewski.typer.bet.dto.CheckBetMatchEvent;
 class WorkBetPolicy implements BetPolicy {
 
   @Override
-  public BetChecked calculatePoints(CheckBetMatchEvent betMatchEvent) {
-    if (resultIsDraw(betMatchEvent)
-        && predictedWasDraw(betMatchEvent)) {
-      return checkResultWhenDraw(betMatchEvent);
+  public BetChecked calculatePoints(CheckBet checkBet) {
+    checkBet.validCommand();
+    if (resultIsDraw(checkBet)
+        && predictedWasDraw(checkBet)) {
+      return checkResultWhenDraw(checkBet);
     }
 
     if (
-        betMatchEvent.getBetAwayGoals() > betMatchEvent.getBetHomeGoals()
-            && betMatchEvent.getExpectedAwayGoals() > betMatchEvent.getExpectedHomeGoals()) {
-      return checkResultWhenIsNotDraw(betMatchEvent);
+        checkBet.getBetAwayGoals() > checkBet.getBetHomeGoals()
+            && checkBet.getExpectedAwayGoals() > checkBet.getExpectedHomeGoals()) {
+      return checkResultWhenIsNotDraw(checkBet);
     }
 
-    if (betMatchEvent.getBetAwayGoals() < betMatchEvent.getBetHomeGoals()
-        && betMatchEvent.getExpectedAwayGoals() < betMatchEvent.getExpectedHomeGoals()) {
-      return checkResultWhenIsNotDraw(betMatchEvent);
+    if (checkBet.getBetAwayGoals() < checkBet.getBetHomeGoals()
+        && checkBet.getExpectedAwayGoals() < checkBet.getExpectedHomeGoals()) {
+      return checkResultWhenIsNotDraw(checkBet);
     }
 
-    return new BetChecked(betMatchEvent.getBetId(), 0L);
+    return new BetChecked(checkBet.getBetId(), 0L);
   }
 
-  private BetChecked checkResultWhenDraw(CheckBetMatchEvent betMatchEvent) {
-    if (isGoalsEqual(betMatchEvent.getExpectedHomeGoals(), betMatchEvent.getBetHomeGoals())) {
-      return new BetChecked(betMatchEvent.getBetId(), 5L);
+  private BetChecked checkResultWhenDraw(CheckBet checkBet) {
+    if (isGoalsEqual(checkBet.getExpectedHomeGoals(), checkBet.getBetHomeGoals())) {
+      return new BetChecked(checkBet.getBetId(), 5L);
     }
-    return new BetChecked(betMatchEvent.getBetId(), 3L);
+    return new BetChecked(checkBet.getBetId(), 3L);
   }
 
-  private BetChecked checkResultWhenIsNotDraw(CheckBetMatchEvent betMatchEvent) {
-    if (betMatchEvent.getBetAwayGoals() - betMatchEvent.getBetHomeGoals() == betMatchEvent.getExpectedAwayGoals() - betMatchEvent.getExpectedHomeGoals()) {
-      return new BetChecked(betMatchEvent.getBetId(), 4L);
+  private BetChecked checkResultWhenIsNotDraw(CheckBet checkBet) {
+    if (checkBet.getBetAwayGoals() - checkBet.getBetHomeGoals() == checkBet.getExpectedAwayGoals() - checkBet.getExpectedHomeGoals()) {
+      return new BetChecked(checkBet.getBetId(), 4L);
     }
 
-    if (isGoalsEqual(betMatchEvent.getBetAwayGoals(), betMatchEvent.getExpectedAwayGoals())
-        || isGoalsEqual(betMatchEvent.getBetHomeGoals(), betMatchEvent.getExpectedHomeGoals())) {
-      return new BetChecked(betMatchEvent.getBetId(), 2L);
+    if (isGoalsEqual(checkBet.getBetAwayGoals(), checkBet.getExpectedAwayGoals())
+        || isGoalsEqual(checkBet.getBetHomeGoals(), checkBet.getExpectedHomeGoals())) {
+      return new BetChecked(checkBet.getBetId(), 2L);
     }
-    return new BetChecked(betMatchEvent.getBetId(), 1L);
+    return new BetChecked(checkBet.getBetId(), 1L);
   }
 
-  private boolean resultIsDraw(CheckBetMatchEvent betMatchEvent) {
-    return betMatchEvent.getExpectedAwayGoals() == betMatchEvent.getExpectedHomeGoals();
+  private boolean resultIsDraw(CheckBet checkBet) {
+    return checkBet.getExpectedAwayGoals() == checkBet.getExpectedHomeGoals();
   }
 
-  private boolean predictedWasDraw(CheckBetMatchEvent betMatchEvent) {
-    return betMatchEvent.getBetHomeGoals() == betMatchEvent.getBetAwayGoals();
+  private boolean predictedWasDraw(CheckBet checkBet) {
+    return checkBet.getBetHomeGoals() == checkBet.getBetAwayGoals();
   }
 
 }

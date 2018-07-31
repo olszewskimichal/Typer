@@ -1,4 +1,4 @@
-package pl.michal.olszewski.typer.bet.dto;
+package pl.michal.olszewski.typer.bet.dto.events;
 
 import lombok.Value;
 

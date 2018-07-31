@@ -1,8 +1,9 @@
-package pl.michal.olszewski.typer.bet.dto;
+package pl.michal.olszewski.typer.bet.dto.command;
 
 import lombok.Builder;
 import lombok.Value;
 import pl.michal.olszewski.typer.CommandValid;
+import pl.michal.olszewski.typer.bet.dto.IllegalGoalArgumentException;
 import pl.michal.olszewski.typer.match.dto.MatchNotFoundException;
 
 @Value
