@@ -2,18 +2,32 @@ package pl.michal.olszewski.typer.bet.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import pl.michal.olszewski.typer.bet.dto.BetNotFoundException;
 import pl.michal.olszewski.typer.bet.dto.command.BlockBet;
 import pl.michal.olszewski.typer.bet.dto.command.CancelBet;
 import pl.michal.olszewski.typer.bet.dto.command.CheckBet;
+import pl.michal.olszewski.typer.bet.dto.events.BetChecked;
 
 class BetUpdaterTest {
 
   private BetFinder betFinder = new InMemoryBetFinder();
+  private BetEventPublisher eventPublisher;
+  private BetPolicy betPolicy;
+  private BetUpdater betUpdater;
 
-  private BetUpdater betUpdater = new BetUpdater(betFinder);
+  @BeforeEach
+  void configureSystemUnderTests() {
+    eventPublisher = mock(BetEventPublisher.class);
+    betPolicy = mock(BetPolicy.class);
+    betUpdater = new BetUpdater(betFinder, eventPublisher, betPolicy);
+  }
 
   @Test
   void shouldThrowExceptionWhenCancellingCommandIsNull() {
@@ -97,10 +111,14 @@ class BetUpdaterTest {
         .betAwayGoals(4L)
         .build();
 
+    given(betPolicy.calculatePoints(finishBet))
+        .willReturn(BetChecked.builder().build());
+
     Bet bet = betUpdater.checkBet(finishBet);
 
     assertThat(bet).isNotNull();
     assertThat(bet.getStatus()).isEqualTo(BetStatus.CHECKED);
+    Mockito.verify(eventPublisher, times(1)).sendBetCheckedToPayment(Mockito.any(BetChecked.class));
   }
 
   @Test

@@ -6,28 +6,28 @@ import pl.michal.olszewski.typer.match.dto.command.FinishMatch;
 
 class MatchUpdater {
 
-  /**
-   * cancelMatch -> zwraca Match
-   * pobieram pierw mecz z bazy o id,
-   * aktualizuje mecz ze statusem anulowany
-   * wrzucam event o anulowaniu meczu do kolejki
-   **/
   private final MatchFinder matchFinder;
 
   MatchUpdater(MatchFinder matchFinder) {
     this.matchFinder = matchFinder;
   }
 
+  /**
+   * setStatusAsCanceled -> zwraca Match
+   * pobieram pierw mecz z bazy o id,
+   * aktualizuje mecz ze statusem anulowany
+   * wrzucam event o anulowaniu meczu do kolejki
+   **/
   Match cancelMatch(CancelMatch command) {
     Objects.requireNonNull(command);
     command.validCommand();
     Match match = matchFinder.findOneOrThrow(command.getMatchId());
-    match.cancelMatch();
+    match.setStatusAsCanceled();
     return match;
   }
 
   /**
-   * finishMatch -> zwraca Match
+   * setStatusAsFinished -> zwraca Match
    * pobiera mecz z bazy o id
    * aktualizuje mecz ze statusem zakończony
    * wrzucam event o zakończeniu meczu z wynikiem
@@ -36,7 +36,7 @@ class MatchUpdater {
     Objects.requireNonNull(command);
     command.validCommand();
     Match match = matchFinder.findOneOrThrow(command.getMatchId());
-    match.finishMatch();
+    match.setStatusAsFinished();
     return match;
   }
 

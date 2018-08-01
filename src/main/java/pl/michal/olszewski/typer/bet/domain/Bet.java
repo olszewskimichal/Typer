@@ -26,15 +26,15 @@ class Bet {
   private Long betAwayGoals;
   private Long matchId;
 
-  void checkBet() {
+  void setStatusAsChecked() {
     status = BetStatus.CHECKED;
   }
 
-  void cancelBet() {
+  void setStatusAsCanceled() {
     status = BetStatus.CANCELED;
   }
 
-  void blockBet() {
+  void setStatusAsBlocked() {
     status = BetStatus.IN_PROGRESS;
   }
 }

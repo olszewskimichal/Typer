@@ -1,5 +1,6 @@
 package pl.michal.olszewski.typer.bet.domain;
 
+import java.time.Instant;
 import pl.michal.olszewski.typer.bet.dto.command.CheckBet;
 import pl.michal.olszewski.typer.bet.dto.events.BetChecked;
 
@@ -12,8 +13,8 @@ class DadBetPolicy implements BetPolicy {
   public BetChecked calculatePoints(CheckBet checkBet) {
     checkBet.validCommand();
     if (isGoalsEqual(checkBet.getBetAwayGoals(), checkBet.getExpectedAwayGoals()) && isGoalsEqual(checkBet.getBetHomeGoals(), checkBet.getExpectedHomeGoals())) {
-      return new BetChecked(checkBet.getBetId(), POINTS_FOR_CORRECT_RESULT);
+      return new BetChecked(checkBet.getBetId(), Instant.now(), POINTS_FOR_CORRECT_RESULT);
     }
-    return new BetChecked(checkBet.getBetId(), POINTS_FOR_INCORRECT_RESULT);
+    return new BetChecked(checkBet.getBetId(), Instant.now(), POINTS_FOR_INCORRECT_RESULT);
   }
 }

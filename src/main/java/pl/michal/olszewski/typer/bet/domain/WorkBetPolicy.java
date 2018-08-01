@@ -1,6 +1,7 @@
 package pl.michal.olszewski.typer.bet.domain;
 
 
+import java.time.Instant;
 import pl.michal.olszewski.typer.bet.dto.command.CheckBet;
 import pl.michal.olszewski.typer.bet.dto.events.BetChecked;
 
@@ -33,34 +34,34 @@ class WorkBetPolicy implements BetPolicy {
       return checkResultWhenIsNotDraw(checkBet);
     }
 
-    return new BetChecked(checkBet.getBetId(), 0L);
+    return new BetChecked(checkBet.getBetId(), Instant.now(), 0L);
   }
 
   private BetChecked checkResultWhenDraw(CheckBet checkBet) {
     if (isGoalsEqual(checkBet.getExpectedHomeGoals(), checkBet.getBetHomeGoals())) {
-      return new BetChecked(checkBet.getBetId(), 5L);
+      return new BetChecked(checkBet.getBetId(), Instant.now(), 5L);
     }
-    return new BetChecked(checkBet.getBetId(), 3L);
+    return new BetChecked(checkBet.getBetId(), Instant.now(), 3L);
   }
 
   private BetChecked checkResultWhenIsNotDraw(CheckBet checkBet) {
     if (checkBet.getBetAwayGoals() - checkBet.getBetHomeGoals() == checkBet.getExpectedAwayGoals() - checkBet.getExpectedHomeGoals()) {
-      return new BetChecked(checkBet.getBetId(), 4L);
+      return new BetChecked(checkBet.getBetId(), Instant.now(), 4L);
     }
 
     if (isGoalsEqual(checkBet.getBetAwayGoals(), checkBet.getExpectedAwayGoals())
         || isGoalsEqual(checkBet.getBetHomeGoals(), checkBet.getExpectedHomeGoals())) {
-      return new BetChecked(checkBet.getBetId(), 2L);
+      return new BetChecked(checkBet.getBetId(), Instant.now(), 2L);
     }
-    return new BetChecked(checkBet.getBetId(), 1L);
+    return new BetChecked(checkBet.getBetId(), Instant.now(), 1L);
   }
 
   private boolean resultIsDraw(CheckBet checkBet) {
-    return checkBet.getExpectedAwayGoals() == checkBet.getExpectedHomeGoals();
+    return checkBet.getExpectedAwayGoals().equals(checkBet.getExpectedHomeGoals());
   }
 
   private boolean predictedWasDraw(CheckBet checkBet) {
-    return checkBet.getBetHomeGoals() == checkBet.getBetAwayGoals();
+    return checkBet.getBetHomeGoals().equals(checkBet.getBetAwayGoals());
   }
 
 }

@@ -1,10 +1,17 @@
 package pl.michal.olszewski.typer.bet.dto.events;
 
-import lombok.Value;
+import java.time.Instant;
+import lombok.Builder;
+import lombok.Getter;
 
-@Value
-public class BetChecked {
+public class BetChecked extends BetEventBase {
 
-  private final long betId;
-  private final long points;
+  @Getter
+  private final Long points;
+
+  @Builder
+  public BetChecked(Long betId, Instant occurredAt, Long points) {
+    super(betId, occurredAt);
+    this.points = points;
+  }
 }

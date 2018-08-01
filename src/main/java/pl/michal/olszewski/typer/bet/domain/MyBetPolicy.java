@@ -1,5 +1,6 @@
 package pl.michal.olszewski.typer.bet.domain;
 
+import java.time.Instant;
 import pl.michal.olszewski.typer.bet.dto.command.CheckBet;
 import pl.michal.olszewski.typer.bet.dto.events.BetChecked;
 
@@ -14,15 +15,15 @@ class MyBetPolicy implements BetPolicy {
     checkBet.validCommand();
     if (isGoalsEqual(checkBet.getBetHomeGoals(), checkBet.getExpectedHomeGoals()) &&
         isGoalsEqual(checkBet.getBetAwayGoals(), checkBet.getExpectedAwayGoals())) {
-      return new BetChecked(checkBet.getBetId(), POINTS_FOR_EXACTLY_THE_SAME_RESULT);
+      return new BetChecked(checkBet.getBetId(), Instant.now(), POINTS_FOR_EXACTLY_THE_SAME_RESULT);
     }
 
     long expectedDifference = checkBet.getExpectedHomeGoals() - checkBet.getExpectedAwayGoals();
     long predictedDifference = checkBet.getBetHomeGoals() - checkBet.getBetAwayGoals();
     if (isTheSameDifference(expectedDifference, predictedDifference)) {
-      return new BetChecked(checkBet.getBetId(), POINTS_FOR_CORRECT_RESULT);
+      return new BetChecked(checkBet.getBetId(), Instant.now(), POINTS_FOR_CORRECT_RESULT);
     }
-    return new BetChecked(checkBet.getBetId(), POINTS_FOR_INCORRECT_RESULT);
+    return new BetChecked(checkBet.getBetId(), Instant.now(), POINTS_FOR_INCORRECT_RESULT);
   }
 
   private boolean isTheSameDifference(Long expectedDifference, Long predictedDifference) {
