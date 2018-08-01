@@ -1,7 +1,8 @@
 package pl.michal.olszewski.typer.bet.domain;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.integration.annotation.Publisher;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Component;
 import pl.michal.olszewski.typer.bet.dto.events.BetChecked;
 
@@ -9,8 +10,15 @@ import pl.michal.olszewski.typer.bet.dto.events.BetChecked;
 @Slf4j
 class BetEventPublisher {
 
-  @Publisher(channel = "betChecked")
-  void sendBetCheckedToPayment(BetChecked event) {
-    log.debug("Send {}", event);
+  private final JmsTemplate jmsTemplate;
+
+  @Autowired
+  BetEventPublisher(JmsTemplate jmsTemplate) {
+    this.jmsTemplate = jmsTemplate;
+  }
+
+  void sendBetCheckedToJMS(BetChecked betChecked) {
+    log.info("Send {}", betChecked);
+    jmsTemplate.convertAndSend("betCheckedQueue", betChecked);
   }
 }

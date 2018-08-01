@@ -34,7 +34,7 @@ class BetUpdater {
     Bet bet = betFinder.findOneOrThrow(command.getBetId());
     BetChecked betChecked = betPolicy.calculatePoints(command);
 
-    eventPublisher.sendBetCheckedToPayment(betChecked);
+    eventPublisher.sendBetCheckedToJMS(betChecked);
     bet.setStatusAsChecked();
     return bet;
   }

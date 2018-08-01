@@ -118,7 +118,7 @@ class BetUpdaterTest {
 
     assertThat(bet).isNotNull();
     assertThat(bet.getStatus()).isEqualTo(BetStatus.CHECKED);
-    Mockito.verify(eventPublisher, times(1)).sendBetCheckedToPayment(Mockito.any(BetChecked.class));
+    Mockito.verify(eventPublisher, times(1)).sendBetCheckedToJMS(Mockito.any(BetChecked.class));
   }
 
   @Test
