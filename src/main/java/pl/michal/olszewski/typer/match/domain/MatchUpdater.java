@@ -36,6 +36,7 @@ class MatchUpdater {
     Objects.requireNonNull(command);
     command.validCommand();
     Match match = matchFinder.findOneOrThrow(command.getMatchId());
+    match.setResult(command.getHomeGoals(), command.getAwayGoals());
     match.setStatusAsFinished();
     return match;
   }

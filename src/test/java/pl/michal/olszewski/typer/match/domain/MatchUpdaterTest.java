@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Test;
+import pl.michal.olszewski.typer.bet.dto.IllegalGoalArgumentException;
 import pl.michal.olszewski.typer.match.dto.MatchNotFoundException;
 import pl.michal.olszewski.typer.match.dto.command.CancelMatch;
 import pl.michal.olszewski.typer.match.dto.command.FinishMatch;
@@ -41,7 +42,11 @@ class MatchUpdaterTest {
 
   @Test
   void shouldCancelMatchWhenCommandIsValidAndMatchIsFound() {
-    ((InMemoryMatchFinder) matchFinder).save(2L, Match.builder().build());
+    Match expected = Match.builder()
+        .id(2L)
+        .matchStatus(MatchStatus.CANCELED)
+        .build();
+    ((InMemoryMatchFinder) matchFinder).save(2L, Match.builder().id(2L).build());
 
     CancelMatch cancelMatch = CancelMatch
         .builder()
@@ -51,7 +56,7 @@ class MatchUpdaterTest {
     Match match = matchUpdater.cancelMatch(cancelMatch);
 
     assertThat(match).isNotNull();
-    assertThat(match.getMatchStatus()).isEqualTo(MatchStatus.CANCELED);
+    assertThat(match).isEqualToComparingFieldByField(expected);
   }
 
   @Test
@@ -73,6 +78,8 @@ class MatchUpdaterTest {
   void shouldThrowExceptionWhenFinishedMatchIsNotFound() {
     FinishMatch finishMatch = FinishMatch
         .builder()
+        .awayGoals(1L)
+        .homeGoals(2L)
         .matchId(1L)
         .build();
 
@@ -80,18 +87,46 @@ class MatchUpdaterTest {
   }
 
   @Test
+  void shouldThrowExceptionWhenGoalsArgumentsAreNotSet() {
+    FinishMatch finishMatchCmd1 = FinishMatch
+        .builder()
+        .awayGoals(1L)
+        .matchId(1L)
+        .build();
+
+    FinishMatch finishMatchCmd2 = FinishMatch
+        .builder()
+        .homeGoals(1L)
+        .matchId(1L)
+        .build();
+
+    assertThrows(IllegalGoalArgumentException.class, () -> matchUpdater.finishMatch(finishMatchCmd1));
+    assertThrows(IllegalGoalArgumentException.class, () -> matchUpdater.finishMatch(finishMatchCmd2));
+
+  }
+
+  @Test
   void shouldFinishMatchWhenCommandIsValidAndMatchIsFound() {
-    ((InMemoryMatchFinder) matchFinder).save(3L, Match.builder().build());
+    Match expected = Match.builder()
+        .id(3L)
+        .matchStatus(MatchStatus.FINISHED)
+        .awayGoals(2L)
+        .homeGoals(2L)
+        .build();
+
+    ((InMemoryMatchFinder) matchFinder).save(3L, Match.builder().id(3L).build());
 
     FinishMatch finishMatch = FinishMatch
         .builder()
         .matchId(3L)
+        .homeGoals(2L)
+        .awayGoals(2L)
         .build();
 
     Match match = matchUpdater.finishMatch(finishMatch);
 
     assertThat(match).isNotNull();
-    assertThat(match.getMatchStatus()).isEqualTo(MatchStatus.FINISHED);
+    assertThat(match).isEqualToComparingFieldByField(expected);
   }
 
 }

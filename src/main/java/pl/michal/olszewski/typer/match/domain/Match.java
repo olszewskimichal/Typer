@@ -22,7 +22,10 @@ class Match {
 
   private Long awayTeamId;
 
-  @Getter
+  private Long homeGoals;
+
+  private Long awayGoals;
+
   private MatchStatus matchStatus;
 
   void setStatusAsFinished() {
@@ -31,5 +34,10 @@ class Match {
 
   void setStatusAsCanceled() {
     matchStatus = MatchStatus.CANCELED;
+  }
+
+  void setResult(Long homeGoals, Long awayGoals) {
+    this.homeGoals = homeGoals;
+    this.awayGoals = awayGoals;
   }
 }
