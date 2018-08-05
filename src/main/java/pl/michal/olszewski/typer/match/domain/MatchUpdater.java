@@ -3,41 +3,38 @@ package pl.michal.olszewski.typer.match.domain;
 import java.util.Objects;
 import pl.michal.olszewski.typer.match.dto.command.CancelMatch;
 import pl.michal.olszewski.typer.match.dto.command.FinishMatch;
+import pl.michal.olszewski.typer.match.dto.events.MatchCanceled;
+import pl.michal.olszewski.typer.match.dto.events.MatchFinished;
 
 class MatchUpdater {
 
   private final MatchFinder matchFinder;
+  private final MatchEventPublisher eventPublisher;
 
-  MatchUpdater(MatchFinder matchFinder) {
+  MatchUpdater(MatchFinder matchFinder, MatchEventPublisher eventPublisher) {
     this.matchFinder = matchFinder;
+    this.eventPublisher = eventPublisher;
   }
 
-  /**
-   * setStatusAsCanceled -> zwraca Match
-   * pobieram pierw mecz z bazy o id,
-   * aktualizuje mecz ze statusem anulowany
-   * wrzucam event o anulowaniu meczu do kolejki
-   **/
   Match cancelMatch(CancelMatch command) {
     Objects.requireNonNull(command);
     command.validCommand();
+
     Match match = matchFinder.findOneOrThrow(command.getMatchId());
-    match.setStatusAsCanceled();
+
+    MatchCanceled matchCanceled = match.setStatusAsCanceled();
+    eventPublisher.sendMatchCanceledToJMS(matchCanceled);
     return match;
   }
 
-  /**
-   * setStatusAsFinished -> zwraca Match
-   * pobiera mecz z bazy o id
-   * aktualizuje mecz ze statusem zakończony
-   * wrzucam event o zakończeniu meczu z wynikiem
-   */
   Match finishMatch(FinishMatch command) {
     Objects.requireNonNull(command);
     command.validCommand();
+
     Match match = matchFinder.findOneOrThrow(command.getMatchId());
-    match.setResult(command.getHomeGoals(), command.getAwayGoals());
-    match.setStatusAsFinished();
+
+    MatchFinished matchFinished = match.setFinalResult(command.getHomeGoals(), command.getAwayGoals());
+    eventPublisher.sendMatchFinishedToJMS(matchFinished);
     return match;
   }
 

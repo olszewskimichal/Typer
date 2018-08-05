@@ -2,18 +2,30 @@ package pl.michal.olszewski.typer.match.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import pl.michal.olszewski.typer.bet.dto.IllegalGoalArgumentException;
 import pl.michal.olszewski.typer.match.dto.MatchNotFoundException;
 import pl.michal.olszewski.typer.match.dto.command.CancelMatch;
 import pl.michal.olszewski.typer.match.dto.command.FinishMatch;
+import pl.michal.olszewski.typer.match.dto.events.MatchCanceled;
+import pl.michal.olszewski.typer.match.dto.events.MatchFinished;
 
 class MatchUpdaterTest {
 
   private MatchFinder matchFinder = new InMemoryMatchFinder();
+  private MatchEventPublisher eventPublisher;
+  private MatchUpdater matchUpdater;
 
-  private MatchUpdater matchUpdater = new MatchUpdater(matchFinder);
+  @BeforeEach
+  void configureSystemUnderTests() {
+    eventPublisher = mock(MatchEventPublisher.class);
+    matchUpdater = new MatchUpdater(matchFinder, eventPublisher);
+  }
 
   @Test
   void shouldThrowExceptionWhenCancellingCommandIsNull() {
@@ -57,6 +69,7 @@ class MatchUpdaterTest {
 
     assertThat(match).isNotNull();
     assertThat(match).isEqualToComparingFieldByField(expected);
+    Mockito.verify(eventPublisher, times(1)).sendMatchCanceledToJMS(Mockito.any(MatchCanceled.class));
   }
 
   @Test
@@ -127,6 +140,7 @@ class MatchUpdaterTest {
 
     assertThat(match).isNotNull();
     assertThat(match).isEqualToComparingFieldByField(expected);
+    Mockito.verify(eventPublisher, times(1)).sendMatchFinishedToJMS(Mockito.any(MatchFinished.class));
   }
 
 }

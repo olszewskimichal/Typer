@@ -1,12 +1,14 @@
 package pl.michal.olszewski.typer.match.domain;
 
+import java.time.Instant;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
+import pl.michal.olszewski.typer.match.dto.events.MatchCanceled;
+import pl.michal.olszewski.typer.match.dto.events.MatchFinished;
 
 @Entity
 @NoArgsConstructor
@@ -28,16 +30,16 @@ class Match {
 
   private MatchStatus matchStatus;
 
-  void setStatusAsFinished() {
-    matchStatus = MatchStatus.FINISHED;
-  }
 
-  void setStatusAsCanceled() {
+  MatchCanceled setStatusAsCanceled() {
     matchStatus = MatchStatus.CANCELED;
+    return new MatchCanceled(id, Instant.now());
   }
 
-  void setResult(Long homeGoals, Long awayGoals) {
+  MatchFinished setFinalResult(Long homeGoals, Long awayGoals) {
+    this.matchStatus = MatchStatus.FINISHED;
     this.homeGoals = homeGoals;
     this.awayGoals = awayGoals;
+    return new MatchFinished(id, Instant.now());
   }
 }
