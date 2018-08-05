@@ -30,16 +30,15 @@ class Match {
 
   private MatchStatus matchStatus;
 
-
   MatchCanceled setStatusAsCanceled() {
     matchStatus = MatchStatus.CANCELED;
     return new MatchCanceled(id, Instant.now());
   }
 
-  MatchFinished setFinalResult(Long homeGoals, Long awayGoals) {
+  MatchFinished setFinalResult(Long finalHomeGoals, Long finalAwayGoals) {
     this.matchStatus = MatchStatus.FINISHED;
-    this.homeGoals = homeGoals;
-    this.awayGoals = awayGoals;
+    this.homeGoals = finalHomeGoals;
+    this.awayGoals = finalAwayGoals;
     return new MatchFinished(id, Instant.now());
   }
 }
