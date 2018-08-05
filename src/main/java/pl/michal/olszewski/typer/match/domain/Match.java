@@ -37,8 +37,8 @@ class Match {
 
   MatchFinished setFinalResult(Long finalHomeGoals, Long finalAwayGoals) {
     this.matchStatus = MatchStatus.FINISHED;
-    this.homeGoals = finalHomeGoals;
-    this.awayGoals = finalAwayGoals;
+    homeGoals = finalHomeGoals;
+    awayGoals = finalAwayGoals;
     return new MatchFinished(id, Instant.now());
   }
 }
