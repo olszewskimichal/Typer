@@ -43,7 +43,7 @@ public class MatchEventListener {
     log.info("Received {}", event);
     int i = 0;
     for (Bet bet : betFinder.findAllBetForMatch(event.getMatchId())) {
-      betCommandPublisher.sendCheckCommandToJms(new CheckBet(bet.getId(),bet.getBetAwayGoals(),bet.getBetHomeGoals(),0L,0L));
+      betCommandPublisher.sendCheckCommandToJms(new CheckBet(bet.getId(), bet.getBetAwayGoals(), bet.getBetHomeGoals(), event.getAwayGoals(), event.getHomeGoals()));
       i++;
     }
     return i;
