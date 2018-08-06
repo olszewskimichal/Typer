@@ -12,13 +12,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Getter
 class Bet {
 
   @Id
   @GeneratedValue
   private Long id;
   @Builder.Default
-  @Getter
   private BetStatus status = BetStatus.NEW;
   @Builder.Default
   private Long points = 0L;
