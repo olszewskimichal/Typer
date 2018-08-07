@@ -10,7 +10,7 @@ import pl.michal.olszewski.typer.match.dto.events.MatchFinished;
 
 @Slf4j
 @Component
-public class MatchEventListener {
+class MatchEventListener {
 
   private final BetFinder betFinder;
   private final BetCommandPublisher betCommandPublisher;
