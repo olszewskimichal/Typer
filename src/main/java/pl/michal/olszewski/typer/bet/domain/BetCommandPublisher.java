@@ -11,6 +11,8 @@ import pl.michal.olszewski.typer.bet.dto.command.CheckBet;
 @Slf4j
 class BetCommandPublisher {
 
+  static final String CANCEL_BET_COMMAND_QUEUE = "cancelBetCommandQueue";
+  static final String CHECK_BET_COMMAND_QUEUE = "checkBetCommandQueue";
   private final JmsTemplate jmsTemplate;
 
   @Autowired
@@ -19,10 +21,12 @@ class BetCommandPublisher {
   }
 
   void sendCancelCommandToJms(CancelBet command) {
-
+    log.info("Send {}", command);
+    jmsTemplate.convertAndSend(CANCEL_BET_COMMAND_QUEUE, command);
   }
 
   void sendCheckCommandToJms(CheckBet command) {
-
+    log.info("Send {}", command);
+    jmsTemplate.convertAndSend(CHECK_BET_COMMAND_QUEUE, command);
   }
 }

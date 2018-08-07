@@ -9,7 +9,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import pl.michal.olszewski.typer.bet.dto.command.CancelBet;
 import pl.michal.olszewski.typer.bet.dto.command.CheckBet;
-import pl.michal.olszewski.typer.match.dto.command.CancelMatch;
 import pl.michal.olszewski.typer.match.dto.events.MatchCanceled;
 import pl.michal.olszewski.typer.match.dto.events.MatchFinished;
 
