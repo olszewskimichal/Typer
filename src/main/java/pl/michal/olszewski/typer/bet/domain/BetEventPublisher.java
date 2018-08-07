@@ -10,6 +10,7 @@ import pl.michal.olszewski.typer.bet.dto.events.BetChecked;
 @Slf4j
 class BetEventPublisher {
 
+  static final String BET_CHECKED_QUEUE = "betCheckedQueue";
   private final JmsTemplate jmsTemplate;
 
   @Autowired
@@ -19,6 +20,6 @@ class BetEventPublisher {
 
   void sendBetCheckedToJMS(BetChecked betChecked) {
     log.info("Send {}", betChecked);
-    jmsTemplate.convertAndSend("betCheckedQueue", betChecked);
+    jmsTemplate.convertAndSend(BET_CHECKED_QUEUE, betChecked);
   }
 }

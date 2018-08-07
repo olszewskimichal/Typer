@@ -1,13 +1,19 @@
 package pl.michal.olszewski.typer.match.dto.events;
 
 
-import java.time.Instant;
 import lombok.Builder;
+import lombok.Getter;
 
+@Getter
 public class MatchFinished extends MatchEventBase {
 
+  private final Long homeGoals;
+  private final Long awayGoals;
+
   @Builder
-  public MatchFinished(Long matchId, Instant occurredAt) {
-    super(matchId, occurredAt);
+  public MatchFinished(Long matchId, Long homeGoals, Long awayGoals) {
+    super(matchId);
+    this.homeGoals = homeGoals;
+    this.awayGoals = awayGoals;
   }
 }

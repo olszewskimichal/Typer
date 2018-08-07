@@ -1,6 +1,5 @@
 package pl.michal.olszewski.typer.match.domain;
 
-import java.time.Instant;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -32,13 +31,13 @@ class Match {
 
   MatchCanceled setStatusAsCanceled() {
     matchStatus = MatchStatus.CANCELED;
-    return new MatchCanceled(id, Instant.now());
+    return new MatchCanceled(id);
   }
 
   MatchFinished setFinalResult(Long finalHomeGoals, Long finalAwayGoals) {
     this.matchStatus = MatchStatus.FINISHED;
     homeGoals = finalHomeGoals;
     awayGoals = finalAwayGoals;
-    return new MatchFinished(id, Instant.now());
+    return new MatchFinished(id, finalHomeGoals, finalAwayGoals);
   }
 }

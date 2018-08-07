@@ -7,7 +7,7 @@ import pl.michal.olszewski.typer.bet.dto.events.BetChecked;
 
 @Slf4j
 @Component
-public class BetEventListener {
+class BetEventListener {
 
   @JmsListener(destination = "betCheckedQueue")
   public void handleBetCheckedEventJMS(BetChecked event) {

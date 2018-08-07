@@ -1,6 +1,6 @@
 package pl.michal.olszewski.typer.match.domain;
 
-public enum MatchStatus {
+enum MatchStatus {
   NEW,
   FINISHED,
   CANCELED;

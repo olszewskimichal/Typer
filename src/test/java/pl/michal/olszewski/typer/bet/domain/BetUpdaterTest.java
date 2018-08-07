@@ -19,14 +19,12 @@ class BetUpdaterTest {
 
   private BetFinder betFinder = new InMemoryBetFinder();
   private BetEventPublisher eventPublisher;
-  private BetPolicy betPolicy;
   private BetUpdater betUpdater;
 
   @BeforeEach
   void configureSystemUnderTests() {
     eventPublisher = mock(BetEventPublisher.class);
-    betPolicy = mock(BetPolicy.class);
-    betUpdater = new BetUpdater(betFinder, eventPublisher, betPolicy);
+    betUpdater = new BetUpdater(betFinder, eventPublisher);
   }
 
   @Test
@@ -110,9 +108,6 @@ class BetUpdaterTest {
         .betHomeGoals(3L)
         .betAwayGoals(4L)
         .build();
-
-    given(betPolicy.calculatePoints(finishBet))
-        .willReturn(BetChecked.builder().build());
 
     Bet bet = betUpdater.checkBet(finishBet);
 

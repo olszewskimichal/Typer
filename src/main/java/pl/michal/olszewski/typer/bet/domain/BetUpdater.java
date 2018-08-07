@@ -1,21 +1,21 @@
 package pl.michal.olszewski.typer.bet.domain;
 
 import java.util.Objects;
+import org.springframework.stereotype.Service;
 import pl.michal.olszewski.typer.bet.dto.command.BlockBet;
 import pl.michal.olszewski.typer.bet.dto.command.CancelBet;
 import pl.michal.olszewski.typer.bet.dto.command.CheckBet;
 import pl.michal.olszewski.typer.bet.dto.events.BetChecked;
 
+@Service
 class BetUpdater {
 
   private final BetFinder betFinder;
   private final BetEventPublisher eventPublisher;
-  private final BetPolicy betPolicy;
 
-  BetUpdater(BetFinder betFinder, BetEventPublisher eventPublisher, BetPolicy betPolicy) {
+  BetUpdater(BetFinder betFinder, BetEventPublisher eventPublisher) {
     this.betFinder = betFinder;
     this.eventPublisher = eventPublisher;
-    this.betPolicy = betPolicy;
   }
 
   Bet cancelBet(CancelBet command) {
@@ -32,7 +32,7 @@ class BetUpdater {
     command.validCommand();
 
     Bet bet = betFinder.findOneOrThrow(command.getBetId());
-    BetChecked betChecked = betPolicy.calculatePoints(command);
+    BetChecked betChecked = new MyBetPolicy().calculatePoints(command); //TODO doprowadzic tutaj do uzycia BetTypePolicy
 
     eventPublisher.sendBetCheckedToJMS(betChecked);
     bet.setStatusAsChecked();

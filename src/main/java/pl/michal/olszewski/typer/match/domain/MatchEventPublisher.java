@@ -11,6 +11,8 @@ import pl.michal.olszewski.typer.match.dto.events.MatchFinished;
 @Slf4j
 class MatchEventPublisher {
 
+  static final String CANCEL_MATCH_QUEUE = "cancelMatchQueue";
+  static final String FINISHED_MATCH_QUEUE = "finishedMatchQueue";
   private final JmsTemplate jmsTemplate;
 
   @Autowired
@@ -20,11 +22,11 @@ class MatchEventPublisher {
 
   void sendMatchCanceledToJMS(MatchCanceled matchCanceled) {
     log.info("Send {}", matchCanceled);
-    jmsTemplate.convertAndSend("cancelMatchQueue", matchCanceled);
+    jmsTemplate.convertAndSend(CANCEL_MATCH_QUEUE, matchCanceled);
   }
 
   void sendMatchFinishedToJMS(MatchFinished matchFinished) {
     log.info("Send {}", matchFinished);
-    jmsTemplate.convertAndSend("finishedMatchQueue", matchFinished);
+    jmsTemplate.convertAndSend(FINISHED_MATCH_QUEUE, matchFinished);
   }
 }
