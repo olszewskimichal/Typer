@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class MatchRound {
+class MatchRound {
 
   @GeneratedValue
   @Id
