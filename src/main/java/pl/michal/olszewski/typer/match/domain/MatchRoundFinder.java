@@ -1,7 +1,6 @@
 package pl.michal.olszewski.typer.match.domain;
 
 import org.springframework.data.repository.Repository;
-import pl.michal.olszewski.typer.match.dto.MatchNotFoundException;
 import pl.michal.olszewski.typer.match.dto.MatchRoundNotFoundException;
 
 @org.springframework.stereotype.Repository
