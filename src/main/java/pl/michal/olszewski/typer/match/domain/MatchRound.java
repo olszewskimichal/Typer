@@ -1,7 +1,9 @@
 package pl.michal.olszewski.typer.match.domain;
 
+import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.CascadeType;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
@@ -12,6 +14,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Entity
 public class MatchRound {
 
   @GeneratedValue
@@ -25,16 +28,12 @@ public class MatchRound {
       cascade = CascadeType.ALL,
       orphanRemoval = true
   )
-  private Set<Match> matches;
+  @Builder.Default
+  private Set<Match> matches = new HashSet<>();
 
-  public void addMatch(Match match) {
+  void addMatch(Match match) {
     matches.add(match);
     match.setMatchRound(this);
-  }
-
-  public void removeMatch(Match match) {
-    matches.remove(match);
-    match.setMatchRound(null);
   }
 
 }

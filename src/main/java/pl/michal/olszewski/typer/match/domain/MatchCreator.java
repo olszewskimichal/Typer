@@ -5,15 +5,24 @@ import pl.michal.olszewski.typer.match.dto.command.CreateNewMatch;
 
 class MatchCreator {
 
+  private final MatchRoundFinder matchRoundFinder;
+
+  MatchCreator(MatchRoundFinder matchRoundFinder) {
+    this.matchRoundFinder = matchRoundFinder;
+  }
+
   Match from(CreateNewMatch createNewMatch) {
     Objects.requireNonNull(createNewMatch);
     createNewMatch.validCommand();
 
-    return Match.builder()
+    MatchRound round = matchRoundFinder.findOneOrThrow(createNewMatch.getRoundId());
+    Match match = Match.builder()
         .homeTeamId(createNewMatch.getHomeTeamId())
         .awayTeamId(createNewMatch.getAwayTeamId())
         .matchStatus(MatchStatus.NEW)
         .build();
+    round.addMatch(match);
+    return match;
   }
 
 }
