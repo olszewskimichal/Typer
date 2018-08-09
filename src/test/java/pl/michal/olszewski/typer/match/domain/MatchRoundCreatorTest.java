@@ -4,11 +4,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Test;
+import pl.michal.olszewski.typer.match.dto.MatchLeagueNotFoundException;
 import pl.michal.olszewski.typer.match.dto.command.CreateNewRound;
 
 class MatchRoundCreatorTest {
 
-  private MatchRoundCreator matchRoundCreator = new MatchRoundCreator();
+  private MatchLeagueFinder matchLeagueFinder = new InMemoryMatchLeagueFinder();
+  private MatchRoundCreator matchRoundCreator = new MatchRoundCreator(matchLeagueFinder);
 
   @Test
   void shouldThrowExceptionWhenCommandIsNull() {
@@ -18,11 +20,14 @@ class MatchRoundCreatorTest {
   @Test
   void shouldCreateMatchRoundWhenCommandIsValid() {
     //given
-    MatchRound expected = MatchRound.builder().name("name").build();
+    MatchLeague matchLeague = MatchLeague.builder().name("name").betTypePolicy(2L).build();
+    ((InMemoryMatchLeagueFinder) matchLeagueFinder).save(1L, matchLeague);
+    MatchRound expected = MatchRound.builder().name("name").matchLeague(matchLeague).build();
 
     CreateNewRound createNewMatch = CreateNewRound
         .builder()
         .name("name")
+        .leagueId(1L)
         .build();
     //when
     MatchRound from = matchRoundCreator.from(createNewMatch);
@@ -37,6 +42,31 @@ class MatchRoundCreatorTest {
     //when
     //then
     assertThrows(IllegalArgumentException.class, () -> matchRoundCreator.from(CreateNewRound.builder().build()));
+  }
+
+  @Test
+  void shouldThrowExceptionWhenLeagueIdIsNull() {
+    //given
+    CreateNewRound createNewMatch = CreateNewRound
+        .builder()
+        .name("name")
+        .build();
+    //when
+    //then
+    assertThrows(MatchLeagueNotFoundException.class, () -> matchRoundCreator.from(createNewMatch));
+  }
+
+  @Test
+  void shouldThrowExceptionWhenLeagueNotFoundInDb() {
+    //given
+    CreateNewRound createNewMatch = CreateNewRound
+        .builder()
+        .name("name")
+        .leagueId(2L)
+        .build();
+    //when
+    //then
+    assertThrows(MatchLeagueNotFoundException.class, () -> matchRoundCreator.from(createNewMatch));
   }
 
 }

@@ -4,22 +4,18 @@ import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-class MatchRound {
+class MatchLeague {
 
   @GeneratedValue
   @Id
@@ -27,22 +23,19 @@ class MatchRound {
 
   private String name;
 
+  private Long betTypePolicy;
+
   @OneToMany(
-      mappedBy = "matchRound",
+      mappedBy = "matchLeague",
       cascade = CascadeType.ALL,
       orphanRemoval = true
   )
   @Builder.Default
-  private Set<Match> matches = new HashSet<>();
+  private Set<MatchRound> matchRounds = new HashSet<>();
 
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "LEAGUE_ID")
-  @Setter
-  private MatchLeague matchLeague;
-
-  void addMatch(Match match) {
-    matches.add(match);
-    match.setMatchRound(this);
+  void addMatchRound(MatchRound matchRound) {
+    matchRounds.add(matchRound);
+    matchRound.setMatchLeague(this);
   }
 
 }

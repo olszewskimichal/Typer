@@ -4,25 +4,21 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import pl.michal.olszewski.typer.CommandValid;
-import pl.michal.olszewski.typer.match.dto.MatchLeagueNotFoundException;
 
 @AllArgsConstructor
 @Builder
 @Getter
-
-public class CreateNewRound implements CommandValid {
+public class CreateNewLeague implements CommandValid {
 
   private final String name;
-  private final Long leagueId;
+  private final Long betTypePolicy;
 
   @Override
   public void validCommand() {
     if (name == null) {
       throw new IllegalArgumentException("Nazwa kolejki nie może byc pusta");
     }
-
-    if (leagueId == null) {
-      throw new MatchLeagueNotFoundException("Nieprawidłowy identyfikator ligi");
-    }
+    if (betTypePolicy == null)
+      throw new IllegalArgumentException("Trzeba określić sposób naliczania zakladów");
   }
 }
