@@ -18,7 +18,8 @@ public class CreateNewLeague implements CommandValid {
     if (name == null) {
       throw new IllegalArgumentException("Nazwa kolejki nie może byc pusta");
     }
-    if (betTypePolicy == null)
+    if (betTypePolicy == null) {
       throw new IllegalArgumentException("Trzeba określić sposób naliczania zakladów");
+    }
   }
 }

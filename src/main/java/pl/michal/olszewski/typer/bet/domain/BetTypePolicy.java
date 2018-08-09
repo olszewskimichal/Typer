@@ -35,10 +35,6 @@ enum BetTypePolicy {
     return value;
   }
 
-  public void setValue(long value) {
-    this.value = value;
-  }
-
   BetTypePolicy fromValue(long value) {
     for (BetTypePolicy typePolicy : BetTypePolicy.values()) {
       if (typePolicy.getValue() == value) {

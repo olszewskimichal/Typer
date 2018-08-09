@@ -47,6 +47,6 @@ class Match {
     this.matchStatus = MatchStatus.FINISHED;
     homeGoals = finalHomeGoals;
     awayGoals = finalAwayGoals;
-    return new MatchFinished(id, finalHomeGoals, finalAwayGoals);
+    return new MatchFinished(id, homeGoals, awayGoals);
   }
 }
