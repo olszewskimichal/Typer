@@ -24,7 +24,7 @@ class BetCommandListener {
   }
 
   @JmsListener(destination = BetCommandPublisher.CHECK_BET_COMMAND_QUEUE)
-  void handleMatchFinishedEventJMS(CheckBet command) {
+  void handleCheckBetEventJMS(CheckBet command) {
     log.info("Received {}", command);
     betUpdater.checkBet(command);
   }
