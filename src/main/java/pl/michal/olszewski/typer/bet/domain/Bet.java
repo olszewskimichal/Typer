@@ -28,6 +28,7 @@ class Bet {
   private Long betAwayGoals;
   private Long matchId;
   private Long userId;
+  private Long matchRoundId; //Pole dla normalizacji i uproszczenia selectów bazodanowych
 
   void setStatusAsChecked() {
     status = BetStatus.CHECKED;

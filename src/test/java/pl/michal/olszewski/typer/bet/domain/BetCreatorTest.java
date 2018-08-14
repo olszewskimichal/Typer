@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import pl.michal.olszewski.typer.bet.dto.IllegalGoalArgumentException;
 import pl.michal.olszewski.typer.bet.dto.command.CreateNewBet;
 import pl.michal.olszewski.typer.match.dto.MatchNotFoundException;
+import pl.michal.olszewski.typer.match.dto.MatchRoundNotFoundException;
 import pl.michal.olszewski.typer.users.UserNotFoundException;
 
 class BetCreatorTest {
@@ -28,12 +29,14 @@ class BetCreatorTest {
         .betAwayGoals(1L)
         .points(0L)
         .status(BetStatus.NEW)
+        .matchRoundId(2L)
         .build();
     CreateNewBet command = CreateNewBet.builder()
         .betAwayGoals(1L)
         .betHomeGoals(2L)
         .matchId(1L)
         .userId(3L)
+        .matchRoundId(2L)
         .build();
     //when
     Bet bet = betCreator.from(command);
@@ -78,6 +81,19 @@ class BetCreatorTest {
     //when
     //then
     assertThrows(UserNotFoundException.class, () -> betCreator.from(command));
+  }
+
+  @Test
+  void shouldThrowExceptionWhenMatchRoundIdIsNull() {
+    CreateNewBet command = CreateNewBet.builder()
+        .betAwayGoals(1L)
+        .betHomeGoals(2L)
+        .matchId(3L)
+        .userId(1L)
+        .build();
+    //when
+    //then
+    assertThrows(MatchRoundNotFoundException.class, () -> betCreator.from(command));
   }
 
 }

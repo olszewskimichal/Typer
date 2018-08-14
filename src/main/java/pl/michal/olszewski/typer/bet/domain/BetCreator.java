@@ -14,6 +14,7 @@ class BetCreator {
         .betHomeGoals(createNewBet.getBetHomeGoals())
         .matchId(createNewBet.getMatchId())
         .userId(createNewBet.getUserId())
+        .matchRoundId(createNewBet.getMatchRoundId())
         .build();
   }
 
