@@ -11,7 +11,7 @@ class InMemoryUserFinder implements UserFinder {
   public Optional<User> findByEmail(String email) {
     return userMap.values()
         .stream()
-        .filter(v -> v.getEmail().toLowerCase().equals(email.toLowerCase()))
+        .filter(v -> v.getEmail().equalsIgnoreCase(email))
         .findAny();
   }
 
