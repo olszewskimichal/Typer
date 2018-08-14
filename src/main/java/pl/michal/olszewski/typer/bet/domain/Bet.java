@@ -27,6 +27,7 @@ class Bet {
   private Long betHomeGoals;
   private Long betAwayGoals;
   private Long matchId;
+  private Long userId;
 
   void setStatusAsChecked() {
     status = BetStatus.CHECKED;
