@@ -54,10 +54,8 @@ class MatchUpdaterTest {
 
   @Test
   void shouldCancelMatchWhenCommandIsValidAndMatchIsFound() {
-    Match expected = Match.builder()
-        .id(2L)
-        .matchStatus(MatchStatus.CANCELED)
-        .build();
+    Match expected = givenMatch()
+        .build(2L, MatchStatus.CANCELED);
     ((InMemoryMatchFinder) matchFinder).save(2L, Match.builder().id(2L).build());
 
     CancelMatch cancelMatch = CancelMatch
@@ -120,13 +118,9 @@ class MatchUpdaterTest {
 
   @Test
   void shouldFinishMatchWhenCommandIsValidAndMatchIsFound() {
-    Match expected = Match.builder()
-        .id(3L)
-        .matchStatus(MatchStatus.FINISHED)
-        .awayGoals(2L)
-        .homeGoals(2L)
-        .build();
-
+    Match expected = givenMatch()
+        .build(3L, MatchStatus.FINISHED, 2L, 2L);
+    
     ((InMemoryMatchFinder) matchFinder).save(3L, Match.builder().id(3L).build());
 
     FinishMatch finishMatch = FinishMatch
@@ -141,6 +135,10 @@ class MatchUpdaterTest {
     assertThat(match).isNotNull();
     assertThat(match).isEqualToComparingFieldByField(expected);
     Mockito.verify(eventPublisher, times(1)).sendMatchFinishedToJMS(Mockito.any(MatchFinished.class));
+  }
+
+  private MatchFactory givenMatch() {
+    return new MatchFactory();
   }
 
 }

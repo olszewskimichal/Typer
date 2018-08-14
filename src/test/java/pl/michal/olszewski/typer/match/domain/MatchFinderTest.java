@@ -16,13 +16,10 @@ class MatchFinderTest extends RepositoryTestBase {
   @Test
   void shouldFindMatchById() {
     //given
-    Match match = Match.builder().build();
-    Long id = (Long) entityManager.persistAndGetId(match);
-    entityManager.flush();
-    entityManager.clear();
-
+    Match match = givenPersistedMatch()
+        .build(entityManager);
     //when
-    Match founded = matchFinder.findOneOrThrow(id);
+    Match founded = matchFinder.findOneOrThrow(match.getId());
 
     //then
     assertThat(founded).isNotNull().isEqualToComparingFieldByField(match);
@@ -35,5 +32,10 @@ class MatchFinderTest extends RepositoryTestBase {
     //then
     assertThrows(MatchNotFoundException.class, () -> matchFinder.findOneOrThrow(1L));
   }
+
+  private MatchFactory givenPersistedMatch() {
+    return new MatchFactory();
+  }
+
 
 }

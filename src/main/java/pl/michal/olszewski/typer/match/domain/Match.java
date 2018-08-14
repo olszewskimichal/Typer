@@ -8,6 +8,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import pl.michal.olszewski.typer.match.dto.events.MatchCanceled;
@@ -21,6 +22,7 @@ class Match {
 
   @GeneratedValue
   @Id
+  @Getter
   private Long id;
 
   private Long homeTeamId;
