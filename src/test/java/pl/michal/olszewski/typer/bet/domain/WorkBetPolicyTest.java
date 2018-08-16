@@ -36,6 +36,7 @@ class WorkBetPolicyTest {
         .betHomeGoals(betHomeGoals)
         .expectedAwayGoals(expectedAwayGoals)
         .expectedHomeGoals(expectedHomeGoals)
+        .betPolicyId(BetTypePolicy.WORKBET_POLICY.getValue())
         .build();
     //when
     BetChecked betChecked = policy.calculatePoints(betEvent);

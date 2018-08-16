@@ -18,6 +18,7 @@ import pl.michal.olszewski.typer.match.dto.events.MatchFinished;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Getter
 class Match {
 
   @GeneratedValue
@@ -49,6 +50,6 @@ class Match {
     this.matchStatus = MatchStatus.FINISHED;
     homeGoals = finalHomeGoals;
     awayGoals = finalAwayGoals;
-    return new MatchFinished(id, homeGoals, awayGoals);
+    return new MatchFinished(id, getHomeGoals(), getAwayGoals());
   }
 }

@@ -30,6 +30,8 @@ class DadBetPolicyTest {
         .betHomeGoals(betHomeGoals)
         .expectedAwayGoals(expectedAwayGoals)
         .expectedHomeGoals(expectedHomeGoals)
+        .betPolicyId(BetTypePolicy.DADBET_POLICY.getValue())
+
         .build();
     //when
     BetChecked betChecked = policy.calculatePoints(betEvent);

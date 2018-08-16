@@ -91,9 +91,42 @@ class BetUpdaterTest {
         .expectedAwayGoals(2L)
         .betHomeGoals(3L)
         .betAwayGoals(4L)
+        .betPolicyId(2L)
         .build();
 
     assertThrows(BetNotFoundException.class, () -> betUpdater.checkBet(finishBet));
+  }
+
+  @Test
+  void shouldThrowExceptionWhenBetPolicyIdIsNull() {
+    CheckBet finishBet = CheckBet
+        .builder()
+        .betId(1L)
+        .expectedHomeGoals(1L)
+        .expectedAwayGoals(2L)
+        .betHomeGoals(3L)
+        .betAwayGoals(4L)
+        .build();
+
+    assertThrows(IllegalArgumentException.class, () -> betUpdater.checkBet(finishBet));
+  }
+
+  @Test
+  void shouldThrowExceptionWhenBetPolicyByIdNotExists() {
+    givenBets()
+        .buildBetWithIdAndSave(6L);
+
+    CheckBet finishBet = CheckBet
+        .builder()
+        .betId(6L)
+        .expectedHomeGoals(1L)
+        .expectedAwayGoals(2L)
+        .betHomeGoals(3L)
+        .betAwayGoals(4L)
+        .betPolicyId(5L)
+        .build();
+
+    assertThrows(IllegalArgumentException.class, () -> betUpdater.checkBet(finishBet));
   }
 
   @Test
@@ -108,6 +141,7 @@ class BetUpdaterTest {
         .expectedAwayGoals(2L)
         .betHomeGoals(3L)
         .betAwayGoals(4L)
+        .betPolicyId(2L)
         .build();
 
     Bet bet = betUpdater.checkBet(finishBet);

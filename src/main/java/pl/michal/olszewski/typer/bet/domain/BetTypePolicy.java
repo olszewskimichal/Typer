@@ -35,12 +35,12 @@ enum BetTypePolicy {
     return value;
   }
 
-  BetTypePolicy fromValue(long value) {
+  static BetTypePolicy fromValue(long value) {
     for (BetTypePolicy typePolicy : BetTypePolicy.values()) {
       if (typePolicy.getValue() == value) {
         return typePolicy;
       }
     }
-    return null;
+    throw new IllegalArgumentException(String.format("Nieprawidlowy identyfikator polityki - takowa o id %s nie istnieje", value));
   }
 }

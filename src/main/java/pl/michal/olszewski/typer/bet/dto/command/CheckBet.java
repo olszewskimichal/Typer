@@ -18,6 +18,7 @@ public class CheckBet implements CommandValid {
   private final Long betHomeGoals;
   private final Long expectedAwayGoals;
   private final Long expectedHomeGoals;
+  private final Long betPolicyId;
 
   @Override
   public void validCommand() {
@@ -30,6 +31,9 @@ public class CheckBet implements CommandValid {
 
     if (expectedAwayGoals == null || expectedHomeGoals == null) {
       throw new IllegalGoalArgumentException("Żeby sprawdzić zakład musza być podane oczekiwane gole zdobyte przez gości i przez gospodarzy");
+    }
+    if (betPolicyId == null) {
+      throw new IllegalArgumentException("Nieprawidłowa polityka liczenia punktów");
     }
   }
 }

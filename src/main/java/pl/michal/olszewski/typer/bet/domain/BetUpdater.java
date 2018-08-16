@@ -32,7 +32,7 @@ class BetUpdater {
     command.validCommand();
 
     Bet bet = betFinder.findOneOrThrow(command.getBetId());
-    BetChecked betChecked = new MyBetPolicy().calculatePoints(command); //TODO doprowadzic tutaj do uzycia BetTypePolicy
+    BetChecked betChecked = BetTypePolicy.fromValue(command.getBetPolicyId()).getBetPolicy().calculatePoints(command);
 
     eventPublisher.sendBetCheckedToJMS(betChecked);
     bet.setStatusAsChecked();
