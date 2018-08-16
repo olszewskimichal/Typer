@@ -1,5 +1,7 @@
 package pl.michal.olszewski.typer.match.domain;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
 class InMemoryMatchRoundFinder implements MatchRoundFinder {
@@ -9,6 +11,11 @@ class InMemoryMatchRoundFinder implements MatchRoundFinder {
   @Override
   public MatchRound findById(Long id) {
     return matchMap.get(id);
+  }
+
+  @Override
+  public List<MatchRound> findAll() {
+    return new ArrayList<>(matchMap.values());
   }
 
   void save(Long id, MatchRound match) {

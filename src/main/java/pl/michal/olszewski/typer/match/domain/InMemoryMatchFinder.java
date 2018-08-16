@@ -1,5 +1,7 @@
 package pl.michal.olszewski.typer.match.domain;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
 class InMemoryMatchFinder implements MatchFinder {
@@ -9,6 +11,11 @@ class InMemoryMatchFinder implements MatchFinder {
   @Override
   public Match findById(Long id) {
     return matchMap.get(id);
+  }
+
+  @Override
+  public List<Match> findAll() {
+    return new ArrayList<>(matchMap.values());
   }
 
   void save(Long id, Match match) {

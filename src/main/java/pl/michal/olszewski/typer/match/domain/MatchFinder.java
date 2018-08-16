@@ -1,5 +1,6 @@
 package pl.michal.olszewski.typer.match.domain;
 
+import java.util.List;
 import org.springframework.data.repository.Repository;
 import pl.michal.olszewski.typer.match.dto.MatchNotFoundException;
 
@@ -15,5 +16,7 @@ interface MatchFinder extends Repository<Match, Long> {
     }
     return match;
   }
+
+  List<Match> findAll();
 
 }
