@@ -10,7 +10,7 @@ import pl.michal.olszewski.typer.bet.dto.IllegalGoalArgumentException;
 import pl.michal.olszewski.typer.bet.dto.command.CheckBet;
 import pl.michal.olszewski.typer.bet.dto.events.BetChecked;
 
-class MyBeyPolicyTest {
+class MyBetPolicyTest {
 
   private BetPolicy policy = new MyBetPolicy();
 
