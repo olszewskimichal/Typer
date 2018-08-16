@@ -1,5 +1,6 @@
 package pl.michal.olszewski.typer.users.domain;
 
+import java.util.List;
 import java.util.Optional;
 import org.springframework.data.repository.Repository;
 import pl.michal.olszewski.typer.users.UserNotFoundException;
@@ -10,6 +11,8 @@ interface UserFinder extends Repository<User, Long> {
   Optional<User> findByEmail(String email);
 
   User findById(Long id);
+
+  List<User> findAll();
 
   default User findOneOrThrow(Long id) {
     User user = findById(id);

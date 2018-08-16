@@ -9,6 +9,7 @@ import pl.michal.olszewski.typer.users.dto.command.CreateNewUser;
 
 class UserCreatorTest {
 
+  private UserSaver userSaver = new InMemoryUserSaver();
   private UserFinder userFinder = new InMemoryUserFinder();
   private UserCreator userCreator = new UserCreator(userFinder);
 
@@ -42,7 +43,7 @@ class UserCreatorTest {
   @Test
   void shouldThrowExceptionWhenUserOnTheSameEmailExists() {
     //given
-    ((InMemoryUserFinder) userFinder).save(3L, User.builder().email("email").build());
+    userSaver.save(User.builder().id(3L).email("email").build());
 
     CreateNewUser createNewUser = CreateNewUser.builder().email("email").username("username").build();
     //when

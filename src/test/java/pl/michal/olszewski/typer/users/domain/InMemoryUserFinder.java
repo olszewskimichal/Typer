@@ -1,15 +1,17 @@
 package pl.michal.olszewski.typer.users.domain;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 class InMemoryUserFinder implements UserFinder {
 
-  private ConcurrentHashMap<Long, User> userMap = new ConcurrentHashMap<>();
+  static ConcurrentHashMap<Long, User> map = new ConcurrentHashMap<>();
 
   @Override
   public Optional<User> findByEmail(String email) {
-    return userMap.values()
+    return map.values()
         .stream()
         .filter(v -> v.getEmail().equalsIgnoreCase(email))
         .findAny();
@@ -17,10 +19,11 @@ class InMemoryUserFinder implements UserFinder {
 
   @Override
   public User findById(Long id) {
-    return userMap.get(id);
+    return map.get(id);
   }
 
-  void save(Long id, User match) {
-    userMap.put(id, match);
+  @Override
+  public List<User> findAll() {
+    return new ArrayList<>(map.values());
   }
 }
