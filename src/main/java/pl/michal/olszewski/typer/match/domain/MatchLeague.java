@@ -38,6 +38,7 @@ class MatchLeague {
   void addMatchRound(MatchRound matchRound) {
     matchRounds.add(matchRound);
     matchRound.setMatchLeague(this);
+    matchRound.setBetTypePolicy(betTypePolicy);
   }
 
 }

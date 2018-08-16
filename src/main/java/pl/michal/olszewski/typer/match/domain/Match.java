@@ -51,6 +51,6 @@ class Match {
     this.matchStatus = MatchStatus.FINISHED;
     setHomeGoals(finalHomeGoals);
     setAwayGoals(finalAwayGoals);
-    return new MatchFinished(id, homeGoals, awayGoals);
+    return new MatchFinished(id, homeGoals, awayGoals, matchRound.getBetTypePolicy());
   }
 }

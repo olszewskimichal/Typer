@@ -16,6 +16,7 @@ class MatchFactory {
 
   Match buildAndSave(Long id, MatchStatus status, Long homeGoals, Long awayGoals) {
     Match match = build(id, status, homeGoals, awayGoals);
+    match.setMatchRound(new MatchRound());
     saver.save(match);
     return match;
   }

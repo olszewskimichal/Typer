@@ -23,7 +23,7 @@ class MatchRoundCreatorTest {
     //given
     MatchLeague matchLeague = MatchLeague.builder().id(1L).name("name").betTypePolicy(2L).build();
     matchLeagueSaver.save(matchLeague);
-    MatchRound expected = MatchRound.builder().name("name").matchLeague(matchLeague).build();
+    MatchRound expected = MatchRound.builder().name("name").matchLeague(matchLeague).betTypePolicy(2L).build();
 
     CreateNewRound createNewMatch = CreateNewRound
         .builder()

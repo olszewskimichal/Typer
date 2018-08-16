@@ -42,6 +42,10 @@ class MatchRound {
   @Setter
   private MatchLeague matchLeague;
 
+  @Getter
+  @Setter
+  private Long betTypePolicy; //zdenormalizowane pole -> by ograniczyc listy zapytań
+
   void addMatch(Match match) {
     matches.add(match);
     match.setMatchRound(this);
