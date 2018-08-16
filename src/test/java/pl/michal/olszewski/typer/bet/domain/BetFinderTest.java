@@ -14,12 +14,15 @@ class BetFinderTest extends RepositoryTestBase {
   @Autowired
   private BetFinder betFinder;
 
+  @Autowired
+  private BetSaver betSaver;
+
   @Test
   void shouldFindAllBetForMatch() {
     List<Bet> bets = givenBets()
-        .buildNumberOfBetsForMatchAndPersistInDb(2, 2L);
+        .buildNumberOfBetsForMatchAndSave(2, 2L);
     givenBets()
-        .buildNumberOfBetsForMatchAndPersistInDb(1, 1L);
+        .buildNumberOfBetsForMatchAndSave(1, 1L);
 
     List<Bet> allBetForMatch = betFinder.findAllBetForMatch(2L);
 
@@ -30,7 +33,7 @@ class BetFinderTest extends RepositoryTestBase {
   void shouldFindBetById() {
     //given
     Bet bet = givenBets()
-        .buildNumberOfBetsForMatchAndPersistInDb(1, 1L).get(0);
+        .buildNumberOfBetsForMatchAndSave(1, 1L).get(0);
 
     //when
     Bet foundedBet = betFinder.findOneOrThrow(bet.getId());
@@ -48,7 +51,7 @@ class BetFinderTest extends RepositoryTestBase {
   }
 
   private BetFactory givenBets() {
-    return new BetFactory(entityManager);
+    return new BetFactory(betSaver);
   }
 
 }

@@ -4,8 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 
-import java.util.Arrays;
-import java.util.Collections;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -25,15 +23,17 @@ class MatchEventListenerTest {
   void configureSystemUnderTests() {
     eventPublisher = mock(BetCommandPublisher.class);
     matchEventListener = new MatchEventListener(betFinder, eventPublisher);
+    givenBets()
+        .deleteAll();
   }
 
   @Test
   void shouldCreateAsManyCancelCommandAsManyBetForMatchExists() {
     //given
     givenBets()
-        .buildNumberOfBetsForMatchAndSave(Arrays.asList(1L, 2L), 3L);
+        .buildNumberOfBetsForMatchAndSave(2, 3L);
     givenBets()
-        .buildNumberOfBetsForMatchAndSave(Collections.singletonList(3L), 2L);
+        .buildNumberOfBetsForMatchAndSave(1, 2L);
 
     MatchCanceled matchCanceled = MatchCanceled.builder().matchId(3L).build();
     //when
@@ -47,9 +47,9 @@ class MatchEventListenerTest {
   void shouldCreateAsManyFinishCommandAsManyBetForMatchExists() {
     //given
     givenBets()
-        .buildNumberOfBetsForMatchAndSave(Arrays.asList(1L, 2L), 3L);
+        .buildNumberOfBetsForMatchAndSave(2, 3L);
     givenBets()
-        .buildNumberOfBetsForMatchAndSave(Collections.singletonList(3L), 2L);
+        .buildNumberOfBetsForMatchAndSave(1, 2L);
 
     MatchFinished matchFinished = MatchFinished.builder().matchId(3L).build();
     //when
@@ -60,7 +60,7 @@ class MatchEventListenerTest {
   }
 
   private BetFactory givenBets() {
-    return new BetFactory(betFinder);
+    return new BetFactory(new InMemoryBetSaver());
   }
 
 }

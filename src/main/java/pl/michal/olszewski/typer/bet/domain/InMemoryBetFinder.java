@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 
 class InMemoryBetFinder implements BetFinder {
 
-  private ConcurrentHashMap<Long, Bet> map = new ConcurrentHashMap<>();
+  static ConcurrentHashMap<Long, Bet> map = new ConcurrentHashMap<>();
 
   @Override
   public Bet findById(Long id) {
@@ -18,11 +18,9 @@ class InMemoryBetFinder implements BetFinder {
     return map
         .values()
         .stream()
+        .peek(System.out::println)
         .filter(v -> v.getMatchId().equals(matchId))
         .collect(Collectors.toList());
   }
 
-  void save(Long id, Bet bet) {
-    map.put(id, bet);
-  }
 }
