@@ -6,19 +6,16 @@ import java.util.concurrent.ConcurrentHashMap;
 
 class InMemoryMatchRoundFinder implements MatchRoundFinder {
 
-  private ConcurrentHashMap<Long, MatchRound> matchMap = new ConcurrentHashMap<>();
+  static ConcurrentHashMap<Long, MatchRound> map = new ConcurrentHashMap<>();
 
   @Override
   public MatchRound findById(Long id) {
-    return matchMap.get(id);
+    return map.get(id);
   }
 
   @Override
   public List<MatchRound> findAll() {
-    return new ArrayList<>(matchMap.values());
+    return new ArrayList<>(map.values());
   }
 
-  void save(Long id, MatchRound match) {
-    matchMap.put(id, match);
-  }
 }

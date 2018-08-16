@@ -10,6 +10,7 @@ import pl.michal.olszewski.typer.match.dto.command.CreateNewRound;
 class MatchRoundCreatorTest {
 
   private MatchLeagueFinder matchLeagueFinder = new InMemoryMatchLeagueFinder();
+  private MatchLeagueSaver matchLeagueSaver = new InMemoryMatchLeagueSaver();
   private MatchRoundCreator matchRoundCreator = new MatchRoundCreator(matchLeagueFinder);
 
   @Test
@@ -20,8 +21,8 @@ class MatchRoundCreatorTest {
   @Test
   void shouldCreateMatchRoundWhenCommandIsValid() {
     //given
-    MatchLeague matchLeague = MatchLeague.builder().name("name").betTypePolicy(2L).build();
-    ((InMemoryMatchLeagueFinder) matchLeagueFinder).save(1L, matchLeague);
+    MatchLeague matchLeague = MatchLeague.builder().id(1L).name("name").betTypePolicy(2L).build();
+    matchLeagueSaver.save(matchLeague);
     MatchRound expected = MatchRound.builder().name("name").matchLeague(matchLeague).build();
 
     CreateNewRound createNewMatch = CreateNewRound

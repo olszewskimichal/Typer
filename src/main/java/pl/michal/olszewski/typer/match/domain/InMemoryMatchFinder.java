@@ -6,19 +6,16 @@ import java.util.concurrent.ConcurrentHashMap;
 
 class InMemoryMatchFinder implements MatchFinder {
 
-  private ConcurrentHashMap<Long, Match> matchMap = new ConcurrentHashMap<>();
+  static ConcurrentHashMap<Long, Match> map = new ConcurrentHashMap<>();
 
   @Override
   public Match findById(Long id) {
-    return matchMap.get(id);
+    return map.get(id);
   }
 
   @Override
   public List<Match> findAll() {
-    return new ArrayList<>(matchMap.values());
+    return new ArrayList<>(map.values());
   }
 
-  void save(Long id, Match match) {
-    matchMap.put(id, match);
-  }
 }

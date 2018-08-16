@@ -6,19 +6,16 @@ import java.util.concurrent.ConcurrentHashMap;
 
 class InMemoryMatchLeagueFinder implements MatchLeagueFinder {
 
-  private ConcurrentHashMap<Long, MatchLeague> matchMap = new ConcurrentHashMap<>();
+  static ConcurrentHashMap<Long, MatchLeague> map = new ConcurrentHashMap<>();
 
   @Override
   public MatchLeague findById(Long id) {
-    return matchMap.get(id);
+    return map.get(id);
   }
 
   @Override
   public List<MatchLeague> findAll() {
-    return new ArrayList<>(matchMap.values());
+    return new ArrayList<>(map.values());
   }
 
-  void save(Long id, MatchLeague match) {
-    matchMap.put(id, match);
-  }
 }

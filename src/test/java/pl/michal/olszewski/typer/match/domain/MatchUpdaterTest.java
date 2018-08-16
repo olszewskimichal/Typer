@@ -55,8 +55,7 @@ class MatchUpdaterTest {
   @Test
   void shouldCancelMatchWhenCommandIsValidAndMatchIsFound() {
     Match expected = givenMatch()
-        .build(2L, MatchStatus.CANCELED);
-    ((InMemoryMatchFinder) matchFinder).save(2L, Match.builder().id(2L).build());
+        .buildAndSave(2L, MatchStatus.CANCELED);
 
     CancelMatch cancelMatch = CancelMatch
         .builder()
@@ -119,10 +118,8 @@ class MatchUpdaterTest {
   @Test
   void shouldFinishMatchWhenCommandIsValidAndMatchIsFound() {
     Match expected = givenMatch()
-        .build(3L, MatchStatus.FINISHED, 2L, 2L);
+        .buildAndSave(3L, MatchStatus.FINISHED, 2L, 2L);
     
-    ((InMemoryMatchFinder) matchFinder).save(3L, Match.builder().id(3L).build());
-
     FinishMatch finishMatch = FinishMatch
         .builder()
         .matchId(3L)
@@ -138,7 +135,7 @@ class MatchUpdaterTest {
   }
 
   private MatchFactory givenMatch() {
-    return new MatchFactory();
+    return new MatchFactory(new InMemoryMatchSaver());
   }
 
 }

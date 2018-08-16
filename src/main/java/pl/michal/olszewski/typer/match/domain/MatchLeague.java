@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Builder
@@ -19,6 +20,7 @@ class MatchLeague {
 
   @GeneratedValue
   @Id
+  @Getter
   private Long id;
 
   private String name;

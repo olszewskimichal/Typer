@@ -13,11 +13,14 @@ class MatchFinderTest extends RepositoryTestBase {
   @Autowired
   private MatchFinder matchFinder;
 
+  @Autowired
+  private MatchSaver matchSaver;
+
   @Test
   void shouldFindMatchById() {
     //given
     Match match = givenPersistedMatch()
-        .build(entityManager);
+        .buildAndSave(null, MatchStatus.FINISHED);
     //when
     Match founded = matchFinder.findOneOrThrow(match.getId());
 
@@ -34,7 +37,7 @@ class MatchFinderTest extends RepositoryTestBase {
   }
 
   private MatchFactory givenPersistedMatch() {
-    return new MatchFactory();
+    return new MatchFactory(matchSaver);
   }
 
 

@@ -1,14 +1,22 @@
 package pl.michal.olszewski.typer.match.domain;
 
-import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-
 class MatchFactory {
 
-  Match build(TestEntityManager entityManager) {
-    Match match = build(null, null);
-    entityManager.persistAndGetId(match);
-    entityManager.flush();
-    entityManager.clear();
+  private MatchSaver saver;
+
+  MatchFactory(MatchSaver matchSaver) {
+    saver = matchSaver;
+  }
+
+  Match buildAndSave(Long id, MatchStatus status) {
+    Match match = build(id, status, null, null);
+    saver.save(match);
+    return match;
+  }
+
+  Match buildAndSave(Long id, MatchStatus status, Long homeGoals, Long awayGoals) {
+    Match match = build(id, status, homeGoals, awayGoals);
+    saver.save(match);
     return match;
   }
 

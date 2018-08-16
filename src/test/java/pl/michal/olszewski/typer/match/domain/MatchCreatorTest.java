@@ -11,7 +11,10 @@ import pl.michal.olszewski.typer.match.dto.command.CreateNewMatch;
 class MatchCreatorTest {
 
   private MatchRoundFinder matchRoundFinder = new InMemoryMatchRoundFinder();
+  private MatchRoundSaver matchRoundSaver = new InMemoryMatchRoundSaver();
   private MatchCreator matchCreator = new MatchCreator(matchRoundFinder);
+
+  private
 
   @Test
   void shouldThrowExceptionWhenCommandIsNull() {
@@ -22,7 +25,7 @@ class MatchCreatorTest {
   void shouldCreateMatchWhenCommandIsValidAndSetStatusAsNEW() {
     //given
     MatchRound matchRound = MatchRound.builder().name("a").id(3L).build();
-    ((InMemoryMatchRoundFinder) matchRoundFinder).save(3L, matchRound);
+    matchRoundSaver.save(matchRound);
     Match expected = Match.builder().homeTeamId(1L).awayTeamId(2L).matchStatus(MatchStatus.NEW).matchRound(matchRound).build();
 
     CreateNewMatch createNewMatch = CreateNewMatch
