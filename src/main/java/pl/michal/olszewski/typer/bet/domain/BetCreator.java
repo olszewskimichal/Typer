@@ -9,7 +9,13 @@ class BetCreator {
   Bet from(CreateNewBet createNewBet) {
     Objects.requireNonNull(createNewBet);
     createNewBet.validCommand();
-    return null;
+    return Bet.builder()
+        .betAwayGoals(createNewBet.getBetAwayGoals())
+        .betHomeGoals(createNewBet.getBetHomeGoals())
+        .matchId(createNewBet.getMatchId())
+        .userId(createNewBet.getUserId())
+        .matchRoundId(createNewBet.getMatchRoundId())
+        .build();
   }
 
 }
