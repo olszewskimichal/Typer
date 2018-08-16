@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 
+import java.util.Collections;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -53,7 +54,8 @@ class BetUpdaterTest {
 
   @Test
   void shouldCancelBetWhenCommandIsValidAndBetIsFound() {
-    ((InMemoryBetFinder) betFinder).save(2L, Bet.builder().build());
+    givenBets()
+        .buildNumberOfBetsForMatchAndSave(Collections.singletonList(2L), null);
 
     CancelBet cancelBet = CancelBet
         .builder()
@@ -97,7 +99,8 @@ class BetUpdaterTest {
 
   @Test
   void shouldCheckBetWhenCommandIsValidAndBetIsFound() {
-    ((InMemoryBetFinder) betFinder).save(3L, Bet.builder().build());
+    givenBets()
+        .buildNumberOfBetsForMatchAndSave(Collections.singletonList(3L), null);
 
     CheckBet finishBet = CheckBet
         .builder()
@@ -142,7 +145,8 @@ class BetUpdaterTest {
 
   @Test
   void shouldBlockBetWhenCommandIsValidAndBetIsFound() {
-    ((InMemoryBetFinder) betFinder).save(3L, Bet.builder().build());
+    givenBets()
+        .buildNumberOfBetsForMatchAndSave(Collections.singletonList(3L), null);
 
     BlockBet blockBet = BlockBet
         .builder()
@@ -153,6 +157,10 @@ class BetUpdaterTest {
 
     assertThat(bet).isNotNull();
     assertThat(bet.getStatus()).isEqualTo(BetStatus.IN_PROGRESS);
+  }
+
+  private BetFactory givenBets() {
+    return new BetFactory(betFinder);
   }
 
 }

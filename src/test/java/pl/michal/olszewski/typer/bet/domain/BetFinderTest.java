@@ -16,31 +16,24 @@ class BetFinderTest extends RepositoryTestBase {
 
   @Test
   void shouldFindAllBetForMatch() {
-    Bet bet1 = Bet.builder().matchId(2L).build();
-    Bet bet2 = Bet.builder().matchId(1L).build();
-    Bet bet3 = Bet.builder().matchId(2L).build();
-    entityManager.persist(bet1);
-    entityManager.persist(bet2);
-    entityManager.persist(bet3);
-
-    entityManager.flush();
-    entityManager.clear();
+    List<Bet> bets = givenBets()
+        .buildNumberOfBetsForMatchAndPersistInDb(2, 2L);
+    givenBets()
+        .buildNumberOfBetsForMatchAndPersistInDb(1, 1L);
 
     List<Bet> allBetForMatch = betFinder.findAllBetForMatch(2L);
 
-    assertThat(allBetForMatch).isNotNull().hasSize(2).contains(bet1, bet3);
+    assertThat(allBetForMatch).isNotNull().hasSize(2).containsAll(bets);
   }
 
   @Test
   void shouldFindBetById() {
     //given
-    Bet bet = Bet.builder().build();
-    Long id = (Long) entityManager.persistAndGetId(bet);
-    entityManager.flush();
-    entityManager.clear();
+    Bet bet = givenBets()
+        .buildNumberOfBetsForMatchAndPersistInDb(1, 1L).get(0);
 
     //when
-    Bet foundedBet = betFinder.findOneOrThrow(id);
+    Bet foundedBet = betFinder.findOneOrThrow(bet.getId());
 
     //then
     assertThat(foundedBet).isNotNull().isEqualToComparingFieldByField(bet);
@@ -53,4 +46,9 @@ class BetFinderTest extends RepositoryTestBase {
     //then
     assertThrows(BetNotFoundException.class, () -> betFinder.findOneOrThrow(1L));
   }
+
+  private BetFactory givenBets() {
+    return new BetFactory(entityManager);
+  }
+
 }
