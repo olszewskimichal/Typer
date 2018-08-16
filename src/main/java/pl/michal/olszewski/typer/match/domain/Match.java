@@ -18,7 +18,6 @@ import pl.michal.olszewski.typer.match.dto.events.MatchFinished;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Getter
 class Match {
 
   @GeneratedValue
@@ -30,8 +29,10 @@ class Match {
 
   private Long awayTeamId;
 
+  @Setter
   private Long homeGoals;
 
+  @Setter
   private Long awayGoals;
 
   private MatchStatus matchStatus;
@@ -48,8 +49,8 @@ class Match {
 
   MatchFinished setFinalResult(Long finalHomeGoals, Long finalAwayGoals) {
     this.matchStatus = MatchStatus.FINISHED;
-    homeGoals = finalHomeGoals;
-    awayGoals = finalAwayGoals;
-    return new MatchFinished(id, getHomeGoals(), getAwayGoals());
+    setHomeGoals(finalHomeGoals);
+    setAwayGoals(finalAwayGoals);
+    return new MatchFinished(id, homeGoals, awayGoals);
   }
 }
