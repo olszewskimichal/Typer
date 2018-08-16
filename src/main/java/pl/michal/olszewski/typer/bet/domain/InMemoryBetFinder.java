@@ -19,7 +19,6 @@ class InMemoryBetFinder implements BetFinder {
     return map
         .values()
         .stream()
-        .peek(System.out::println)
         .filter(v -> v.getMatchId().equals(matchId))
         .collect(Collectors.toList());
   }
