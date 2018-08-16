@@ -19,11 +19,11 @@ class BetSaverTest extends RepositoryTestBase {
   void shouldSaveBetInDB() {
     //given
     Bet bet = Bet.builder().matchId(2L).build();
-    assertThat(betFinder.findAllBetForMatch(2L)).hasSize(0);
+    assertThat(betFinder.findAll()).hasSize(0);
 
     //when
     betSaver.save(bet);
-    List<Bet> betForMatch = betFinder.findAllBetForMatch(2L);
+    List<Bet> betForMatch = betFinder.findAll();
 
     //then
     assertThat(betForMatch).hasSize(1);
@@ -34,13 +34,13 @@ class BetSaverTest extends RepositoryTestBase {
     //given
     Bet bet = Bet.builder().matchId(2L).build();
     betSaver.save(bet);
-    assertThat(betFinder.findAllBetForMatch(2L)).hasSize(1);
+    assertThat(betFinder.findAll()).hasSize(1);
 
     //when
     betSaver.deleteAll();
 
     //then
-    assertThat(betFinder.findAllBetForMatch(2L)).hasSize(0);
+    assertThat(betFinder.findAll()).hasSize(0);
   }
 
 

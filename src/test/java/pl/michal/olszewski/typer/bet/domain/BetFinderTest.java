@@ -50,6 +50,16 @@ class BetFinderTest extends RepositoryTestBase {
     assertThrows(BetNotFoundException.class, () -> betFinder.findOneOrThrow(1L));
   }
 
+  @Test
+  void shouldFindAllBets() {
+    givenBets()
+        .buildNumberOfBetsForMatchAndSave(3, 1L);
+
+    List<Bet> all = betFinder.findAll();
+
+    assertThat(all).hasSize(3);
+  }
+
   private BetFactory givenBets() {
     return new BetFactory(betSaver);
   }

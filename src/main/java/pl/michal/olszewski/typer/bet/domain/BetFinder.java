@@ -21,4 +21,6 @@ interface BetFinder extends Repository<Bet, Long> {
     return bet;
   }
 
+  List<Bet> findAll();
+
 }
