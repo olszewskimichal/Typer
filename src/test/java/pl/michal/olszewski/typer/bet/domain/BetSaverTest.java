@@ -19,8 +19,7 @@ class BetSaverTest extends RepositoryTestBase {
   void shouldSaveBetInDB() {
     //given
     Bet bet = Bet.builder().matchId(2L).build();
-    List<Bet> betForMatchBeforePersist = betFinder.findAllBetForMatch(2L);
-    assertThat(betForMatchBeforePersist).hasSize(0);
+    assertThat(betFinder.findAllBetForMatch(2L)).hasSize(0);
 
     //when
     betSaver.save(bet);
@@ -28,6 +27,20 @@ class BetSaverTest extends RepositoryTestBase {
 
     //then
     assertThat(betForMatch).hasSize(1);
+  }
+
+  @Test
+  void shouldDeleteAllFromDB() {
+    //given
+    Bet bet = Bet.builder().matchId(2L).build();
+    betSaver.save(bet);
+    assertThat(betFinder.findAllBetForMatch(2L)).hasSize(1);
+
+    //when
+    betSaver.deleteAll();
+
+    //then
+    assertThat(betFinder.findAllBetForMatch(2L)).hasSize(0);
   }
 
 
