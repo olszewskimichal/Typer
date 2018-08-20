@@ -37,6 +37,9 @@ class Match {
 
   private MatchStatus matchStatus;
 
+  @Setter
+  private Long livescoreId;
+
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "ROUND_ID")
   @Setter
@@ -52,5 +55,9 @@ class Match {
     setHomeGoals(finalHomeGoals);
     setAwayGoals(finalAwayGoals);
     return new MatchFinished(id, homeGoals, awayGoals, matchRound.getBetTypePolicy());
+  }
+
+  void integrateMatchWithLivescore(Long livescoreId) {
+    setLivescoreId(livescoreId);
   }
 }

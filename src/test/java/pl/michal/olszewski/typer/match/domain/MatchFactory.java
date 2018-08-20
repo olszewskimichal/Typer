@@ -34,4 +34,7 @@ class MatchFactory {
         .build();
   }
 
+  public void deleteAll() {
+    saver.deleteAll();
+  }
 }

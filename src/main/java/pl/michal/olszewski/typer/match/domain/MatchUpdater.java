@@ -3,6 +3,7 @@ package pl.michal.olszewski.typer.match.domain;
 import java.util.Objects;
 import pl.michal.olszewski.typer.match.dto.command.CancelMatch;
 import pl.michal.olszewski.typer.match.dto.command.FinishMatch;
+import pl.michal.olszewski.typer.match.dto.command.IntegrateMatchWithLivescore;
 import pl.michal.olszewski.typer.match.dto.events.MatchCanceled;
 import pl.michal.olszewski.typer.match.dto.events.MatchFinished;
 
@@ -35,6 +36,16 @@ class MatchUpdater {
 
     MatchFinished matchFinished = match.setFinalResult(command.getHomeGoals(), command.getAwayGoals());
     eventPublisher.sendMatchFinishedToJMS(matchFinished);
+    return match;
+  }
+
+  Match integrateMatch(IntegrateMatchWithLivescore command) {
+    Objects.requireNonNull(command);
+    command.validCommand();
+
+    Match match = matchFinder.findOneOrThrow(command.getMatchId());
+
+    match.integrateMatchWithLivescore(command.getLivescoreId());
     return match;
   }
 
