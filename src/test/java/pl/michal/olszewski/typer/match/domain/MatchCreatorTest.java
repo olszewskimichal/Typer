@@ -13,9 +13,7 @@ class MatchCreatorTest {
   private MatchRoundFinder matchRoundFinder = new InMemoryMatchRoundFinder();
   private MatchRoundSaver matchRoundSaver = new InMemoryMatchRoundSaver();
   private MatchCreator matchCreator = new MatchCreator(matchRoundFinder);
-
-  private
-
+  
   @Test
   void shouldThrowExceptionWhenCommandIsNull() {
     assertThrows(NullPointerException.class, () -> matchCreator.from(null));

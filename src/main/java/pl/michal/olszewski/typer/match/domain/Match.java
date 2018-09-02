@@ -1,5 +1,6 @@
 package pl.michal.olszewski.typer.match.domain;
 
+import java.time.Instant;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -8,6 +9,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -18,6 +20,7 @@ import pl.michal.olszewski.typer.match.dto.events.MatchFinished;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@EqualsAndHashCode
 class Match {
 
   @GeneratedValue
@@ -35,10 +38,15 @@ class Match {
   @Setter
   private Long awayGoals;
 
+  @Getter
   private MatchStatus matchStatus;
 
   @Setter
+  @Getter
   private Long livescoreId;
+
+  @Getter
+  private Instant startDate;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "ROUND_ID")
