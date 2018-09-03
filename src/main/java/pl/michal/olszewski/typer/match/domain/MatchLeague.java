@@ -27,6 +27,9 @@ class MatchLeague {
 
   private Long betTypePolicy;
 
+  @Getter
+  private Long livescoreLeagueId;
+
   @OneToMany(
       mappedBy = "matchLeague",
       cascade = CascadeType.ALL,

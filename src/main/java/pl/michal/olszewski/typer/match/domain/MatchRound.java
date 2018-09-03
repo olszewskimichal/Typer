@@ -40,6 +40,7 @@ class MatchRound {
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "LEAGUE_ID")
   @Setter
+  @Getter
   private MatchLeague matchLeague;
 
   @Getter

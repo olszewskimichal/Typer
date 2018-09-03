@@ -1,7 +1,10 @@
 package pl.michal.olszewski.typer.match.domain;
 
-import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.stream.Collectors;
 import org.springframework.scheduling.annotation.Scheduled;
 import pl.michal.olszewski.typer.match.dto.command.CheckMatchResults;
@@ -26,12 +29,18 @@ class MatchUpdateScheduler {
     if (list.isEmpty()) {
       return;
     }
-    Instant date = matchList
-        .stream()
-        .map(Match::getStartDate)
-        .min(Instant::compareTo)
-        .orElseThrow(() -> new IllegalArgumentException("Nie może byc sytuacji że są mecze a nie mają daty rozpoczęcia"));
-    CheckMatchResults checkMatchResults = new CheckMatchResults(date, list);
-    matchPublisher.sendCheckMatchCommandToJms(checkMatchResults);
+    Map<Long, List<Match>> listMap = matchList.stream()
+        .filter(v -> v.getLivescoreLeagueId() != null)
+        .collect(Collectors.groupingBy(Match::getLivescoreLeagueId));
+    for (Entry<Long, List<Match>> entry : listMap.entrySet()) {
+      LocalDate date = entry.getValue()
+          .stream()
+          .map(Match::getStartDate)
+          .map(v -> v.atZone(ZoneId.systemDefault()).toLocalDate())
+          .min(LocalDate::compareTo)
+          .orElseThrow(() -> new IllegalArgumentException("Nie może byc sytuacji że są mecze a nie mają daty rozpoczęcia"));
+      CheckMatchResults checkMatchResults = new CheckMatchResults(date, entry.getKey(), list);
+      matchPublisher.sendCheckMatchCommandToJms(checkMatchResults);
+    }
   }
 }

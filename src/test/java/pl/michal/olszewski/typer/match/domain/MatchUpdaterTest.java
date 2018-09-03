@@ -146,6 +146,17 @@ class MatchUpdaterTest {
   void shouldThrowExceptionWhenIntegratedMatchIdIsNull() {
     IntegrateMatchWithLivescore command = IntegrateMatchWithLivescore.builder()
         .livescoreId(2L)
+        .livescoreLeagueId(5L)
+        .build();
+
+    assertThrows(IllegalArgumentException.class, () -> matchUpdater.integrateMatch(command));
+  }
+
+  @Test
+  void shouldThrowExceptionWhenIntegratedLeagueIdIsNull() {
+    IntegrateMatchWithLivescore command = IntegrateMatchWithLivescore.builder()
+        .livescoreId(2L)
+        .matchId(4L)
         .build();
 
     assertThrows(IllegalArgumentException.class, () -> matchUpdater.integrateMatch(command));
@@ -165,6 +176,7 @@ class MatchUpdaterTest {
     IntegrateMatchWithLivescore command = IntegrateMatchWithLivescore.builder()
         .matchId(2L)
         .livescoreId(3L)
+        .livescoreLeagueId(7L)
         .build();
 
     assertThrows(MatchNotFoundException.class, () -> matchUpdater.integrateMatch(command));
@@ -176,6 +188,7 @@ class MatchUpdaterTest {
     Match expected = givenMatch()
         .buildAndSave(4L, MatchStatus.NEW);
     expected.setLivescoreId(3L);
+    expected.setLivescoreLeagueId(5L);
 
     givenMatch()
         .build(4L, MatchStatus.NEW);
@@ -183,6 +196,7 @@ class MatchUpdaterTest {
     IntegrateMatchWithLivescore command = IntegrateMatchWithLivescore.builder()
         .matchId(4L)
         .livescoreId(3L)
+        .livescoreLeagueId(5L)
         .build();
 
     assertThat(matchUpdater.integrateMatch(command)).isEqualToComparingFieldByField(expected);
