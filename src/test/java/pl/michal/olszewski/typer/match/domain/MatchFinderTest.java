@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.List;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import pl.michal.olszewski.typer.RepositoryTestBase;
@@ -16,6 +17,11 @@ class MatchFinderTest extends RepositoryTestBase {
 
   @Autowired
   private MatchSaver matchSaver;
+
+  @BeforeEach
+  void setUp() {
+    matchSaver.deleteAll();
+  }
 
   @Test
   void shouldFindMatchById() {
@@ -30,13 +36,13 @@ class MatchFinderTest extends RepositoryTestBase {
   }
 
   @Test
-  void shouldFindMatchByStatusWithNotNulllivescoreId() {
+  void shouldFindMatchByStatusWithNotNullLivescoreId() {
     givenPersistedMatch()
-        .buildAndSave(1L, MatchStatus.FINISHED, 3L);
+        .buildLivescoreMatchAndSave(null, MatchStatus.FINISHED, 3L, null);
     givenPersistedMatch()
-        .buildAndSave(2L, MatchStatus.NEW, null);
+        .buildLivescoreMatchAndSave(null, MatchStatus.NEW, null, null);
     Match match = givenPersistedMatch()
-        .buildAndSave(3L, MatchStatus.NEW, 3L);
+        .buildLivescoreMatchAndSave(null, MatchStatus.NEW, 3L, null);
 
     List<Match> matchList = matchFinder.findByStatusForLivescoreUpdate(MatchStatus.NEW);
 

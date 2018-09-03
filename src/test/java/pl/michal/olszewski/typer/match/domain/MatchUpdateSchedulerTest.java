@@ -21,7 +21,7 @@ class MatchUpdateSchedulerTest {
   void shouldSendOneCheckMatchCommandToQueue() {
     //given
     givenMatch()
-        .buildAndSave(null, MatchStatus.NEW, 3L);
+        .buildLivescoreMatchAndSave(null, MatchStatus.NEW, 3L, 4L);
     //when
     scheduler.createCheckMatchResultCommands();
 
