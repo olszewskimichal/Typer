@@ -45,7 +45,7 @@ class MatchUpdater {
 
     Match match = matchFinder.findOneOrThrow(command.getMatchId());
 
-    match.integrateMatchWithLivescore(command.getLivescoreId());
+    match.integrateMatchWithLivescore(command.getLivescoreId(), command.getLivescoreLeagueId());
     return match;
   }
 
