@@ -1,5 +1,6 @@
 package pl.michal.olszewski.typer.match.domain;
 
+import java.time.Instant;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -8,9 +9,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 import pl.michal.olszewski.typer.match.dto.events.MatchCanceled;
 import pl.michal.olszewski.typer.match.dto.events.MatchFinished;
 
@@ -18,6 +21,8 @@ import pl.michal.olszewski.typer.match.dto.events.MatchFinished;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@EqualsAndHashCode
+@ToString
 class Match {
 
   @GeneratedValue
@@ -35,11 +40,24 @@ class Match {
   @Setter
   private Long awayGoals;
 
+  @Getter
   private MatchStatus matchStatus;
+
+  @Setter
+  @Getter
+  private Long livescoreId;
+
+  @Getter
+  @Setter
+  private Long livescoreLeagueId; //Zdenormalizowana kolumna by ograniczyć liczbę zapytań
+
+  @Getter
+  private Instant startDate;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "ROUND_ID")
   @Setter
+  @Getter
   private MatchRound matchRound;
 
   MatchCanceled setStatusAsCanceled() {
@@ -52,5 +70,10 @@ class Match {
     setHomeGoals(finalHomeGoals);
     setAwayGoals(finalAwayGoals);
     return new MatchFinished(id, homeGoals, awayGoals, matchRound.getBetTypePolicy());
+  }
+
+  void integrateMatchWithLivescore(Long livescoreId, Long livescoreLeagueId) {
+    setLivescoreId(livescoreId);
+    setLivescoreLeagueId(livescoreLeagueId);
   }
 }
