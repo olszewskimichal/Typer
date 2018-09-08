@@ -4,13 +4,13 @@ import java.text.NumberFormat;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
-import org.apache.poi.hssf.usermodel.HSSFCell;
-import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Row.MissingCellPolicy;
 
-public class FileAdapterRow {
+class FileAdapterRow {
 
-  static NumberFormat nf;
+  private static NumberFormat nf;
 
   static {
     nf = NumberFormat.getNumberInstance(new Locale("PL", "pl"));
@@ -18,10 +18,10 @@ public class FileAdapterRow {
     nf.setMaximumFractionDigits(15);
   }
 
-  private final HSSFRow row;
+  private final Row row;
   private final Map<String, Integer> xlsLabels;
 
-  FileAdapterRow(HSSFRow row, Map<String, Integer> xlsLabels) {
+  FileAdapterRow(Row row, Map<String, Integer> xlsLabels) {
     this.row = row;
     this.xlsLabels = xlsLabels;
   }
@@ -31,7 +31,7 @@ public class FileAdapterRow {
     return ret.map(String::trim).orElse("");
   }
 
-  private Optional<String> excelValue(HSSFCell cell) {
+  private Optional<String> excelValue(Cell cell) {
     switch (cell.getCellTypeEnum()) {
       case NUMERIC:
         return Optional.ofNullable(format(cell.getNumericCellValue()));
