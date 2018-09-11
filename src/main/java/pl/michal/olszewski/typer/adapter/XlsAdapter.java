@@ -12,11 +12,11 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Row;
 
 @Slf4j
-class XlsAdapter extends ExcelAdapter implements FileAdapter {
+public class XlsAdapter extends ExcelAdapter implements FileAdapter {
 
   private HSSFWorkbook wb;
 
-  XlsAdapter(File file, List<String> columns) throws IOException {
+  public XlsAdapter(File file, List<String> columns) throws IOException {
     log.debug("Otwieranie pliku {} ", file.getName());
     wb = new HSSFWorkbook(new ByteArrayInputStream(Files.readAllBytes(file.toPath())));
 

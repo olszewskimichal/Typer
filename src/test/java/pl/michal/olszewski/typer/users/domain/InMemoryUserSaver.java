@@ -1,7 +1,9 @@
 package pl.michal.olszewski.typer.users.domain;
 
 import java.util.Random;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 class InMemoryUserSaver implements UserSaver {
 
 
@@ -12,6 +14,7 @@ class InMemoryUserSaver implements UserSaver {
 
   @Override
   public void deleteAll() {
+    log.debug("Usuwam wszystkie elementy z tabeli Users");
     InMemoryUserFinder.map.clear();
   }
 }

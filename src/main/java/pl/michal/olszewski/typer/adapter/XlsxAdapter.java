@@ -11,11 +11,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 @Slf4j
-class XlsxAdapter extends ExcelAdapter implements FileAdapter {
-  
+public class XlsxAdapter extends ExcelAdapter implements FileAdapter {
+
   private XSSFWorkbook wb;
 
-  XlsxAdapter(File file, List<String> columns) throws IOException {
+  public XlsxAdapter(File file, List<String> columns) throws IOException {
 
     log.debug("Otwieranie pliku {} ", file.getName());
     wb = new XSSFWorkbook(new ByteArrayInputStream(Files.readAllBytes(file.toPath())));
