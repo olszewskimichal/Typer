@@ -2,9 +2,9 @@ package pl.michal.olszewski.typer.adapter;
 
 
 import java.io.ByteArrayInputStream;
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Iterator;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
@@ -16,9 +16,9 @@ public class XlsAdapter extends ExcelAdapter implements FileAdapter {
 
   private HSSFWorkbook wb;
 
-  public XlsAdapter(File file, List<String> columns) throws IOException {
-    log.debug("Otwieranie pliku {} ", file.getName());
-    wb = new HSSFWorkbook(new ByteArrayInputStream(Files.readAllBytes(file.toPath())));
+  public XlsAdapter(Path path, List<String> columns) throws IOException {
+    log.debug("Otwieranie pliku {} ", path.getFileName());
+    wb = new HSSFWorkbook(new ByteArrayInputStream(Files.readAllBytes(path)));
 
     log.debug("Otwarty plik XLSX - dostępna ilość arkuszy: {}", wb.getNumberOfSheets());
 
@@ -27,7 +27,7 @@ public class XlsAdapter extends ExcelAdapter implements FileAdapter {
       throw new IllegalArgumentException("Nieprawidłowy plik. Oczekiwano pliku zawierajacego dokładnie jeden arkusz.");
     }
     Iterator<Row> rowIterator = wb.getSheetAt(0).iterator();
-    headerIndex = checkHeaders(rowIterator, columns, file.getName());
+    headerIndex = checkHeaders(rowIterator, columns, path.getFileName().toString());
     log.debug("Numer wiersza z nazwami kolumn {}", headerIndex + 1);
   }
 

@@ -2,8 +2,9 @@ package pl.michal.olszewski.typer.match.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -19,7 +20,7 @@ class MatchRoundFileAdapterTest {
     MatchRoundSaver matchRoundSaver = new InMemoryMatchRoundSaver();
     MatchLeagueFinder matchLeagueFinder = new InMemoryMatchLeagueFinder();
     leagueFinder = new InMemoryMatchRoundFinder();
-    
+
     matchLeagueFileAdapter = new MatchRoundFileAdapter(new MatchRoundCreator(matchLeagueFinder), matchRoundSaver);
 
     matchRoundSaver.deleteAll();
@@ -31,7 +32,7 @@ class MatchRoundFileAdapterTest {
   void shouldCreateOneMatchRoundFromXlsxFile() throws IOException {
     //given
     matchLeagueSaver.save(MatchLeague.builder().id(2L).build());
-    File file = new File("testresources/matchRound.xlsx");
+    Path file = Paths.get("testresources/matchRound.xlsx");
 
     //when
     matchLeagueFileAdapter.loadLeaguesFromFile(file);
@@ -43,7 +44,7 @@ class MatchRoundFileAdapterTest {
   @Test
   void shouldCreateOneMatchRoundFromXlsFile() throws IOException {
     matchLeagueSaver.save(MatchLeague.builder().id(2L).build());
-    File file = new File("testresources/matchRound.xls");
+    Path file = Paths.get("testresources/matchRound.xls");
 
     //when
     matchLeagueFileAdapter.loadLeaguesFromFile(file);

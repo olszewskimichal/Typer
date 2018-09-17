@@ -1,7 +1,7 @@
 package pl.michal.olszewski.typer.team.domain;
 
-import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.Collections;
 import java.util.List;
 import org.springframework.stereotype.Component;
@@ -25,8 +25,8 @@ class TeamFileAdapter {
     this.teamSaver = teamSaver;
   }
 
-  void loadTeamsFromFile(File file) throws IOException {
-    try (FileAdapter fileAdapter = selectAdapter(file)) {
+  void loadTeamsFromFile(Path path) throws IOException {
+    try (FileAdapter fileAdapter = selectAdapter(path)) {
       for (FileAdapterRow fileAdapterRow : fileAdapter) {
         String name = fileAdapterRow.get(TeamFileAdapter.name);
         CreateNewTeam createNewTeam = CreateNewTeam.builder().name(name).build();
@@ -36,11 +36,11 @@ class TeamFileAdapter {
     }
   }
 
-  private FileAdapter selectAdapter(File file) throws IOException {
-    if (file.getName().toLowerCase().endsWith(".xlsx")) {
-      return new XlsxAdapter(file, TeamFileAdapter.defaultColumns);
+  private FileAdapter selectAdapter(Path path) throws IOException {
+    if (path.getFileName().toString().toLowerCase().endsWith(".xlsx")) {
+      return new XlsxAdapter(path, TeamFileAdapter.defaultColumns);
     } else {
-      return new XlsAdapter(file, TeamFileAdapter.defaultColumns);
+      return new XlsAdapter(path, TeamFileAdapter.defaultColumns);
     }
   }
 }

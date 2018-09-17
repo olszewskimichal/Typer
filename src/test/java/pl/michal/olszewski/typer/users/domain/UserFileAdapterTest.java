@@ -2,8 +2,9 @@ package pl.michal.olszewski.typer.users.domain;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
 
-import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -24,7 +25,7 @@ class UserFileAdapterTest {
   @Test
   void shouldCreateOneUserFromXlsxFile() throws IOException {
     //given
-    File file = new File("testresources/userfile.xlsx");
+    Path file = Paths.get("testresources/userfile.xlsx");
 
     //when
     userFileAdapter.loadUsersFromFile(file);
@@ -35,7 +36,7 @@ class UserFileAdapterTest {
 
   @Test
   void shouldCreateOneUserFromXlsFile() throws IOException {
-    File file = new File("testresources/userfile.xls");
+    Path file = Paths.get("testresources/userfile.xls");
 
     //when
     userFileAdapter.loadUsersFromFile(file);

@@ -1,7 +1,7 @@
 package pl.michal.olszewski.typer.users.domain;
 
-import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
 import org.springframework.stereotype.Component;
@@ -26,7 +26,7 @@ class UserFileAdapter {
     this.userSaver = userSaver;
   }
 
-  void loadUsersFromFile(File file) throws IOException {
+  void loadUsersFromFile(Path file) throws IOException {
     try (FileAdapter fileAdapter = selectAdapter(file)) {
       for (FileAdapterRow fileAdapterRow : fileAdapter) {
         String username = fileAdapterRow.get(UserFileAdapter.username);
@@ -38,11 +38,11 @@ class UserFileAdapter {
     }
   }
 
-  private FileAdapter selectAdapter(File file) throws IOException {
-    if (file.getName().toLowerCase().endsWith(".xlsx")) {
-      return new XlsxAdapter(file, UserFileAdapter.defaultColumns);
+  private FileAdapter selectAdapter(Path path) throws IOException {
+    if (path.getFileName().toString().toLowerCase().endsWith(".xlsx")) {
+      return new XlsxAdapter(path, UserFileAdapter.defaultColumns);
     } else {
-      return new XlsAdapter(file, UserFileAdapter.defaultColumns);
+      return new XlsAdapter(path, UserFileAdapter.defaultColumns);
     }
   }
 }

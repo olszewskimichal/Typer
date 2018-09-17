@@ -4,8 +4,9 @@ import static org.assertj.core.api.Java6Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 import org.junit.jupiter.api.Test;
@@ -16,7 +17,7 @@ class XlsAdapterTest {
 
   @Test
   void shouldThrowExceptionWhenIsMoreThenOneSheet() {
-    File file = new File("testresources/Zeszyt2.xls");
+    Path file = Paths.get("testresources/Zeszyt2.xls");
 
     IllegalArgumentException illegalArgumentException = assertThrows(IllegalArgumentException.class, () -> new XlsAdapter(file, columnNames));
 
@@ -25,7 +26,7 @@ class XlsAdapterTest {
 
   @Test
   void shouldReadAllValuesFromFile() throws IOException {
-    File file = new File("testresources/Zeszyt1.xls");
+    Path file = Paths.get("testresources/Zeszyt1.xls");
 
     FileAdapter adapter = new XlsAdapter(file, columnNames);
 
@@ -41,7 +42,7 @@ class XlsAdapterTest {
 
   @Test
   void shouldThrowExceptionWhenFileWithoutRequiredColumns() {
-    File file = new File("testresources/Zeszyt3.xls");
+    Path file = Paths.get("testresources/Zeszyt3.xls");
 
     IllegalArgumentException illegalArgumentException = assertThrows(IllegalArgumentException.class, () -> new XlsAdapter(file, columnNames));
 

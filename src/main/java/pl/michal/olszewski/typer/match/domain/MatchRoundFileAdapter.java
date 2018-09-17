@@ -1,7 +1,7 @@
 package pl.michal.olszewski.typer.match.domain;
 
-import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
 import org.springframework.stereotype.Component;
@@ -26,7 +26,7 @@ class MatchRoundFileAdapter {
     this.matchRoundSaver = matchRoundSaver;
   }
 
-  void loadLeaguesFromFile(File file) throws IOException {
+  void loadLeaguesFromFile(Path file) throws IOException {
     try (FileAdapter fileAdapter = selectAdapter(file)) {
       for (FileAdapterRow fileAdapterRow : fileAdapter) {
         String name = fileAdapterRow.get(MatchRoundFileAdapter.name);
@@ -37,8 +37,8 @@ class MatchRoundFileAdapter {
     }
   }
 
-  private FileAdapter selectAdapter(File file) throws IOException {
-    if (file.getName().toLowerCase().endsWith(".xlsx")) {
+  private FileAdapter selectAdapter(Path file) throws IOException {
+    if (file.getFileName().toString().toLowerCase().endsWith(".xlsx")) {
       return new XlsxAdapter(file, MatchRoundFileAdapter.defaultColumns);
     } else {
       return new XlsAdapter(file, MatchRoundFileAdapter.defaultColumns);

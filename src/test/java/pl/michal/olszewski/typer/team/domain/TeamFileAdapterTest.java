@@ -2,8 +2,9 @@ package pl.michal.olszewski.typer.team.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -24,7 +25,7 @@ class TeamFileAdapterTest {
   @Test
   void shouldCreateOneTeamFromXlsxFile() throws IOException {
     //given
-    File file = new File("testresources/team.xlsx");
+    Path file = Paths.get("testresources/team.xlsx");
 
     //when
     teamFileAdapter.loadTeamsFromFile(file);
@@ -35,7 +36,7 @@ class TeamFileAdapterTest {
 
   @Test
   void shouldCreateOneTeamFromXlsFile() throws IOException {
-    File file = new File("testresources/team.xls");
+    Path file = Paths.get("testresources/team.xls");
 
     //when
     teamFileAdapter.loadTeamsFromFile(file);
