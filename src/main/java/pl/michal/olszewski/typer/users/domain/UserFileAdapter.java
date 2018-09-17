@@ -26,7 +26,7 @@ class UserFileAdapter {
     this.userSaver = userSaver;
   }
 
-  public void loadUsersFromFile(File file) throws IOException {
+  void loadUsersFromFile(File file) throws IOException {
     try (FileAdapter fileAdapter = selectAdapter(file)) {
       for (FileAdapterRow fileAdapterRow : fileAdapter) {
         String username = fileAdapterRow.get(UserFileAdapter.username);

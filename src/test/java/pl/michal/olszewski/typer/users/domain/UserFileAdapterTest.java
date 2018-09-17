@@ -11,11 +11,10 @@ class UserFileAdapterTest {
 
   private UserFileAdapter userFileAdapter;
   private UserFinder userFinder;
-  private UserSaver userSaver;
 
   @BeforeEach
   void setUp() {
-    userSaver = new InMemoryUserSaver();
+    UserSaver userSaver = new InMemoryUserSaver();
     userFinder = new InMemoryUserFinder();
     userFileAdapter = new UserFileAdapter(new UserCreator(userFinder), userSaver);
     userSaver.deleteAll();
