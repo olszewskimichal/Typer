@@ -2,16 +2,21 @@ package pl.michal.olszewski.typer;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.jms.annotation.EnableJms;
 import org.springframework.jms.support.converter.MappingJackson2MessageConverter;
 import org.springframework.jms.support.converter.MessageConverter;
 import org.springframework.jms.support.converter.MessageType;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import pl.michal.olszewski.typer.file.FileStorageProperties;
 
 @SpringBootApplication
 @EnableJms
 @EnableScheduling
+@EnableConfigurationProperties({
+    FileStorageProperties.class
+})
 public class TyperApplication {
 
   public static void main(String[] args) {
