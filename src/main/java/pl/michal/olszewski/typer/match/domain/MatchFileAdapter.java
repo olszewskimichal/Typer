@@ -16,7 +16,7 @@ import java.util.List;
 @Component
 class MatchFileAdapter {
 
-    private static final String roundId = "name";
+    private static final String roundId = "roundId";
     private static final String homeTeamId = "homeTeamId";
     private static final String awayTeamId = "awayTeamId";
     private static final List<String> defaultColumns = Arrays.asList(roundId, homeTeamId, awayTeamId);
