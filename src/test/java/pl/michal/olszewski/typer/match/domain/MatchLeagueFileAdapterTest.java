@@ -7,6 +7,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import pl.michal.olszewski.typer.file.FileStorageProperties;
+import pl.michal.olszewski.typer.file.FileStorageService;
 
 class MatchLeagueFileAdapterTest {
 
@@ -15,9 +17,11 @@ class MatchLeagueFileAdapterTest {
 
   @BeforeEach
   void setUp() {
+    FileStorageProperties fileStorageProperties = new FileStorageProperties();
+    fileStorageProperties.setUploadDir("uploads");
     MatchLeagueSaver matchLeagueSaver = new InMemoryMatchLeagueSaver();
     leagueFinder = new InMemoryMatchLeagueFinder();
-    matchLeagueFileAdapter = new MatchLeagueFileAdapter(new MatchLeagueCreator(), matchLeagueSaver);
+    matchLeagueFileAdapter = new MatchLeagueFileAdapter(new MatchLeagueCreator(), matchLeagueSaver, new FileStorageService(fileStorageProperties));
     matchLeagueSaver.deleteAll();
   }
 
