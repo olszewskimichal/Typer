@@ -7,6 +7,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import pl.michal.olszewski.typer.file.FileStorageProperties;
+import pl.michal.olszewski.typer.file.FileStorageService;
 
 class TeamFileAdapterTest {
 
@@ -15,9 +17,11 @@ class TeamFileAdapterTest {
 
   @BeforeEach
   void setUp() {
+    FileStorageProperties fileStorageProperties = new FileStorageProperties();
+    fileStorageProperties.setUploadDir("uploads");
     TeamSaver teamSaver = new InMemoryTeamSaver();
     teamFinder = new InMemoryTeamFinder();
-    teamFileAdapter = new TeamFileAdapter(new TeamCreator(teamFinder), teamSaver);
+    teamFileAdapter = new TeamFileAdapter(new TeamCreator(teamFinder), teamSaver, new FileStorageService(fileStorageProperties));
     teamSaver.deleteAll();
   }
 
