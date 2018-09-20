@@ -4,6 +4,7 @@ package pl.michal.olszewski.typer.bet.dto.command;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.ToString;
 import pl.michal.olszewski.typer.CommandValid;
 import pl.michal.olszewski.typer.bet.dto.BetNotFoundException;
 import pl.michal.olszewski.typer.bet.dto.IllegalGoalArgumentException;
@@ -11,6 +12,7 @@ import pl.michal.olszewski.typer.bet.dto.IllegalGoalArgumentException;
 @AllArgsConstructor
 @Builder
 @Getter
+@ToString
 public class CheckBet implements CommandValid {
 
   private final Long betId;
