@@ -27,7 +27,7 @@ public class FileStorageService {
     }
   }
 
-  public String storeFile(MultipartFile file) {
+  public Path storeFile(MultipartFile file) {
     String fileName = StringUtils.cleanPath(file.getOriginalFilename());
     try {
       if (fileName.contains("..")) {
@@ -36,7 +36,7 @@ public class FileStorageService {
       Path targetLocation = this.fileStorageLocation.resolve(fileName);
       Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
 
-      return fileName;
+      return targetLocation;
     } catch (IOException ex) {
       throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);
     }

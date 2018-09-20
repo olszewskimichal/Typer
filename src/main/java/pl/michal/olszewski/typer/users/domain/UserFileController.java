@@ -1,5 +1,6 @@
 package pl.michal.olszewski.typer.users.domain;
 
+import java.nio.file.Path;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,10 +16,10 @@ public class UserFileController {
 
   @Autowired
   private FileStorageService fileStorageService;
-
+  
   @PostMapping("/uploadFile")
   public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file) {
-    String fileName = fileStorageService.storeFile(file);
+    Path fileName = fileStorageService.storeFile(file);
     return ResponseEntity.ok("Załadowano plik " + fileName);
   }
 
