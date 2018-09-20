@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 import pl.michal.olszewski.typer.adapter.FileAdapter;
@@ -14,6 +15,7 @@ import pl.michal.olszewski.typer.file.FileStorageService;
 import pl.michal.olszewski.typer.match.dto.command.CreateNewMatch;
 
 @Component
+@Slf4j
 class MatchFileAdapter {
 
   private static final String roundId = "roundId";
@@ -38,8 +40,9 @@ class MatchFileAdapter {
         Long roundId = Long.valueOf(fileAdapterRow.get(MatchFileAdapter.roundId));
         Long homeTeamId = Long.valueOf(fileAdapterRow.get(MatchFileAdapter.homeTeamId));
         Long awayTeamId = Long.valueOf(fileAdapterRow.get(MatchFileAdapter.awayTeamId));
-        Match matchLeague = matchCreator.from(CreateNewMatch.builder().roundId(roundId).homeTeamId(homeTeamId).awayTeamId(awayTeamId).build());
-        matchSaver.save(matchLeague);
+        Match match = matchCreator.from(CreateNewMatch.builder().roundId(roundId).homeTeamId(homeTeamId).awayTeamId(awayTeamId).build());
+        matchSaver.save(match);
+        log.debug("Zapisałem mecz {}", match);
       }
     }
   }

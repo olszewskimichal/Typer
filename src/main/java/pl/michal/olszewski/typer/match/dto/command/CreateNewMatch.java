@@ -3,6 +3,7 @@ package pl.michal.olszewski.typer.match.dto.command;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.ToString;
 import pl.michal.olszewski.typer.CommandValid;
 import pl.michal.olszewski.typer.match.dto.IllegalMatchMemberException;
 import pl.michal.olszewski.typer.match.dto.MatchRoundNotFoundException;
@@ -10,6 +11,7 @@ import pl.michal.olszewski.typer.match.dto.MatchRoundNotFoundException;
 @AllArgsConstructor
 @Getter
 @Builder
+@ToString
 public class CreateNewMatch implements CommandValid {
 
   private final Long roundId;
