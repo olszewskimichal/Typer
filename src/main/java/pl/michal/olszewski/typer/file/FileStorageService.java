@@ -5,12 +5,14 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 @Component
+@Slf4j
 public class FileStorageService {
 
   private final Path fileStorageLocation;
@@ -35,7 +37,7 @@ public class FileStorageService {
       }
       Path targetLocation = this.fileStorageLocation.resolve(fileName);
       Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
-
+      log.debug("Zapisałem plik {} w {}", fileName, targetLocation);
       return targetLocation;
     } catch (IOException ex) {
       throw new FileStorageException("Could not store file " + fileName + ". Please try again!", ex);

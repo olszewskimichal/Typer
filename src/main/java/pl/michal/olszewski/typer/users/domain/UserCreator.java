@@ -23,7 +23,7 @@ class UserCreator {
 
     userFinder.findByEmail(command.getEmail())
         .ifPresent(v -> {
-          throw new UserExistsException("Uzytkownik o emailu  istnieje");
+          throw new UserExistsException(String.format("Uzytkownik o emailu %s istnieje", command.getEmail()));
         });
 
     return User.builder()
