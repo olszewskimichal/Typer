@@ -7,6 +7,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import pl.michal.olszewski.typer.file.FileStorageProperties;
+import pl.michal.olszewski.typer.file.FileStorageService;
 
 class MatchFileAdapterTest {
 
@@ -18,10 +20,12 @@ class MatchFileAdapterTest {
   @BeforeEach
   void setUp() {
     matchSaver.deleteAll();
+    FileStorageProperties fileStorageProperties = new FileStorageProperties();
+    fileStorageProperties.setUploadDir("uploads");
     MatchRoundSaver matchRoundSaver = new InMemoryMatchRoundSaver();
     matchRoundSaver.save(MatchRound.builder().id(1L).build());
     matchFinder = new InMemoryMatchFinder();
-    matchFileAdapter = new MatchFileAdapter(new MatchCreator(inMemoryMatchRoundFinder), matchSaver);
+    matchFileAdapter = new MatchFileAdapter(new MatchCreator(inMemoryMatchRoundFinder), matchSaver, new FileStorageService(fileStorageProperties));
   }
 
 
