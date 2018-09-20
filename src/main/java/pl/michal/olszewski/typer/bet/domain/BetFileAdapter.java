@@ -5,11 +5,13 @@ import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
 import pl.michal.olszewski.typer.adapter.FileAdapter;
 import pl.michal.olszewski.typer.adapter.FileAdapterRow;
 import pl.michal.olszewski.typer.adapter.XlsAdapter;
 import pl.michal.olszewski.typer.adapter.XlsxAdapter;
 import pl.michal.olszewski.typer.bet.dto.command.CreateNewBet;
+import pl.michal.olszewski.typer.file.FileStorageService;
 
 @Component
 class BetFileAdapter {
@@ -24,10 +26,13 @@ class BetFileAdapter {
 
   private final BetCreator betCreator;
   private final BetSaver betSaver;
+  private final FileStorageService fileStorageService;
 
-  public BetFileAdapter(BetCreator betCreator, BetSaver betSaver) {
+
+  public BetFileAdapter(BetCreator betCreator, BetSaver betSaver, FileStorageService fileStorageService) {
     this.betCreator = betCreator;
     this.betSaver = betSaver;
+    this.fileStorageService = fileStorageService;
   }
 
   void loadBetsFromFile(Path path) throws IOException {
@@ -57,5 +62,11 @@ class BetFileAdapter {
     } else {
       return new XlsAdapter(path, BetFileAdapter.defaultColumns);
     }
+  }
+
+  public Path uploadFile(MultipartFile file) throws IOException {
+    Path path = fileStorageService.storeFile(file);
+    loadBetsFromFile(path);
+    return path;
   }
 }
