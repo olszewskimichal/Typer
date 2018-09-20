@@ -9,6 +9,8 @@ import java.nio.file.Paths;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+import pl.michal.olszewski.typer.file.FileStorageProperties;
+import pl.michal.olszewski.typer.file.FileStorageService;
 import pl.michal.olszewski.typer.match.dto.events.MatchFinished;
 
 class FinishMatchFileAdapterTest {
@@ -18,12 +20,14 @@ class FinishMatchFileAdapterTest {
 
   @BeforeEach
   void setUp() {
+    FileStorageProperties fileStorageProperties = new FileStorageProperties();
+    fileStorageProperties.setUploadDir("uploads");
     eventPublisher = mock(MatchEventPublisher.class);
     MatchSaver matchSaver = new InMemoryMatchSaver();
     matchSaver.save(Match.builder().id(1L).matchRound(new MatchRound()).build());
     MatchFinder matchFinder = new InMemoryMatchFinder();
     MatchUpdater matchUpdater = new MatchUpdater(matchFinder, eventPublisher);
-    matchLeagueFileAdapter = new FinishMatchFileAdapter(matchUpdater);
+    matchLeagueFileAdapter = new FinishMatchFileAdapter(matchUpdater, new FileStorageService(fileStorageProperties));
 
   }
 

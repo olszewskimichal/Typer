@@ -5,10 +5,12 @@ import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
 import org.springframework.stereotype.Component;
+import org.springframework.web.multipart.MultipartFile;
 import pl.michal.olszewski.typer.adapter.FileAdapter;
 import pl.michal.olszewski.typer.adapter.FileAdapterRow;
 import pl.michal.olszewski.typer.adapter.XlsAdapter;
 import pl.michal.olszewski.typer.adapter.XlsxAdapter;
+import pl.michal.olszewski.typer.file.FileStorageService;
 import pl.michal.olszewski.typer.match.dto.command.FinishMatch;
 
 @Component
@@ -20,9 +22,12 @@ class FinishMatchFileAdapter {
   private static final List<String> defaultColumns = Arrays.asList(matchId, homeGoals, awayGoals);
 
   private final MatchUpdater matchUpdater;
+  private final FileStorageService fileStorageService;
 
-  FinishMatchFileAdapter(MatchUpdater matchUpdater) {
+
+  FinishMatchFileAdapter(MatchUpdater matchUpdater, FileStorageService fileStorageService) {
     this.matchUpdater = matchUpdater;
+    this.fileStorageService = fileStorageService;
   }
 
   void loadMatchResultsFromFile(Path path) throws IOException {
@@ -43,5 +48,11 @@ class FinishMatchFileAdapter {
     } else {
       return new XlsAdapter(path, FinishMatchFileAdapter.defaultColumns);
     }
+  }
+
+  public Path uploadFile(MultipartFile file) throws IOException {
+    Path path = fileStorageService.storeFile(file);
+    loadMatchResultsFromFile(path);
+    return path;
   }
 }
