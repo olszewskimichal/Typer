@@ -29,12 +29,6 @@ enum BetTypePolicy {
     this.value = value;
   }
 
-  abstract BetPolicy getBetPolicy();
-
-  public long getValue() {
-    return value;
-  }
-
   static BetTypePolicy fromValue(long value) {
     for (BetTypePolicy typePolicy : BetTypePolicy.values()) {
       if (typePolicy.getValue() == value) {
@@ -42,5 +36,11 @@ enum BetTypePolicy {
       }
     }
     throw new IllegalArgumentException(String.format("Nieprawidlowy identyfikator polityki - takowa o id %s nie istnieje", value));
+  }
+
+  abstract BetPolicy getBetPolicy();
+
+  public long getValue() {
+    return value;
   }
 }

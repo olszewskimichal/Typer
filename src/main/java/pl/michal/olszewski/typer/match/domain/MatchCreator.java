@@ -1,7 +1,6 @@
 package pl.michal.olszewski.typer.match.domain;
 
 import java.util.Objects;
-
 import org.springframework.stereotype.Component;
 import pl.michal.olszewski.typer.match.dto.command.CreateNewMatch;
 
