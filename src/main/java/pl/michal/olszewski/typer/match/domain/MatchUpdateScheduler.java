@@ -39,7 +39,7 @@ class MatchUpdateScheduler {
           .map(v -> v.atZone(ZoneId.systemDefault()).toLocalDate())
           .min(LocalDate::compareTo)
           .orElseThrow(() -> new IllegalArgumentException("Nie może byc sytuacji że są mecze a nie mają daty rozpoczęcia"));
-      CheckMatchResults checkMatchResults = new CheckMatchResults(date, entry.getKey(), list);
+      CheckMatchResults checkMatchResults = CheckMatchResults.builder().date(date).livescoreLeagueId(entry.getKey()).livescoreIds(list).build();
       matchPublisher.sendCheckMatchCommandToJms(checkMatchResults);
     }
   }

@@ -2,10 +2,12 @@ package pl.michal.olszewski.typer.users.dto.command;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.ToString;
 import pl.michal.olszewski.typer.CommandValid;
 
 @Builder
 @Getter
+@ToString
 public class CreateNewUser implements CommandValid {
 
   private final String username;

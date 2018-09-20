@@ -1,5 +1,7 @@
 package pl.michal.olszewski.typer.team.domain;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -11,5 +13,10 @@ class InMemoryTeamFinder implements TeamFinder {
   @Override
   public Optional<Team> findByName(String name) {
     return map.values().stream().filter(v -> v.getName().equalsIgnoreCase(name)).findAny();
+  }
+
+  @Override
+  public List<Team> findAll() {
+    return new ArrayList<>(map.values());
   }
 }
