@@ -15,8 +15,8 @@ import pl.michal.olszewski.typer.match.dto.command.CreateNewRound;
 class MatchRoundFileAdapter {
 
   private static final String name = "name";
-  private static final String roundId = "roundId";
-  private static final List<String> defaultColumns = Arrays.asList(name, roundId);
+  private static final String leagueId = "leagueId";
+  private static final List<String> defaultColumns = Arrays.asList(name, leagueId);
 
   private final MatchRoundCreator matchRoundCreator;
   private final MatchRoundSaver matchRoundSaver;
@@ -30,8 +30,8 @@ class MatchRoundFileAdapter {
     try (FileAdapter fileAdapter = selectAdapter(file)) {
       for (FileAdapterRow fileAdapterRow : fileAdapter) {
         String name = fileAdapterRow.get(MatchRoundFileAdapter.name);
-        Long roundId = Long.valueOf(fileAdapterRow.get(MatchRoundFileAdapter.roundId));
-        MatchRound matchRound = matchRoundCreator.from(CreateNewRound.builder().name(name).leagueId(roundId).build());
+        Long leagueId = Long.valueOf(fileAdapterRow.get(MatchRoundFileAdapter.leagueId));
+        MatchRound matchRound = matchRoundCreator.from(CreateNewRound.builder().name(name).leagueId(leagueId).build());
         matchRoundSaver.save(matchRound);
       }
     }
