@@ -12,7 +12,6 @@ import pl.michal.olszewski.typer.adapter.FileAdapterRow;
 import pl.michal.olszewski.typer.adapter.XlsAdapter;
 import pl.michal.olszewski.typer.adapter.XlsxAdapter;
 import pl.michal.olszewski.typer.file.FileStorageService;
-import pl.michal.olszewski.typer.users.UserExistsException;
 import pl.michal.olszewski.typer.users.dto.command.CreateNewUser;
 
 @Component
@@ -54,7 +53,7 @@ class UserFileAdapter {
     }
   }
 
-  Path uploadFile(MultipartFile file) throws IOException, UserExistsException {
+  Path uploadFile(MultipartFile file) throws IOException {
     Path path = fileStorageService.storeFile(file);
     loadUsersFromFile(path);
     return path;

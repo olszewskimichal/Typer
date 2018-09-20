@@ -13,7 +13,7 @@ import pl.michal.olszewski.typer.users.UserExistsException;
 
 @RestController()
 @Slf4j
-public class UserFileController {
+class UserFileController {
 
   private final UserFileAdapter userFileAdapter;
 
@@ -24,7 +24,7 @@ public class UserFileController {
 
   @PostMapping("/users/uploadFile")
   @Transactional(rollbackFor = UserExistsException.class)
-  public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file) throws IOException, UserExistsException {
+  public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file) throws IOException {
     Path fileName = userFileAdapter.uploadFile(file);
     return ResponseEntity.ok("Załadowano plik " + fileName);
   }
