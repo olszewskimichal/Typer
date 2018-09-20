@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 import pl.michal.olszewski.typer.adapter.FileAdapter;
@@ -14,6 +15,7 @@ import pl.michal.olszewski.typer.file.FileStorageService;
 import pl.michal.olszewski.typer.match.dto.command.CreateNewRound;
 
 @Component
+@Slf4j
 class MatchRoundFileAdapter {
 
   private static final String name = "name";
@@ -38,6 +40,7 @@ class MatchRoundFileAdapter {
         Long leagueId = Long.valueOf(fileAdapterRow.get(MatchRoundFileAdapter.leagueId));
         MatchRound matchRound = matchRoundCreator.from(CreateNewRound.builder().name(name).leagueId(leagueId).build());
         matchRoundSaver.save(matchRound);
+        log.debug("Zapisałem runde {}", matchRound);
       }
     }
   }
