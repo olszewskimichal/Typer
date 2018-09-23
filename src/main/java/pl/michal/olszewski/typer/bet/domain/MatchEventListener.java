@@ -27,25 +27,18 @@ class MatchEventListener {
    * @return zwraca liczbę komend które zostały wyssłane do kolejki
    */
   @JmsListener(destination = "cancelMatchQueue")
-  public int handleMatchCanceledEventJMS(MatchCanceled event) {
+  public void handleMatchCanceledEventJMS(MatchCanceled event) {
     log.info("Received {}", event);
-
-    int i = 0;
     for (Bet bet : betFinder.findAllBetForMatch(event.getMatchId())) {
       betCommandPublisher.sendCancelCommandToJms(new CancelBet(bet.getId()));
-      i++;
     }
-    return i;
   }
 
   @JmsListener(destination = "finishedMatchQueue")
-  public int handleMatchFinishedEventJMS(MatchFinished event) {
+  public void handleMatchFinishedEventJMS(MatchFinished event) {
     log.info("Received {}", event);
-    int i = 0;
     for (Bet bet : betFinder.findAllBetForMatch(event.getMatchId())) {
       betCommandPublisher.sendCheckCommandToJms(new CheckBet(bet.getId(), bet.getBetAwayGoals(), bet.getBetHomeGoals(), event.getAwayGoals(), event.getHomeGoals(), event.getBetPolicyId()));
-      i++;
     }
-    return i;
   }
 }

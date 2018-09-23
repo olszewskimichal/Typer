@@ -25,7 +25,8 @@ class WorkBetPolicyTest {
       "2,1,3,0,1",
       "2,1,1,1,0",
       "1,2,1,1,0",
-      "2,1,2,3,0"
+      "2,1,2,3,0",
+      "1,3,0,2,1"
   })
   void shouldCalculatePoints(Long betAwayGoals, Long betHomeGoals, Long expectedAwayGoals, Long expectedHomeGoals, Long points) {
     //given

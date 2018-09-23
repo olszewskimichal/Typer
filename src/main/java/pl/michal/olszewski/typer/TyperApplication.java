@@ -1,5 +1,7 @@
 package pl.michal.olszewski.typer;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -28,6 +30,8 @@ public class TyperApplication {
     MappingJackson2MessageConverter converter = new MappingJackson2MessageConverter();
     converter.setTargetType(MessageType.TEXT);
     converter.setTypeIdPropertyName("_type");
+    ObjectMapper mapper = new ObjectMapper().registerModule(new JavaTimeModule());
+    converter.setObjectMapper(mapper);
     return converter;
   }
 }

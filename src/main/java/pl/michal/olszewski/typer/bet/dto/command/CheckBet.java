@@ -1,26 +1,38 @@
 package pl.michal.olszewski.typer.bet.dto.command;
 
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 import pl.michal.olszewski.typer.CommandValid;
 import pl.michal.olszewski.typer.bet.dto.BetNotFoundException;
 import pl.michal.olszewski.typer.bet.dto.IllegalGoalArgumentException;
 
-@AllArgsConstructor
-@Builder
 @Getter
+@Setter
 @ToString
-public class CheckBet implements CommandValid {
+@NoArgsConstructor
+public final class CheckBet implements CommandValid {
 
-  private final Long betId;
-  private final Long betAwayGoals;
-  private final Long betHomeGoals;
-  private final Long expectedAwayGoals;
-  private final Long expectedHomeGoals;
-  private final Long betPolicyId;
+  private Long betId;
+  private Long betAwayGoals;
+  private Long betHomeGoals;
+  private Long expectedAwayGoals;
+  private Long expectedHomeGoals;
+  private Long betPolicyId;
+
+  @Builder
+  public CheckBet(Long betId, Long betAwayGoals, Long betHomeGoals, Long expectedAwayGoals, Long expectedHomeGoals, Long betPolicyId) {
+    this.betId = betId;
+    this.betAwayGoals = betAwayGoals;
+    this.betHomeGoals = betHomeGoals;
+    this.expectedAwayGoals = expectedAwayGoals;
+    this.expectedHomeGoals = expectedHomeGoals;
+    this.betPolicyId = betPolicyId;
+  }
+
 
   @Override
   public void validCommand() {

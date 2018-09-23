@@ -9,7 +9,7 @@ import lombok.ToString;
 
 @Getter
 @Setter
-@ToString
+@ToString(callSuper = true)
 @NoArgsConstructor
 public final class MatchFinished extends MatchEventBase {
 
