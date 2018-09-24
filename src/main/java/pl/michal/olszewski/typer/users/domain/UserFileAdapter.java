@@ -18,9 +18,9 @@ import pl.michal.olszewski.typer.users.dto.command.CreateNewUser;
 @Slf4j
 class UserFileAdapter {
 
-  private static final String username = "username";
-  private static final String email = "email";
-  private static final List<String> defaultColumns = Arrays.asList(email, username);
+  private static final String USERNAME = "username";
+  private static final String EMAIL = "email";
+  private static final List<String> defaultColumns = Arrays.asList(EMAIL, USERNAME);
 
   private final UserCreator userCreator;
   private final UserSaver userSaver;
@@ -35,8 +35,8 @@ class UserFileAdapter {
   void loadUsersFromFile(Path file) throws IOException {
     try (FileAdapter fileAdapter = selectAdapter(file)) {
       for (FileAdapterRow fileAdapterRow : fileAdapter) {
-        String username = fileAdapterRow.get(UserFileAdapter.username);
-        String email = fileAdapterRow.get(UserFileAdapter.email);
+        String username = fileAdapterRow.get(UserFileAdapter.USERNAME);
+        String email = fileAdapterRow.get(UserFileAdapter.EMAIL);
         CreateNewUser createNewUser = CreateNewUser.builder().email(email).username(username).build();
         User from = userCreator.from(createNewUser);
         userSaver.save(from);
