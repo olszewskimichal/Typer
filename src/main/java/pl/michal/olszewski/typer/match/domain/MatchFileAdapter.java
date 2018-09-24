@@ -18,9 +18,9 @@ import pl.michal.olszewski.typer.match.dto.command.CreateNewMatch;
 @Slf4j
 class MatchFileAdapter {
 
-  private static final String ROUND_ID = "ROUND_ID";
-  private static final String HOME_TEAM_ID = "HOME_TEAM_ID";
-  private static final String AWAY_TEAM_ID = "AWAY_TEAM_ID";
+  private static final String ROUND_ID = "roundId";
+  private static final String HOME_TEAM_ID = "homeTeamId";
+  private static final String AWAY_TEAM_ID = "awayTeamId";
   private static final List<String> defaultColumns = Arrays.asList(ROUND_ID, HOME_TEAM_ID, AWAY_TEAM_ID);
 
   private final MatchCreator matchCreator;

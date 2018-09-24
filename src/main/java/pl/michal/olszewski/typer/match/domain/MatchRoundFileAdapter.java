@@ -19,7 +19,7 @@ import pl.michal.olszewski.typer.match.dto.command.CreateNewRound;
 class MatchRoundFileAdapter {
 
   private static final String NAME = "name";
-  private static final String LEAGUE_ID = "LEAGUE_ID";
+  private static final String LEAGUE_ID = "leagueId";
   private static final List<String> DEFAULT_COLUMNS = Arrays.asList(NAME, LEAGUE_ID);
 
   private final MatchRoundCreator matchRoundCreator;

@@ -16,9 +16,9 @@ import pl.michal.olszewski.typer.match.dto.command.FinishMatch;
 @Component
 class FinishMatchFileAdapter {
 
-  private static final String MATCH_ID = "MATCH_ID";
-  private static final String HOME_GOALS = "HOME_GOALS";
-  private static final String AWAY_GOALS = "AWAY_GOALS";
+  private static final String MATCH_ID = "matchId";
+  private static final String HOME_GOALS = "homeGoals";
+  private static final String AWAY_GOALS = "awayGoals";
   private static final List<String> DEFAULT_COLUMNS = Arrays.asList(MATCH_ID, HOME_GOALS, AWAY_GOALS);
 
   private final MatchUpdater matchUpdater;

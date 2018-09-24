@@ -19,7 +19,7 @@ import pl.michal.olszewski.typer.match.dto.command.CreateNewLeague;
 class MatchLeagueFileAdapter {
 
   private static final String NAME = "name";
-  private static final String POLICY_ID = "POLICY_ID";
+  private static final String POLICY_ID = "policyId";
   private static final List<String> DEFAULT_COLUMNS = Arrays.asList(NAME, POLICY_ID);
 
   private final MatchLeagueCreator matchLeagueCreator;

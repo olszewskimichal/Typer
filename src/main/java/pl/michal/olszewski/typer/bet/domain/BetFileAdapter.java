@@ -18,11 +18,11 @@ import pl.michal.olszewski.typer.file.FileStorageService;
 @Slf4j
 class BetFileAdapter {
 
-  private static final String MATCH_ID = "MATCH_ID";
-  private static final String ROUND_ID = "ROUND_ID";
-  private static final String USER_ID = "USER_ID";
-  private static final String HOME_GOALS = "HOME_GOALS";
-  private static final String AWAY_GOALS = "AWAY_GOALS";
+  private static final String MATCH_ID = "matchId";
+  private static final String ROUND_ID = "roundId";
+  private static final String USER_ID = "userId";
+  private static final String HOME_GOALS = "homeGoals";
+  private static final String AWAY_GOALS = "awayGoals";
 
   private static final List<String> defaultColumns = Arrays.asList(MATCH_ID, ROUND_ID, USER_ID, HOME_GOALS, AWAY_GOALS);
 
