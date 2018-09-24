@@ -18,9 +18,9 @@ import pl.michal.olszewski.typer.match.dto.command.CreateNewRound;
 @Slf4j
 class MatchRoundFileAdapter {
 
-  private static final String name = "name";
-  private static final String leagueId = "leagueId";
-  private static final List<String> defaultColumns = Arrays.asList(name, leagueId);
+  private static final String NAME = "name";
+  private static final String LEAGUE_ID = "LEAGUE_ID";
+  private static final List<String> DEFAULT_COLUMNS = Arrays.asList(NAME, LEAGUE_ID);
 
   private final MatchRoundCreator matchRoundCreator;
   private final MatchRoundSaver matchRoundSaver;
@@ -36,8 +36,8 @@ class MatchRoundFileAdapter {
   void loadLeaguesFromFile(Path file) throws IOException {
     try (FileAdapter fileAdapter = selectAdapter(file)) {
       for (FileAdapterRow fileAdapterRow : fileAdapter) {
-        String name = fileAdapterRow.get(MatchRoundFileAdapter.name);
-        Long leagueId = Long.valueOf(fileAdapterRow.get(MatchRoundFileAdapter.leagueId));
+        String name = fileAdapterRow.get(MatchRoundFileAdapter.NAME);
+        Long leagueId = Long.valueOf(fileAdapterRow.get(MatchRoundFileAdapter.LEAGUE_ID));
         MatchRound matchRound = matchRoundCreator.from(CreateNewRound.builder().name(name).leagueId(leagueId).build());
         matchRoundSaver.save(matchRound);
         log.debug("Zapisałem runde {}", matchRound);
@@ -47,9 +47,9 @@ class MatchRoundFileAdapter {
 
   private FileAdapter selectAdapter(Path file) throws IOException {
     if (file.getFileName().toString().toLowerCase().endsWith(".xlsx")) {
-      return new XlsxAdapter(file, MatchRoundFileAdapter.defaultColumns);
+      return new XlsxAdapter(file, MatchRoundFileAdapter.DEFAULT_COLUMNS);
     } else {
-      return new XlsAdapter(file, MatchRoundFileAdapter.defaultColumns);
+      return new XlsAdapter(file, MatchRoundFileAdapter.DEFAULT_COLUMNS);
     }
   }
 

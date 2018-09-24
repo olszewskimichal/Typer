@@ -18,8 +18,8 @@ import pl.michal.olszewski.typer.team.dto.command.CreateNewTeam;
 @Slf4j
 class TeamFileAdapter {
 
-  private static final String name = "name";
-  private static final List<String> defaultColumns = Collections.singletonList(name);
+  private static final String NAME = "name";
+  private static final List<String> DEFAULT_COLUMNS = Collections.singletonList(NAME);
 
   private final TeamCreator teamCreator;
   private final TeamSaver teamSaver;
@@ -34,7 +34,7 @@ class TeamFileAdapter {
   void loadTeamsFromFile(Path path) throws IOException {
     try (FileAdapter fileAdapter = selectAdapter(path)) {
       for (FileAdapterRow fileAdapterRow : fileAdapter) {
-        String name = fileAdapterRow.get(TeamFileAdapter.name);
+        String name = fileAdapterRow.get(TeamFileAdapter.NAME);
         CreateNewTeam createNewTeam = CreateNewTeam.builder().name(name).build();
         Team from = teamCreator.from(createNewTeam);
         teamSaver.save(from);
@@ -51,9 +51,9 @@ class TeamFileAdapter {
 
   private FileAdapter selectAdapter(Path path) throws IOException {
     if (path.getFileName().toString().toLowerCase().endsWith(".xlsx")) {
-      return new XlsxAdapter(path, TeamFileAdapter.defaultColumns);
+      return new XlsxAdapter(path, TeamFileAdapter.DEFAULT_COLUMNS);
     } else {
-      return new XlsAdapter(path, TeamFileAdapter.defaultColumns);
+      return new XlsAdapter(path, TeamFileAdapter.DEFAULT_COLUMNS);
     }
   }
 }

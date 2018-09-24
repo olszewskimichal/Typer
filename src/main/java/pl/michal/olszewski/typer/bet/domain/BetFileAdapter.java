@@ -18,13 +18,13 @@ import pl.michal.olszewski.typer.file.FileStorageService;
 @Slf4j
 class BetFileAdapter {
 
-  private static final String matchId = "matchId";
-  private static final String roundId = "roundId";
-  private static final String userId = "userId";
-  private static final String homeGoals = "homeGoals";
-  private static final String awayGoals = "awayGoals";
+  private static final String MATCH_ID = "MATCH_ID";
+  private static final String ROUND_ID = "ROUND_ID";
+  private static final String USER_ID = "USER_ID";
+  private static final String HOME_GOALS = "HOME_GOALS";
+  private static final String AWAY_GOALS = "AWAY_GOALS";
 
-  private static final List<String> defaultColumns = Arrays.asList(matchId, roundId, userId, homeGoals, awayGoals);
+  private static final List<String> defaultColumns = Arrays.asList(MATCH_ID, ROUND_ID, USER_ID, HOME_GOALS, AWAY_GOALS);
 
   private final BetCreator betCreator;
   private final BetSaver betSaver;
@@ -40,11 +40,11 @@ class BetFileAdapter {
   void loadBetsFromFile(Path path) throws IOException {
     try (FileAdapter fileAdapter = selectAdapter(path)) {
       for (FileAdapterRow fileAdapterRow : fileAdapter) {
-        Long matchId = Long.valueOf(fileAdapterRow.get(BetFileAdapter.matchId));
-        Long roundId = Long.valueOf(fileAdapterRow.get(BetFileAdapter.roundId));
-        Long userId = Long.valueOf(fileAdapterRow.get(BetFileAdapter.userId));
-        Long homeGoals = Long.valueOf(fileAdapterRow.get(BetFileAdapter.homeGoals));
-        Long awayGoals = Long.valueOf(fileAdapterRow.get(BetFileAdapter.awayGoals));
+        Long matchId = Long.valueOf(fileAdapterRow.get(BetFileAdapter.MATCH_ID));
+        Long roundId = Long.valueOf(fileAdapterRow.get(BetFileAdapter.ROUND_ID));
+        Long userId = Long.valueOf(fileAdapterRow.get(BetFileAdapter.USER_ID));
+        Long homeGoals = Long.valueOf(fileAdapterRow.get(BetFileAdapter.HOME_GOALS));
+        Long awayGoals = Long.valueOf(fileAdapterRow.get(BetFileAdapter.AWAY_GOALS));
 
         Bet bet = betCreator.from(CreateNewBet.builder()
             .matchId(matchId)

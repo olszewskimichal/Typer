@@ -18,9 +18,9 @@ import pl.michal.olszewski.typer.match.dto.command.CreateNewLeague;
 @Slf4j
 class MatchLeagueFileAdapter {
 
-  private static final String name = "name";
-  private static final String policyId = "policyId";
-  private static final List<String> defaultColumns = Arrays.asList(name, policyId);
+  private static final String NAME = "name";
+  private static final String POLICY_ID = "POLICY_ID";
+  private static final List<String> DEFAULT_COLUMNS = Arrays.asList(NAME, POLICY_ID);
 
   private final MatchLeagueCreator matchLeagueCreator;
   private final MatchLeagueSaver matchLeagueSaver;
@@ -36,8 +36,8 @@ class MatchLeagueFileAdapter {
   void loadLeaguesFromFile(Path path) throws IOException {
     try (FileAdapter fileAdapter = selectAdapter(path)) {
       for (FileAdapterRow fileAdapterRow : fileAdapter) {
-        String name = fileAdapterRow.get(MatchLeagueFileAdapter.name);
-        Long policyId = Long.valueOf(fileAdapterRow.get(MatchLeagueFileAdapter.policyId));
+        String name = fileAdapterRow.get(MatchLeagueFileAdapter.NAME);
+        Long policyId = Long.valueOf(fileAdapterRow.get(MatchLeagueFileAdapter.POLICY_ID));
         MatchLeague matchLeague = matchLeagueCreator.from(CreateNewLeague.builder().name(name).betTypePolicy(policyId).build());
         matchLeagueSaver.save(matchLeague);
         log.debug("Zapisałem nowa lige {}", matchLeague);
@@ -47,9 +47,9 @@ class MatchLeagueFileAdapter {
 
   private FileAdapter selectAdapter(Path path) throws IOException {
     if (path.getFileName().toString().toLowerCase().endsWith(".xlsx")) {
-      return new XlsxAdapter(path, MatchLeagueFileAdapter.defaultColumns);
+      return new XlsxAdapter(path, MatchLeagueFileAdapter.DEFAULT_COLUMNS);
     } else {
-      return new XlsAdapter(path, MatchLeagueFileAdapter.defaultColumns);
+      return new XlsAdapter(path, MatchLeagueFileAdapter.DEFAULT_COLUMNS);
     }
   }
 

@@ -37,8 +37,9 @@ public class FileAdapterRow {
         return Optional.ofNullable(format(cell.getNumericCellValue()));
       case STRING:
         return Optional.ofNullable(cell.getRichStringCellValue().getString());
+      default:
+        return Optional.empty();
     }
-    return Optional.empty();
   }
 
   private String format(double numericCellValue) {

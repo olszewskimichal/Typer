@@ -18,10 +18,10 @@ import pl.michal.olszewski.typer.match.dto.command.CreateNewMatch;
 @Slf4j
 class MatchFileAdapter {
 
-  private static final String roundId = "roundId";
-  private static final String homeTeamId = "homeTeamId";
-  private static final String awayTeamId = "awayTeamId";
-  private static final List<String> defaultColumns = Arrays.asList(roundId, homeTeamId, awayTeamId);
+  private static final String ROUND_ID = "ROUND_ID";
+  private static final String HOME_TEAM_ID = "HOME_TEAM_ID";
+  private static final String AWAY_TEAM_ID = "AWAY_TEAM_ID";
+  private static final List<String> defaultColumns = Arrays.asList(ROUND_ID, HOME_TEAM_ID, AWAY_TEAM_ID);
 
   private final MatchCreator matchCreator;
   private final MatchSaver matchSaver;
@@ -37,9 +37,9 @@ class MatchFileAdapter {
   void loadMatchesFromFile(Path path) throws IOException {
     try (FileAdapter fileAdapter = selectAdapter(path)) {
       for (FileAdapterRow fileAdapterRow : fileAdapter) {
-        Long roundId = Long.valueOf(fileAdapterRow.get(MatchFileAdapter.roundId));
-        Long homeTeamId = Long.valueOf(fileAdapterRow.get(MatchFileAdapter.homeTeamId));
-        Long awayTeamId = Long.valueOf(fileAdapterRow.get(MatchFileAdapter.awayTeamId));
+        Long roundId = Long.valueOf(fileAdapterRow.get(MatchFileAdapter.ROUND_ID));
+        Long homeTeamId = Long.valueOf(fileAdapterRow.get(MatchFileAdapter.HOME_TEAM_ID));
+        Long awayTeamId = Long.valueOf(fileAdapterRow.get(MatchFileAdapter.AWAY_TEAM_ID));
         Match match = matchCreator.from(CreateNewMatch.builder().roundId(roundId).homeTeamId(homeTeamId).awayTeamId(awayTeamId).build());
         matchSaver.save(match);
         log.debug("Zapisałem mecz {}", match);

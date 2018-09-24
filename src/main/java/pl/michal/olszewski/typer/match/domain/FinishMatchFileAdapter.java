@@ -16,10 +16,10 @@ import pl.michal.olszewski.typer.match.dto.command.FinishMatch;
 @Component
 class FinishMatchFileAdapter {
 
-  private static final String matchId = "matchId";
-  private static final String homeGoals = "homeGoals";
-  private static final String awayGoals = "awayGoals";
-  private static final List<String> defaultColumns = Arrays.asList(matchId, homeGoals, awayGoals);
+  private static final String MATCH_ID = "MATCH_ID";
+  private static final String HOME_GOALS = "HOME_GOALS";
+  private static final String AWAY_GOALS = "AWAY_GOALS";
+  private static final List<String> DEFAULT_COLUMNS = Arrays.asList(MATCH_ID, HOME_GOALS, AWAY_GOALS);
 
   private final MatchUpdater matchUpdater;
   private final FileStorageService fileStorageService;
@@ -33,9 +33,9 @@ class FinishMatchFileAdapter {
   void loadMatchResultsFromFile(Path path) throws IOException {
     try (FileAdapter fileAdapter = selectAdapter(path)) {
       for (FileAdapterRow fileAdapterRow : fileAdapter) {
-        Long matchId = Long.valueOf(fileAdapterRow.get(FinishMatchFileAdapter.matchId));
-        Long homeGoals = Long.valueOf(fileAdapterRow.get(FinishMatchFileAdapter.homeGoals));
-        Long awayGoals = Long.valueOf(fileAdapterRow.get(FinishMatchFileAdapter.awayGoals));
+        Long matchId = Long.valueOf(fileAdapterRow.get(FinishMatchFileAdapter.MATCH_ID));
+        Long homeGoals = Long.valueOf(fileAdapterRow.get(FinishMatchFileAdapter.HOME_GOALS));
+        Long awayGoals = Long.valueOf(fileAdapterRow.get(FinishMatchFileAdapter.AWAY_GOALS));
         FinishMatch finishMatch = FinishMatch.builder().matchId(matchId).awayGoals(awayGoals).homeGoals(homeGoals).build();
         matchUpdater.finishMatch(finishMatch);
       }
@@ -44,9 +44,9 @@ class FinishMatchFileAdapter {
 
   private FileAdapter selectAdapter(Path path) throws IOException {
     if (path.getFileName().toString().toLowerCase().endsWith(".xlsx")) {
-      return new XlsxAdapter(path, FinishMatchFileAdapter.defaultColumns);
+      return new XlsxAdapter(path, FinishMatchFileAdapter.DEFAULT_COLUMNS);
     } else {
-      return new XlsAdapter(path, FinishMatchFileAdapter.defaultColumns);
+      return new XlsAdapter(path, FinishMatchFileAdapter.DEFAULT_COLUMNS);
     }
   }
 
