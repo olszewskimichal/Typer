@@ -20,6 +20,7 @@ class LivescoreMatchEventPublisher {
 
   void sendMatchFinishedToJMS(FinishLivescoreMatch matchFinished) {
     log.info("Send {}", matchFinished);
+    matchFinished.validCommand();
     jmsTemplate.convertAndSend(FINISHED_MATCH_QUEUE, matchFinished);
   }
 }
