@@ -1,5 +1,6 @@
 package pl.michal.olszewski.typer.team.domain;
 
+import java.util.List;
 import java.util.Optional;
 import org.springframework.data.repository.Repository;
 
@@ -8,4 +9,5 @@ interface TeamFinder extends Repository<Team, Long> {
 
   Optional<Team> findByName(String name);
 
+  List<Team> findAll();
 }

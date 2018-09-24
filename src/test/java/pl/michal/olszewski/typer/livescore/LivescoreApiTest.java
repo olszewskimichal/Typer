@@ -35,7 +35,7 @@ class LivescoreApiTest {
   void shouldGetPastMatchesFromDateToDate() {
     //given
     Long leagueId = 19L;
-    LocalDate from = LocalDate.of(2018, 8, 10);
+    LocalDate from = LocalDate.now().minusDays(14);
 
     PastMatchesDTO responseBody = webTestClient.getPastMatchesForLeagueFromDate(leagueId, from).block();
 

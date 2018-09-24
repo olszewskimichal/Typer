@@ -3,6 +3,7 @@ package pl.michal.olszewski.typer.match.domain;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import pl.michal.olszewski.typer.match.dto.IllegalMatchMemberException;
 import pl.michal.olszewski.typer.match.dto.MatchRoundNotFoundException;
@@ -13,7 +14,13 @@ class MatchCreatorTest {
   private MatchRoundFinder matchRoundFinder = new InMemoryMatchRoundFinder();
   private MatchRoundSaver matchRoundSaver = new InMemoryMatchRoundSaver();
   private MatchCreator matchCreator = new MatchCreator(matchRoundFinder);
-  
+
+
+  @BeforeEach
+  void setUp() {
+    matchRoundSaver.deleteAll();
+  }
+
   @Test
   void shouldThrowExceptionWhenCommandIsNull() {
     assertThrows(NullPointerException.class, () -> matchCreator.from(null));

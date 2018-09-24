@@ -3,13 +3,17 @@ package pl.michal.olszewski.typer.match.dto.events;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Getter
-public class MatchFinished extends MatchEventBase {
+@ToString(callSuper = true)
+@NoArgsConstructor
+public final class MatchFinished extends MatchEventBase {
 
-  private final Long homeGoals;
-  private final Long awayGoals;
-  private final Long betPolicyId;
+  private Long homeGoals;
+  private Long awayGoals;
+  private Long betPolicyId;
 
   @Builder
   public MatchFinished(Long matchId, Long homeGoals, Long awayGoals, Long betPolicyId) {
@@ -18,4 +22,6 @@ public class MatchFinished extends MatchEventBase {
     this.awayGoals = awayGoals;
     this.betPolicyId = betPolicyId;
   }
+
+
 }

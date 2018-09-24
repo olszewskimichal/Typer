@@ -29,7 +29,7 @@ class UserCreatorTest {
   }
 
   @Test
-  void shouldCreateNewUser() {
+  void shouldCreateNewUser() throws UserExistsException {
     //given
     User expected = User.builder().email("email").username("username").build();
 

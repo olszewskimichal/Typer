@@ -45,7 +45,7 @@ class WorkBetPolicy implements BetPolicy {
   }
 
   private BetChecked checkResultWhenIsNotDraw(CheckBet checkBet) {
-    if (checkBet.getBetAwayGoals() - checkBet.getBetHomeGoals() == checkBet.getExpectedAwayGoals() - checkBet.getExpectedHomeGoals()) {
+    if (isGoalsEqual(checkBet.getBetHomeGoals(), checkBet.getExpectedHomeGoals()) && isGoalsEqual(checkBet.getBetAwayGoals(), checkBet.getExpectedAwayGoals())) {
       return new BetChecked(checkBet.getBetId(), Instant.now(), 4L);
     }
 

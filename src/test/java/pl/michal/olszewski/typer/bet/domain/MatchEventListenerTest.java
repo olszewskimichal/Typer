@@ -1,6 +1,5 @@
 package pl.michal.olszewski.typer.bet.domain;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 
@@ -37,9 +36,8 @@ class MatchEventListenerTest {
 
     MatchCanceled matchCanceled = MatchCanceled.builder().matchId(3L).build();
     //when
-    int result = matchEventListener.handleMatchCanceledEventJMS(matchCanceled);
+    matchEventListener.handleMatchCanceledEventJMS(matchCanceled);
     //then
-    assertThat(result).isEqualTo(2);
     Mockito.verify(eventPublisher, times(2)).sendCancelCommandToJms(Mockito.any(CancelBet.class));
   }
 
@@ -53,9 +51,8 @@ class MatchEventListenerTest {
 
     MatchFinished matchFinished = MatchFinished.builder().matchId(3L).build();
     //when
-    int result = matchEventListener.handleMatchFinishedEventJMS(matchFinished);
+    matchEventListener.handleMatchFinishedEventJMS(matchFinished);
     //then
-    assertThat(result).isEqualTo(2);
     Mockito.verify(eventPublisher, times(2)).sendCheckCommandToJms(Mockito.any(CheckBet.class));
   }
 
