@@ -3,15 +3,14 @@ package pl.michal.olszewski.typer.bet.dto.events;
 import java.time.Instant;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @ToString(callSuper = true)
+@NoArgsConstructor
 @Getter
-@Setter
 public class BetChecked extends BetEventBase {
 
-  @Getter
   private Long points;
 
   @Builder
@@ -20,6 +19,4 @@ public class BetChecked extends BetEventBase {
     this.points = points;
   }
 
-  public BetChecked() {
-  }
 }

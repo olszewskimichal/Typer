@@ -4,11 +4,9 @@ package pl.michal.olszewski.typer.match.dto.events;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import lombok.ToString;
 
 @Getter
-@Setter
 @ToString(callSuper = true)
 @NoArgsConstructor
 public final class MatchFinished extends MatchEventBase {
