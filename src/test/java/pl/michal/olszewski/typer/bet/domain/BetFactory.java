@@ -25,6 +25,13 @@ class BetFactory {
         .collect(Collectors.toList());
   }
 
+  List<Bet> buildNumberOfBetsForUserAndSave(int n, Long userId) {
+    return IntStream.range(0, n)
+        .mapToObj(number -> Bet.builder().userId(userId).build())
+        .map(v -> betSaver.save(v))
+        .collect(Collectors.toList());
+  }
+
   void deleteAll() {
     betSaver.deleteAll();
   }

@@ -9,6 +9,7 @@ import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 
 @Entity
@@ -26,6 +27,7 @@ class Bet {
   @Builder.Default
   private BetStatus status = BetStatus.NEW;
   @Builder.Default
+  @Setter
   private Long points = 0L;
   private Long betHomeGoals;
   private Long betAwayGoals;

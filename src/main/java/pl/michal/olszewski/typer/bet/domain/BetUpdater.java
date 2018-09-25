@@ -13,10 +13,12 @@ import pl.michal.olszewski.typer.bet.dto.events.BetChecked;
 class BetUpdater {
 
   private final BetFinder betFinder;
+  private final BetSaver betSaver;
   private final BetEventPublisher eventPublisher;
 
-  BetUpdater(BetFinder betFinder, BetEventPublisher eventPublisher) {
+  BetUpdater(BetFinder betFinder, BetSaver betSaver, BetEventPublisher eventPublisher) {
     this.betFinder = betFinder;
+    this.betSaver = betSaver;
     this.eventPublisher = eventPublisher;
   }
 
@@ -39,6 +41,8 @@ class BetUpdater {
     log.debug(betChecked.toString());
     eventPublisher.sendBetCheckedToJMS(betChecked);
     bet.setStatusAsChecked();
+    bet.setPoints(betChecked.getPoints());
+    betSaver.save(bet);
     return bet;
   }
 

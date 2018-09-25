@@ -30,6 +30,15 @@ class BetFinderTest extends RepositoryTestBase {
   }
 
   @Test
+  void shouldFindAllBetForUser() {
+    givenBets().buildNumberOfBetsForUserAndSave(2, 3L);
+    givenBets().buildNumberOfBetsForUserAndSave(1, 4L);
+
+    assertThat(betFinder.findAllBetForUser(3L)).hasSize(2);
+    assertThat(betFinder.findAllBetForUser(4L)).hasSize(1);
+  }
+
+  @Test
   void shouldFindBetById() {
     //given
     Bet bet = givenBets()

@@ -13,6 +13,9 @@ interface BetFinder extends Repository<Bet, Long> {
   @Query("Select b from Bet b where b.matchId=?1")
   List<Bet> findAllBetForMatch(Long matchId);
 
+  @Query("Select b from Bet b where b.userId=?1")
+  List<Bet> findAllBetForUser(Long userId);
+
   default Bet findOneOrThrow(Long id) {
     Bet bet = findById(id);
     if (bet == null) {

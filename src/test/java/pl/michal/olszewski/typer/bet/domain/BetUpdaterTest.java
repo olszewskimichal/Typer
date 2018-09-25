@@ -23,7 +23,7 @@ class BetUpdaterTest {
   @BeforeEach
   void configureSystemUnderTests() {
     eventPublisher = mock(BetEventPublisher.class);
-    betUpdater = new BetUpdater(betFinder, eventPublisher);
+    betUpdater = new BetUpdater(betFinder, new InMemoryBetSaver(), eventPublisher);
   }
 
   @Test

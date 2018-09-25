@@ -24,6 +24,15 @@ class InMemoryBetFinder implements BetFinder {
   }
 
   @Override
+  public List<Bet> findAllBetForUser(Long userId) {
+    return map
+        .values()
+        .stream()
+        .filter(v -> v.getUserId().equals(userId))
+        .collect(Collectors.toList());
+  }
+
+  @Override
   public List<Bet> findAll() {
     return new ArrayList<>(map.values());
   }
