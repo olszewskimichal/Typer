@@ -3,9 +3,11 @@ package pl.michal.olszewski.typer.bet.domain;
 import java.util.List;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import pl.michal.olszewski.typer.bet.dto.BetNotFoundException;
 
 @org.springframework.stereotype.Repository
+@Transactional(readOnly = true)
 interface BetFinder extends Repository<Bet, Long> {
 
   Bet findById(Long id);
@@ -15,6 +17,9 @@ interface BetFinder extends Repository<Bet, Long> {
 
   @Query("Select b from Bet b where b.userId=?1")
   List<Bet> findAllBetForUser(Long userId);
+
+  @Query("Select b from Bet b where b.matchRoundId=?1")
+  List<Bet> findAllBetForRound(Long matchRoundId);
 
   default Bet findOneOrThrow(Long id) {
     Bet bet = findById(id);

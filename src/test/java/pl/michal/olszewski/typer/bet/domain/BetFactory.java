@@ -32,6 +32,13 @@ class BetFactory {
         .collect(Collectors.toList());
   }
 
+  List<Bet> buildNumberOfBetsForMatchRoundAndSave(int n, Long matchRoundId) {
+    return IntStream.range(0, n)
+        .mapToObj(number -> Bet.builder().matchRoundId(matchRoundId).build())
+        .map(v -> betSaver.save(v))
+        .collect(Collectors.toList());
+  }
+
   void deleteAll() {
     betSaver.deleteAll();
   }

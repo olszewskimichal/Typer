@@ -9,6 +9,4 @@ public class BetResult {
   private final Long matchId;
   private final Long userId;
   private final Long points;
-  private final Long homeGoals;
-  private final Long awayGoals;
 }
