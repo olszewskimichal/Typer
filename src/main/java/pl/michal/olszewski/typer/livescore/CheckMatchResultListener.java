@@ -9,7 +9,7 @@ import reactor.core.publisher.Mono;
 
 @Slf4j
 @Component
-public class CheckMatchResultListener {
+class CheckMatchResultListener {
 
   private final LivescoreApiClient livescoreApiClient;
   private final LivescoreMatchEventPublisher publisher;

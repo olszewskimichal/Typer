@@ -7,12 +7,6 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.michal.olszewski.typer.bet.dto.read.BetResult;
 
 @Component
-/**
- * select  USER_ID,sum(points) from BET group by USER_ID
- * select USER_ID,MATCH_ROUND_ID,sum(points) from BET group by USER_ID,MATCH_ROUND_ID order by USER_ID
- * select USER_ID,sum(points) from BET group by USER_ID order by sum(points) DESC
- * select USER_ID,sum(points) from BET where MATCH_ROUND_ID in ( select id from MATCH_ROUND where LEAGUE_ID=1) group by USER_ID
- */
 @Transactional(readOnly = true)
 class BetResultService {
 

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
+import pl.michal.olszewski.typer.bet.dto.read.RoundPoints;
 
 class InMemoryBetFinder implements BetFinder {
 
@@ -39,6 +40,16 @@ class InMemoryBetFinder implements BetFinder {
         .stream()
         .filter(v -> v.getMatchRoundId().equals(matchRoundId))
         .collect(Collectors.toList());
+  }
+
+  @Override
+  public RoundPoints findSumOfPointsForRoundAndUser(Long userId, Long matchRoundId) {
+    return null;
+  }
+
+  @Override
+  public Long findSumOfPointsForLeagueAndUser(Long userId, Long leagueId) {
+    return null;
   }
 
   @Override
