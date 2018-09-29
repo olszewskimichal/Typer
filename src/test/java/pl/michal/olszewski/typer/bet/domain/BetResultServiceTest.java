@@ -42,7 +42,7 @@ class BetResultServiceTest {
   void shouldReturnBetResultById() {
     givenBets().buildBetWithIdAndSave(4L);
 
-    BetResult result = betResultService.getResultById(4L);
+    BetResult result = betResultService.getResultByBetId(4L);
 
     assertThat(result).isNotNull();
   }
@@ -50,7 +50,7 @@ class BetResultServiceTest {
 
   @Test
   void shouldThrowExceptionWhenBetByIdNotExists() {
-    assertThrows(BetNotFoundException.class, () -> betResultService.getResultById(5L));
+    assertThrows(BetNotFoundException.class, () -> betResultService.getResultByBetId(5L));
   }
 
   @Test

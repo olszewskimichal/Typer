@@ -23,7 +23,7 @@ class BetResultService {
         .collect(Collectors.toList());
   }
 
-  BetResult getResultById(Long betId) {
+  BetResult getResultByBetId(Long betId) {
     Bet bet = betFinder.findOneOrThrow(betId);
     return new BetResult(bet.getId(), bet.getMatchId(), bet.getUserId(), bet.getPoints());
   }
