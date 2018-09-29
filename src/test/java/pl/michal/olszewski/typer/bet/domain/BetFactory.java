@@ -12,6 +12,10 @@ class BetFactory {
     this.betSaver = betSaver;
   }
 
+  void save(Bet bet) {
+    betSaver.save(bet);
+  }
+
   void buildBetWithIdAndSave(Long id) {
     IntStream.range(0, 1)
         .mapToObj(number -> Bet.builder().id(id).build())

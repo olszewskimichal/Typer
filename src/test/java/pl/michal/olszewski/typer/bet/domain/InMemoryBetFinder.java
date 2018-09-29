@@ -44,12 +44,20 @@ class InMemoryBetFinder implements BetFinder {
 
   @Override
   public RoundPoints findSumOfPointsForRoundAndUser(Long userId, Long matchRoundId) {
-    return null;
+    long sum = findAllBetForUser(userId)
+        .stream()
+        .filter(v -> v.getMatchRoundId().equals(matchRoundId))
+        .mapToLong(Bet::getPoints)
+        .sum();
+    return new RoundPoints(matchRoundId, sum);
   }
 
   @Override
   public Long findSumOfPointsForLeagueAndUser(Long userId, Long leagueId) {
-    return null;
+    return findAllBetForUser(userId)
+        .stream()
+        .mapToLong(Bet::getPoints)
+        .sum();
   }
 
   @Override
