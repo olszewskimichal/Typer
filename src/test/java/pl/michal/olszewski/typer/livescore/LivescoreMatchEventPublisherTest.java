@@ -22,7 +22,7 @@ class LivescoreMatchEventPublisherTest {
 
   @Test
   void shouldSendBetCheckedEventToQueue() {
-    FinishLivescoreMatch match = FinishLivescoreMatch.builder().build();
+    FinishLivescoreMatch match = FinishLivescoreMatch.builder().livescoreMatchId(1L).awayGoals(1L).homeGoals(2L).build();
 
     eventPublisher.sendMatchFinishedToJMS(match);
 
