@@ -1,6 +1,6 @@
 package pl.michal.olszewski.typer.bet.domain;
 
-enum BetStatus {
+public enum BetStatus {
   NEW,
   IN_PROGRESS,
   CHECKED,

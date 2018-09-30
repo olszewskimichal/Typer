@@ -70,6 +70,14 @@ class BetResultRestControllerIntegrationTest {
     }
 
     @Test
+    void shouldReturnForbiddenWhenBetIsNotChecked() throws Exception {
+        Bet bet = givenBets().buildNumberOfBetsForUserAndStatus(1, 1L, BetStatus.IN_PROGRESS).get(0);
+
+        mvc.perform(get("/api/bet/result/" + bet.getId()))
+                .andExpect(status().isForbidden());
+    }
+
+    @Test
     void shouldReturnResultWhenBetByIdExists() throws Exception {
         Bet bet = givenBets().buildNumberOfBetsForUserAndStatus(1, 1L, BetStatus.CHECKED).get(0);
 
