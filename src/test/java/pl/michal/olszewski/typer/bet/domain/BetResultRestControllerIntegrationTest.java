@@ -25,9 +25,6 @@ import org.springframework.web.context.WebApplicationContext;
 class BetResultRestControllerIntegrationTest {
 
   @Autowired
-  BetResultService betResultService;
-
-  @Autowired
   private BetSaver betSaver;
 
   @Autowired
@@ -82,6 +79,42 @@ class BetResultRestControllerIntegrationTest {
         .andExpect(jsonPath("$.betId", is(bet.getId().intValue())))
         .andExpect(jsonPath("$.userId", is(1)))
         .andExpect(jsonPath("$.points", is(0)));
+  }
+
+  @Test
+  void shouldReturnEmptyListWhenResultByMatchNotExists() throws Exception {
+    mvc.perform(get("/api/bet/match/1"))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+            .andExpect(jsonPath("$", hasSize(0)));
+  }
+
+  @Test
+  void shouldReturnResultListWhenResultByMatchExists() throws Exception {
+    givenBets().buildNumberOfBetsForMatchAndSave(2, 1L);
+
+    mvc.perform(get("/api/bet/match/1"))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+            .andExpect(jsonPath("$", hasSize(2)));
+  }
+
+  @Test
+  void shouldReturnEmptyListWhenResultByRoundNotExists() throws Exception {
+    mvc.perform(get("/api/bet/round/1"))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+            .andExpect(jsonPath("$", hasSize(0)));
+  }
+
+  @Test
+  void shouldReturnResultListWhenResultByRoundExists() throws Exception {
+    givenBets().buildNumberOfBetsForMatchRoundAndSave(2, 1L);
+
+    mvc.perform(get("/api/bet/round/1"))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+            .andExpect(jsonPath("$", hasSize(2)));
   }
 
   private BetFactory givenBets() {

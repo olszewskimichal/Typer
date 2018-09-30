@@ -12,7 +12,7 @@ class BetResultRestController {
 
   private final BetResultService betResultService;
 
-  public BetResultRestController(BetResultService betResultService) {
+  BetResultRestController(BetResultService betResultService) {
     this.betResultService = betResultService;
   }
 
@@ -21,6 +21,17 @@ class BetResultRestController {
     return ResponseEntity.ok(betResultService.getUserResults(id));
   }
 
+
+  @GetMapping("/api/bet/match/{id}")
+  ResponseEntity<List<BetResult>> getMatchResults(@PathVariable("id") Long id) {
+    return ResponseEntity.ok(betResultService.getBetResultsForMatch(id));
+  }
+
+
+  @GetMapping("/api/bet/round/{id}")
+  ResponseEntity<List<BetResult>> getRoundResults(@PathVariable("id") Long id) {
+    return ResponseEntity.ok(betResultService.getBetResultsForRound(id));
+  }
 
   @GetMapping("/api/bet/{id}")
   ResponseEntity<BetResult> getResultByBetId(@PathVariable("id") Long id) {

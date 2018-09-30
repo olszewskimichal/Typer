@@ -25,6 +25,7 @@ class BetResultService {
 
   BetResult getResultByBetId(Long betId) {
     Bet bet = betFinder.findOneOrThrow(betId);
+    //if (bet.getStatus().equals(BetStatus.CHECKED))
     return new BetResult(bet.getId(), bet.getMatchId(), bet.getUserId(), bet.getPoints());
   }
 
