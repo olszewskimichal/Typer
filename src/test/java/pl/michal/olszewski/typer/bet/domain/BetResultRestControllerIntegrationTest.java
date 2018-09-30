@@ -24,101 +24,105 @@ import org.springframework.web.context.WebApplicationContext;
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 class BetResultRestControllerIntegrationTest {
 
-  @Autowired
-  private BetSaver betSaver;
+    @Autowired
+    private BetSaver betSaver;
 
-  @Autowired
-  private WebApplicationContext wac;
+    @Autowired
+    private WebApplicationContext wac;
 
-  private MockMvc mvc;
+    private MockMvc mvc;
 
-  @BeforeEach
-  void setUp() {
-    mvc = MockMvcBuilders.webAppContextSetup(wac).build();
-  }
-
-
-  @AfterEach
-  void removeAll() {
-    givenBets().deleteAll();
-  }
+    @BeforeEach
+    void setUp() {
+        mvc = MockMvcBuilders.webAppContextSetup(wac).build();
+    }
 
 
-  @Test
-  void shouldReturnEmptyListWhenResultByUserNotExists() throws Exception {
-    mvc.perform(get("/api/bet/user/1"))
-        .andExpect(status().isOk())
-        .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-        .andExpect(jsonPath("$", hasSize(0)));
-  }
-
-  @Test
-  void shouldReturnResultListWhenResultByUserExists() throws Exception {
-    givenBets().buildNumberOfBetsForUserAndSave(2, 1L);
-
-    mvc.perform(get("/api/bet/user/1"))
-        .andExpect(status().isOk())
-        .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-        .andExpect(jsonPath("$", hasSize(2)));
-  }
+    @AfterEach
+    void removeAll() {
+        givenBets().deleteAll();
+    }
 
 
-  @Test
-  void shouldReturnNotFoundWhenResultByIdNotExists() throws Exception {
-    mvc.perform(get("/api/bet/1"))
-        .andExpect(status().isNotFound());
-  }
+    @Test
+    void shouldReturnEmptyListWhenResultByUserNotExists() throws Exception {
+        mvc.perform(get("/api/bet/result/user/1"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(jsonPath("$", hasSize(0)));
+    }
 
-  @Test
-  void shouldReturnResultWhenBetByIdExists() throws Exception {
-    Bet bet = givenBets().buildNumberOfBetsForUserAndSave(1, 1L).get(0);
+    @Test
+    void shouldReturnResultListWhenResultByUserExists() throws Exception {
+        givenBets().buildNumberOfBetsForUserAndStatus(2, 1L, BetStatus.CHECKED);
 
-    mvc.perform(get("/api/bet/" + bet.getId()))
-        .andExpect(status().isOk())
-        .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-        .andExpect(jsonPath("$.betId", is(bet.getId().intValue())))
-        .andExpect(jsonPath("$.userId", is(1)))
-        .andExpect(jsonPath("$.points", is(0)));
-  }
+        mvc.perform(get("/api/bet/result/user/1"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(jsonPath("$", hasSize(2)));
+    }
 
-  @Test
-  void shouldReturnEmptyListWhenResultByMatchNotExists() throws Exception {
-    mvc.perform(get("/api/bet/match/1"))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-            .andExpect(jsonPath("$", hasSize(0)));
-  }
 
-  @Test
-  void shouldReturnResultListWhenResultByMatchExists() throws Exception {
-    givenBets().buildNumberOfBetsForMatchAndSave(2, 1L);
+    @Test
+    void shouldReturnNotFoundWhenResultByIdNotExists() throws Exception {
+        mvc.perform(get("/api/bet/result/1"))
+                .andExpect(status().isNotFound());
+    }
 
-    mvc.perform(get("/api/bet/match/1"))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-            .andExpect(jsonPath("$", hasSize(2)));
-  }
+    @Test
+    void shouldReturnResultWhenBetByIdExists() throws Exception {
+        Bet bet = givenBets().buildNumberOfBetsForUserAndStatus(1, 1L, BetStatus.CHECKED).get(0);
 
-  @Test
-  void shouldReturnEmptyListWhenResultByRoundNotExists() throws Exception {
-    mvc.perform(get("/api/bet/round/1"))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-            .andExpect(jsonPath("$", hasSize(0)));
-  }
+        mvc.perform(get("/api/bet/result/" + bet.getId()))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(jsonPath("$.betId", is(bet.getId().intValue())))
+                .andExpect(jsonPath("$.userId", is(1)))
+                .andExpect(jsonPath("$.points", is(0)));
+    }
 
-  @Test
-  void shouldReturnResultListWhenResultByRoundExists() throws Exception {
-    givenBets().buildNumberOfBetsForMatchRoundAndSave(2, 1L);
+    @Test
+    void shouldReturnEmptyListWhenResultByMatchNotExists() throws Exception {
+        mvc.perform(get("/api/bet/result/match/1"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(jsonPath("$", hasSize(0)));
+    }
 
-    mvc.perform(get("/api/bet/round/1"))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
-            .andExpect(jsonPath("$", hasSize(2)));
-  }
+    @Test
+    void shouldReturnResultListWhenBetCheckedResultByMatchExists() throws Exception {
+        givenBets().buildNumberOfBetsForMatchAndStatus(2, 1L, BetStatus.CHECKED);
+        givenBets().buildNumberOfBetsForMatchAndStatus(2, 1L, BetStatus.IN_PROGRESS);
 
-  private BetFactory givenBets() {
-    return new BetFactory(betSaver);
-  }
+
+        mvc.perform(get("/api/bet/result/match/1"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(jsonPath("$", hasSize(2)));
+    }
+
+    @Test
+    void shouldReturnEmptyListWhenResultByRoundNotExists() throws Exception {
+        mvc.perform(get("/api/bet/result/round/1"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(jsonPath("$", hasSize(0)));
+    }
+
+    @Test
+    void shouldReturnResultListWhenBetCheckedByRoundExists() throws Exception {
+        givenBets().buildNumberOfBetsForMatchRoundAndStatus(2, 1L, BetStatus.CHECKED);
+        givenBets().buildNumberOfBetsForMatchRoundAndStatus(2, 1L, BetStatus.IN_PROGRESS);
+
+
+        mvc.perform(get("/api/bet/result/round/1"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andExpect(jsonPath("$", hasSize(2)));
+    }
+
+    private BetFactory givenBets() {
+        return new BetFactory(betSaver);
+    }
 
 }

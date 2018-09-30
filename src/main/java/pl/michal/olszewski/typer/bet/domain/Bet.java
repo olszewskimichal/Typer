@@ -46,4 +46,8 @@ class Bet {
   void setStatusAsBlocked() {
     status = BetStatus.IN_PROGRESS;
   }
+
+  boolean isChecked(){
+    return status.equals(BetStatus.CHECKED);
+  }
 }

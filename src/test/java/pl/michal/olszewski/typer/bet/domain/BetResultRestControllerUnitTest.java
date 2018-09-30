@@ -9,6 +9,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.ResponseEntity;
+import pl.michal.olszewski.typer.bet.dto.BetNotCheckedException;
 import pl.michal.olszewski.typer.bet.dto.BetNotFoundException;
 import pl.michal.olszewski.typer.bet.dto.read.BetResult;
 
@@ -40,7 +41,8 @@ class BetResultRestControllerUnitTest {
 
     @Test
     void shouldReturnResultListWhenResultByUserExists() {
-        givenBets().buildNumberOfBetsForUserAndSave(2, 1L);
+        givenBets().buildNumberOfBetsForUserAndStatus(2, 1L, BetStatus.CHECKED);
+        givenBets().buildNumberOfBetsForUserAndStatus(2, 1L, BetStatus.IN_PROGRESS);
 
         ResponseEntity<List<BetResult>> userResults = betResultRestController.getUserResults(1L);
 
@@ -54,8 +56,15 @@ class BetResultRestControllerUnitTest {
     }
 
     @Test
+    void shouldThrowExceptionWhenBetByIdIsNotChecked() {
+        givenBets().buildBetWithIdAndStatus(2L, BetStatus.IN_PROGRESS);
+
+        assertThrows(BetNotCheckedException.class, () -> betResultRestController.getResultByBetId(2L));
+    }
+
+    @Test
     void shouldReturnBetResultById() {
-        givenBets().buildBetWithIdAndSave(1L);
+        givenBets().buildBetWithIdAndStatus(1L, BetStatus.CHECKED);
 
         ResponseEntity<BetResult> resultByBetId = betResultRestController.getResultByBetId(1L);
 
@@ -74,7 +83,8 @@ class BetResultRestControllerUnitTest {
 
     @Test
     void shouldReturnResultListWhenResultByMatchExists() {
-        givenBets().buildNumberOfBetsForMatchAndSave(2, 1L);
+        givenBets().buildNumberOfBetsForMatchAndStatus(2, 1L, BetStatus.CHECKED);
+        givenBets().buildNumberOfBetsForMatchAndStatus(2, 1L, BetStatus.IN_PROGRESS);
 
         ResponseEntity<List<BetResult>> userResults = betResultRestController.getMatchResults(1L);
 
@@ -92,7 +102,8 @@ class BetResultRestControllerUnitTest {
 
     @Test
     void shouldReturnResultListWhenResultByRoundExists() {
-        givenBets().buildNumberOfBetsForMatchRoundAndSave(2, 1L);
+        givenBets().buildNumberOfBetsForMatchRoundAndStatus(2, 1L, BetStatus.CHECKED);
+        givenBets().buildNumberOfBetsForMatchRoundAndStatus(2, 1L, BetStatus.IN_PROGRESS);
 
         ResponseEntity<List<BetResult>> userResults = betResultRestController.getRoundResults(1L);
 
