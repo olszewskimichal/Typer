@@ -10,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import pl.michal.olszewski.typer.bet.dto.BetNotFoundException;
 import pl.michal.olszewski.typer.bet.dto.command.CreateNewBet;
 import pl.michal.olszewski.typer.bet.dto.read.BetInfo;
-import pl.michal.olszewski.typer.match.dto.MatchNotFoundException;
 
 class BetRestControllerUnitTest {
 
@@ -49,14 +48,6 @@ class BetRestControllerUnitTest {
 
     assertThat(responseEntity.getStatusCodeValue()).isEqualTo(200);
     assertThat(responseEntity.getBody()).isEqualToIgnoringCase("OK");
-  }
-
-  @Test
-  void shouldThrowExceptionWhenMatchIdIsNullOnCreateNewBet() { //TODO zrobić podobne testy dla innych wartosci/walidacji
-    CreateNewBet createNewBet = CreateNewBet.builder().betHomeGoals(1L).betAwayGoals(1L).userId(1L).matchRoundId(1L).build();
-
-    assertThrows(MatchNotFoundException.class, () -> betRestController.createNewBet(createNewBet));
-
   }
 
   @AfterEach
