@@ -13,8 +13,6 @@ class MatchCreatorTest {
 
   private MatchRoundFinder matchRoundFinder = new InMemoryMatchRoundFinder();
   private MatchRoundSaver matchRoundSaver = new InMemoryMatchRoundSaver();
-  private MatchCreator matchCreator = new MatchCreator(matchRoundFinder);
-
 
   @BeforeEach
   void setUp() {
@@ -23,7 +21,7 @@ class MatchCreatorTest {
 
   @Test
   void shouldThrowExceptionWhenCommandIsNull() {
-    assertThrows(NullPointerException.class, () -> matchCreator.from(null));
+    assertThrows(NullPointerException.class, () -> MatchCreator.from(null, matchRoundFinder));
   }
 
   @Test
@@ -40,7 +38,7 @@ class MatchCreatorTest {
         .roundId(3L)
         .build();
     //when
-    Match from = matchCreator.from(createNewMatch);
+    Match from = MatchCreator.from(createNewMatch, matchRoundFinder);
     //then
     assertThat(from).isNotNull();
     assertThat(from).isEqualToComparingFieldByField(expected);
@@ -51,7 +49,7 @@ class MatchCreatorTest {
     //given
     //when
     //then
-    assertThrows(MatchRoundNotFoundException.class, () -> matchCreator.from(CreateNewMatch.builder().awayTeamId(2L).homeTeamId(1L).build()));
+    assertThrows(MatchRoundNotFoundException.class, () -> MatchCreator.from(CreateNewMatch.builder().awayTeamId(2L).homeTeamId(1L).build(), matchRoundFinder));
   }
 
   @Test
@@ -59,8 +57,8 @@ class MatchCreatorTest {
     //given
     //when
     //then
-    assertThrows(IllegalMatchMemberException.class, () -> matchCreator.from(CreateNewMatch.builder().awayTeamId(null).homeTeamId(1L).roundId(1L).build()));
-    assertThrows(IllegalMatchMemberException.class, () -> matchCreator.from(CreateNewMatch.builder().awayTeamId(1L).homeTeamId(null).roundId(2L).build()));
+    assertThrows(IllegalMatchMemberException.class, () -> MatchCreator.from(CreateNewMatch.builder().awayTeamId(null).homeTeamId(1L).roundId(1L).build(), matchRoundFinder));
+    assertThrows(IllegalMatchMemberException.class, () -> MatchCreator.from(CreateNewMatch.builder().awayTeamId(1L).homeTeamId(null).roundId(2L).build(), matchRoundFinder));
   }
 
   @Test
@@ -70,7 +68,7 @@ class MatchCreatorTest {
 
     //when
     //then
-    assertThrows(IllegalMatchMemberException.class, () -> matchCreator.from(createNewMatch));
+    assertThrows(IllegalMatchMemberException.class, () -> MatchCreator.from(createNewMatch, matchRoundFinder));
   }
 
   @Test
@@ -84,7 +82,7 @@ class MatchCreatorTest {
         .build();
     //when
     //then
-    assertThrows(MatchRoundNotFoundException.class, () -> matchCreator.from(createNewMatch));
+    assertThrows(MatchRoundNotFoundException.class, () -> MatchCreator.from(createNewMatch, matchRoundFinder));
   }
 
 

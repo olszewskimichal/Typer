@@ -17,6 +17,7 @@ import lombok.Setter;
 import lombok.ToString;
 import pl.michal.olszewski.typer.match.dto.events.MatchCanceled;
 import pl.michal.olszewski.typer.match.dto.events.MatchFinished;
+import pl.michal.olszewski.typer.match.dto.read.MatchInfo;
 
 @Entity
 @NoArgsConstructor
@@ -35,6 +36,10 @@ class Match {
 
   private Long awayTeamId;
 
+  @Getter
+  @Setter
+  private Instant startDate;
+
   @Setter
   private Long homeGoals;
 
@@ -51,9 +56,6 @@ class Match {
   @Getter
   @Setter
   private Long livescoreLeagueId; //Zdenormalizowana kolumna by ograniczyć liczbę zapytań
-
-  @Getter
-  private Instant startDate;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "ROUND_ID")
@@ -76,5 +78,9 @@ class Match {
   void integrateMatchWithLivescore(Long livescoreId, Long livescoreLeagueId) {
     setLivescoreId(livescoreId);
     setLivescoreLeagueId(livescoreLeagueId);
+  }
+
+  MatchInfo toMatchInfo() {
+    return new MatchInfo(id, homeGoals, awayGoals, homeTeamId, awayTeamId, matchStatus);
   }
 }

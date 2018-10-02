@@ -30,7 +30,7 @@ public class BetRestController {
 
 
   @PostMapping("")
-  ResponseEntity<String> createNewBet(@Valid @ModelAttribute("createNewBet") CreateNewBet createNewBet/*, Errors errors*/) {
+  ResponseEntity<String> createNewBet(@Valid @ModelAttribute("createNewBet") CreateNewBet createNewBet) {
     Bet from = BetCreator.from(createNewBet);
     betSaver.save(from);
     return ResponseEntity.ok("OK");

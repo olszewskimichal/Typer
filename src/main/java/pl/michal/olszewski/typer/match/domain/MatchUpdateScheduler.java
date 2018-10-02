@@ -35,6 +35,7 @@ class MatchUpdateScheduler {
     for (Entry<Long, List<Match>> entry : listMap.entrySet()) {
       LocalDate date = entry.getValue()
           .stream()
+          .filter(v -> v.getStartDate() != null)
           .map(Match::getStartDate)
           .map(v -> v.atZone(ZoneId.systemDefault()).toLocalDate())
           .min(LocalDate::compareTo)

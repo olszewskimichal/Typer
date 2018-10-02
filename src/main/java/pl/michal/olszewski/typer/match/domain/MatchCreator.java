@@ -2,20 +2,12 @@ package pl.michal.olszewski.typer.match.domain;
 
 import java.util.Objects;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
 import pl.michal.olszewski.typer.match.dto.command.CreateNewMatch;
 
-@Component
 @Slf4j
 class MatchCreator {
 
-  private final MatchRoundFinder matchRoundFinder;
-
-  MatchCreator(MatchRoundFinder matchRoundFinder) {
-    this.matchRoundFinder = matchRoundFinder;
-  }
-
-  Match from(CreateNewMatch createNewMatch) {
+  static Match from(CreateNewMatch createNewMatch, MatchRoundFinder matchRoundFinder) {
     log.debug("Creating match from command {}", createNewMatch);
     Objects.requireNonNull(createNewMatch);
     createNewMatch.validCommand();
