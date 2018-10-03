@@ -1,6 +1,7 @@
 package pl.michal.olszewski.typer.match.domain;
 
 import javax.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -35,6 +36,6 @@ public class MatchRestController {
   ResponseEntity<String> createNewMatch(@Valid @ModelAttribute("createNewMatch") CreateNewMatch createNewMatch) {
     Match from = MatchCreator.from(createNewMatch, matchRoundFinder);
     matchSaver.save(from);
-    return ResponseEntity.ok("OK");
+    return new ResponseEntity<>(HttpStatus.CREATED);
   }
 }

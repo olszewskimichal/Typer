@@ -73,7 +73,7 @@ class MatchRestControllerIntegrationTest {
         .param("homeTeamId", "1")
         .param("awayTeamId", "2")
         .param("startDate", Instant.now() + ""))
-        .andExpect(status().isOk());
+        .andExpect(status().isCreated());
   }
 
   @Test

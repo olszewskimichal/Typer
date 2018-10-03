@@ -70,7 +70,7 @@ class BetRestControllerIntegrationTest {
         .param("matchRoundId", "1")
         .param("betAwayGoals", "1")
         .param("betHomeGoals", "1"))
-        .andExpect(status().isOk());
+        .andExpect(status().isCreated());
   }
 
   @Test

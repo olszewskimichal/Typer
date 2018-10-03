@@ -46,8 +46,8 @@ class BetRestControllerUnitTest {
     CreateNewBet createNewBet = CreateNewBet.builder().betHomeGoals(1L).betAwayGoals(1L).userId(1L).matchId(1L).matchRoundId(1L).build();
     ResponseEntity<String> responseEntity = betRestController.createNewBet(createNewBet);
 
-    assertThat(responseEntity.getStatusCodeValue()).isEqualTo(200);
-    assertThat(responseEntity.getBody()).isEqualToIgnoringCase("OK");
+    assertThat(responseEntity.getStatusCodeValue()).isEqualTo(201);
+    assertThat(responseEntity.getBody()).isNull();
   }
 
   @AfterEach

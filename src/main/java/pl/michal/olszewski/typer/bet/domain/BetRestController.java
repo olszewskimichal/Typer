@@ -1,6 +1,7 @@
 package pl.michal.olszewski.typer.bet.domain;
 
 import javax.validation.Valid;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -13,7 +14,7 @@ import pl.michal.olszewski.typer.bet.dto.read.BetInfo;
 
 @RestController
 @RequestMapping("/api/bet")
-public class BetRestController {
+class BetRestController {
 
   private final BetFinder betFinder;
   private final BetSaver betSaver;
@@ -33,6 +34,6 @@ public class BetRestController {
   ResponseEntity<String> createNewBet(@Valid @ModelAttribute("createNewBet") CreateNewBet createNewBet) {
     Bet from = BetCreator.from(createNewBet);
     betSaver.save(from);
-    return ResponseEntity.ok("OK");
+    return new ResponseEntity<>(HttpStatus.CREATED);
   }
 }
