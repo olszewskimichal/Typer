@@ -14,7 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 class FinishMatchFileController {
 
   private final FinishMatchFileAdapter finishMatchFileAdapter;
-  
+
   public FinishMatchFileController(FinishMatchFileAdapter finishMatchFileAdapter) {
     this.finishMatchFileAdapter = finishMatchFileAdapter;
   }
