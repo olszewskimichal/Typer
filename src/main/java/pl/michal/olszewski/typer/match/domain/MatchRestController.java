@@ -14,7 +14,7 @@ import pl.michal.olszewski.typer.match.dto.read.MatchInfo;
 
 @RestController
 @RequestMapping("/api/match")
-public class MatchRestController {
+class MatchRestController {
 
   private final MatchRoundFinder matchRoundFinder;
   private final MatchFinder matchFinder;

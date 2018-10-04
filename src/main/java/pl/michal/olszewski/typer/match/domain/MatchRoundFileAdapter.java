@@ -22,13 +22,13 @@ class MatchRoundFileAdapter {
   private static final String LEAGUE_ID = "leagueId";
   private static final List<String> DEFAULT_COLUMNS = Arrays.asList(NAME, LEAGUE_ID);
 
-  private final MatchRoundCreator matchRoundCreator;
+  private final MatchLeagueFinder matchLeagueFinder;
   private final MatchRoundSaver matchRoundSaver;
   private final FileStorageService fileStorageService;
 
 
-  public MatchRoundFileAdapter(MatchRoundCreator matchRoundCreator, MatchRoundSaver matchRoundSaver, FileStorageService fileStorageService) {
-    this.matchRoundCreator = matchRoundCreator;
+  public MatchRoundFileAdapter(MatchLeagueFinder matchLeagueFinder, MatchRoundSaver matchRoundSaver, FileStorageService fileStorageService) {
+    this.matchLeagueFinder = matchLeagueFinder;
     this.matchRoundSaver = matchRoundSaver;
     this.fileStorageService = fileStorageService;
   }
@@ -38,7 +38,7 @@ class MatchRoundFileAdapter {
       for (FileAdapterRow fileAdapterRow : fileAdapter) {
         String name = fileAdapterRow.get(MatchRoundFileAdapter.NAME);
         Long leagueId = Long.valueOf(fileAdapterRow.get(MatchRoundFileAdapter.LEAGUE_ID));
-        MatchRound matchRound = matchRoundCreator.from(CreateNewRound.builder().name(name).leagueId(leagueId).build());
+        MatchRound matchRound = MatchRoundCreator.from(CreateNewRound.builder().name(name).leagueId(leagueId).build(), matchLeagueFinder);
         matchRoundSaver.save(matchRound);
         log.debug("Zapisałem runde {}", matchRound);
       }

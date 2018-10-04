@@ -1,5 +1,6 @@
 package pl.michal.olszewski.typer.match.dto.command;
 
+import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -13,7 +14,9 @@ import pl.michal.olszewski.typer.match.dto.MatchLeagueNotFoundException;
 @ToString
 public class CreateNewRound implements CommandValid {
 
+  @NotNull
   private final String name;
+  @NotNull
   private final Long leagueId;
 
   @Override

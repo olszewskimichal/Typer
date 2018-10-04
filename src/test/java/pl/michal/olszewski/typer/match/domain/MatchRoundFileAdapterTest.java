@@ -25,7 +25,7 @@ class MatchRoundFileAdapterTest {
     MatchLeagueFinder matchLeagueFinder = new InMemoryMatchLeagueFinder();
     leagueFinder = new InMemoryMatchRoundFinder();
 
-    matchLeagueFileAdapter = new MatchRoundFileAdapter(new MatchRoundCreator(matchLeagueFinder), matchRoundSaver, new FileStorageService(fileStorageProperties));
+    matchLeagueFileAdapter = new MatchRoundFileAdapter(matchLeagueFinder, matchRoundSaver, new FileStorageService(fileStorageProperties));
 
     matchRoundSaver.deleteAll();
     matchLeagueSaver.deleteAll();

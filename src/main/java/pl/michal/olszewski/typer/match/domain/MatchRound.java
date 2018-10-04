@@ -17,6 +17,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import pl.michal.olszewski.typer.match.dto.read.MatchRoundInfo;
 
 @Builder
 @NoArgsConstructor
@@ -55,4 +56,7 @@ class MatchRound {
     match.setMatchRound(this);
   }
 
+  MatchRoundInfo toMatchRoundInfo() {
+    return new MatchRoundInfo(id, name, matchLeague != null ? matchLeague.getId() : null);
+  }
 }
