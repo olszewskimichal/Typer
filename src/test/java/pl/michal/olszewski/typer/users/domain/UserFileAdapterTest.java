@@ -22,7 +22,7 @@ class UserFileAdapterTest {
     fileStorageProperties.setUploadDir("uploads");
     UserSaver userSaver = new InMemoryUserSaver();
     userFinder = new InMemoryUserFinder();
-    userFileAdapter = new UserFileAdapter(new UserCreator(userFinder), userSaver, new FileStorageService(fileStorageProperties));
+    userFileAdapter = new UserFileAdapter(userFinder, userSaver, new FileStorageService(fileStorageProperties));
     userSaver.deleteAll();
   }
 

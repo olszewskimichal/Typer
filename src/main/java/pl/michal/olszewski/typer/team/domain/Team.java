@@ -9,6 +9,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import pl.michal.olszewski.typer.team.dto.read.TeamInfo;
 
 @Entity
 @NoArgsConstructor
@@ -27,4 +28,7 @@ class Team {
 
   private Long livescoreId;
 
+  TeamInfo toTeamInfo() {
+    return new TeamInfo(id, name);
+  }
 }

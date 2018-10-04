@@ -1,12 +1,12 @@
-package pl.michal.olszewski.typer.users;
+package pl.michal.olszewski.typer.team.dto;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(HttpStatus.NOT_FOUND)
-public class UserNotFoundException extends RuntimeException {
+public class TeamNotFoundException extends RuntimeException {
 
-  public UserNotFoundException(String message) {
+  public TeamNotFoundException(String message) {
     super(message);
   }
 
