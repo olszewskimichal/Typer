@@ -41,8 +41,6 @@ class MatchLeagueRestControllerUnitTest {
 
   @Test
   void shouldCreateNewMatchLeague() {
-    matchLeagueSaver.save(MatchLeague.builder().id(1L).build());
-
     CreateNewLeague createNewLeague = CreateNewLeague.builder().betTypePolicy(1L).name("name").build();
     ResponseEntity<String> responseEntity = matchLeagueRestController.createNewMatchLeague(createNewLeague);
 
@@ -52,7 +50,6 @@ class MatchLeagueRestControllerUnitTest {
 
   @AfterEach
   void removeAll() {
-    matchLeagueSaver.deleteAll();
     matchLeagueSaver.deleteAll();
   }
 
