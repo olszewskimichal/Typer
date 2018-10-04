@@ -22,13 +22,11 @@ class MatchLeagueFileAdapter {
   private static final String POLICY_ID = "policyId";
   private static final List<String> DEFAULT_COLUMNS = Arrays.asList(NAME, POLICY_ID);
 
-  private final MatchLeagueCreator matchLeagueCreator;
   private final MatchLeagueSaver matchLeagueSaver;
   private final FileStorageService fileStorageService;
 
 
-  public MatchLeagueFileAdapter(MatchLeagueCreator matchLeagueCreator, MatchLeagueSaver matchLeagueSaver, FileStorageService fileStorageService) {
-    this.matchLeagueCreator = matchLeagueCreator;
+  public MatchLeagueFileAdapter(MatchLeagueSaver matchLeagueSaver, FileStorageService fileStorageService) {
     this.matchLeagueSaver = matchLeagueSaver;
     this.fileStorageService = fileStorageService;
   }
@@ -38,7 +36,7 @@ class MatchLeagueFileAdapter {
       for (FileAdapterRow fileAdapterRow : fileAdapter) {
         String name = fileAdapterRow.get(MatchLeagueFileAdapter.NAME);
         Long policyId = Long.valueOf(fileAdapterRow.get(MatchLeagueFileAdapter.POLICY_ID));
-        MatchLeague matchLeague = matchLeagueCreator.from(CreateNewLeague.builder().name(name).betTypePolicy(policyId).build());
+        MatchLeague matchLeague = MatchLeagueCreator.from(CreateNewLeague.builder().name(name).betTypePolicy(policyId).build());
         matchLeagueSaver.save(matchLeague);
         log.debug("Zapisałem nowa lige {}", matchLeague);
       }
