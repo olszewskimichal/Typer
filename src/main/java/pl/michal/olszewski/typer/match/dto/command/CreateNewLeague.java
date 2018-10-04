@@ -1,5 +1,6 @@
 package pl.michal.olszewski.typer.match.dto.command;
 
+import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -12,8 +13,10 @@ import pl.michal.olszewski.typer.CommandValid;
 @ToString
 public class CreateNewLeague implements CommandValid {
 
-  private final String name;
+  @NotNull
   private final Long betTypePolicy;
+  @NotNull
+  private final String name;
 
   @Override
   public void validCommand() {

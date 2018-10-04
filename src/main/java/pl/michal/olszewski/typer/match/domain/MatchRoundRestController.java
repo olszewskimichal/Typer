@@ -33,7 +33,7 @@ class MatchRoundRestController {
 
 
   @PostMapping("")
-  ResponseEntity<String> createNewMatchRound(@Valid @ModelAttribute("createNewMatch") CreateNewRound createNewRound) {
+  ResponseEntity<String> createNewMatchRound(@Valid @ModelAttribute("createNewRound") CreateNewRound createNewRound) {
     MatchRound from = MatchRoundCreator.from(createNewRound, matchLeagueFinder);
     matchRoundSaver.save(from);
     return new ResponseEntity<>(HttpStatus.CREATED);
