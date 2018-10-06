@@ -19,17 +19,12 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
+import pl.michal.olszewski.typer.RestControllerIntegrationTestBase;
 
-@ExtendWith(SpringExtension.class)
-@SpringBootTest(webEnvironment = RANDOM_PORT)
-class TeamControllerIntegrationTest {
+class TeamControllerIntegrationTest extends RestControllerIntegrationTestBase {
 
-  @Autowired
-  private WebApplicationContext wac;
   @Autowired
   private TeamSaver teamSaver;
-
-  private MockMvc mvc;
 
   @BeforeEach
   void setUp() {
