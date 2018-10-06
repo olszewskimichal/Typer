@@ -28,7 +28,6 @@ class LivescoreApiTest {
 
     assertThat(responseBody.getData()).isNotNull();
     assertThat(responseBody.getData().getMatches()).isNotNull().isNotEmpty();
-    System.out.println(responseBody);
   }
 
   @Test
@@ -41,7 +40,6 @@ class LivescoreApiTest {
 
     assertThat(responseBody.getData()).isNotNull();
     assertThat(responseBody.getData().getMatches()).isNotNull().isNotEmpty();
-    System.out.println(responseBody);
     assertThat(responseBody.getData().getMatches().stream().anyMatch(v -> v.getDate().isBefore(from))).isFalse();
   }
 }
