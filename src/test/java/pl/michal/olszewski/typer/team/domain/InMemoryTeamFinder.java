@@ -9,7 +9,6 @@ class InMemoryTeamFinder implements TeamFinder {
 
   static ConcurrentHashMap<Long, Team> map = new ConcurrentHashMap<>();
 
-
   @Override
   public Optional<Team> findByName(String name) {
     return map.values().stream().filter(v -> v.getName().equalsIgnoreCase(name)).findAny();
@@ -18,5 +17,11 @@ class InMemoryTeamFinder implements TeamFinder {
   @Override
   public List<Team> findAll() {
     return new ArrayList<>(map.values());
+  }
+
+
+  @Override
+  public Team findById(Long id) {
+    return map.get(id);
   }
 }

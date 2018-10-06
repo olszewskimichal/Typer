@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -19,11 +20,17 @@ class BetUpdaterTest {
   private BetFinder betFinder = new InMemoryBetFinder();
   private BetEventPublisher eventPublisher;
   private BetUpdater betUpdater;
+  private BetSaver betSaver = new InMemoryBetSaver();
 
   @BeforeEach
   void configureSystemUnderTests() {
     eventPublisher = mock(BetEventPublisher.class);
-    betUpdater = new BetUpdater(betFinder, eventPublisher);
+    betUpdater = new BetUpdater(betFinder, betSaver, eventPublisher);
+  }
+
+  @AfterEach
+  void removeAll() {
+    betSaver.deleteAll();
   }
 
   @Test
@@ -45,7 +52,7 @@ class BetUpdaterTest {
   void shouldThrowExceptionWhenCancelledBetIsNotFound() {
     CancelBet cancelBet = CancelBet
         .builder()
-        .betId(1L)
+        .betId(7L)
         .build();
 
     assertThrows(BetNotFoundException.class, () -> betUpdater.cancelBet(cancelBet));

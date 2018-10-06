@@ -1,5 +1,7 @@
 package pl.michal.olszewski.typer.match.domain;
 
+import static pl.michal.olszewski.typer.match.domain.MatchCreator.from;
+
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Arrays;
@@ -23,13 +25,13 @@ class MatchFileAdapter {
   private static final String AWAY_TEAM_ID = "awayTeamId";
   private static final List<String> defaultColumns = Arrays.asList(ROUND_ID, HOME_TEAM_ID, AWAY_TEAM_ID);
 
-  private final MatchCreator matchCreator;
+  private final MatchRoundFinder matchRoundFinder;
   private final MatchSaver matchSaver;
   private final FileStorageService fileStorageService;
 
 
-  public MatchFileAdapter(MatchCreator matchCreator, MatchSaver matchSaver, FileStorageService fileStorageService) {
-    this.matchCreator = matchCreator;
+  public MatchFileAdapter(MatchRoundFinder matchRoundFinder, MatchSaver matchSaver, FileStorageService fileStorageService) {
+    this.matchRoundFinder = matchRoundFinder;
     this.matchSaver = matchSaver;
     this.fileStorageService = fileStorageService;
   }
@@ -40,7 +42,7 @@ class MatchFileAdapter {
         Long roundId = Long.valueOf(fileAdapterRow.get(MatchFileAdapter.ROUND_ID));
         Long homeTeamId = Long.valueOf(fileAdapterRow.get(MatchFileAdapter.HOME_TEAM_ID));
         Long awayTeamId = Long.valueOf(fileAdapterRow.get(MatchFileAdapter.AWAY_TEAM_ID));
-        Match match = matchCreator.from(CreateNewMatch.builder().roundId(roundId).homeTeamId(homeTeamId).awayTeamId(awayTeamId).build());
+        Match match = from(CreateNewMatch.builder().roundId(roundId).homeTeamId(homeTeamId).awayTeamId(awayTeamId).build(), matchRoundFinder);
         matchSaver.save(match);
         log.debug("Zapisałem mecz {}", match);
       }

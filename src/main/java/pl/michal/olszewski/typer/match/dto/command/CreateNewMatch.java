@@ -1,5 +1,7 @@
 package pl.michal.olszewski.typer.match.dto.command;
 
+import java.time.Instant;
+import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,9 +16,13 @@ import pl.michal.olszewski.typer.match.dto.MatchRoundNotFoundException;
 @ToString
 public class CreateNewMatch implements CommandValid {
 
+  @NotNull
   private final Long roundId;
+  @NotNull
   private final Long homeTeamId;
+  @NotNull
   private final Long awayTeamId;
+  private final Instant startDate;
 
   public void validCommand() {
     if (roundId == null) {

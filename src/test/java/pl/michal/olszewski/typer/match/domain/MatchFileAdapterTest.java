@@ -25,7 +25,7 @@ class MatchFileAdapterTest {
     MatchRoundSaver matchRoundSaver = new InMemoryMatchRoundSaver();
     matchRoundSaver.save(MatchRound.builder().id(1L).build());
     matchFinder = new InMemoryMatchFinder();
-    matchFileAdapter = new MatchFileAdapter(new MatchCreator(inMemoryMatchRoundFinder), matchSaver, new FileStorageService(fileStorageProperties));
+    matchFileAdapter = new MatchFileAdapter(inMemoryMatchRoundFinder, matchSaver, new FileStorageService(fileStorageProperties));
   }
 
 

@@ -26,13 +26,11 @@ class BetFileAdapter {
 
   private static final List<String> defaultColumns = Arrays.asList(MATCH_ID, ROUND_ID, USER_ID, HOME_GOALS, AWAY_GOALS);
 
-  private final BetCreator betCreator;
   private final BetSaver betSaver;
   private final FileStorageService fileStorageService;
 
 
-  public BetFileAdapter(BetCreator betCreator, BetSaver betSaver, FileStorageService fileStorageService) {
-    this.betCreator = betCreator;
+  public BetFileAdapter(BetSaver betSaver, FileStorageService fileStorageService) {
     this.betSaver = betSaver;
     this.fileStorageService = fileStorageService;
   }
@@ -46,7 +44,7 @@ class BetFileAdapter {
         Long homeGoals = Long.valueOf(fileAdapterRow.get(BetFileAdapter.HOME_GOALS));
         Long awayGoals = Long.valueOf(fileAdapterRow.get(BetFileAdapter.AWAY_GOALS));
 
-        Bet bet = betCreator.from(CreateNewBet.builder()
+        Bet bet = BetCreator.from(CreateNewBet.builder()
             .matchId(matchId)
             .matchRoundId(roundId)
             .userId(userId)

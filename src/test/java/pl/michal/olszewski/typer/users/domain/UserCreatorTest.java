@@ -11,11 +11,10 @@ class UserCreatorTest {
 
   private UserSaver userSaver = new InMemoryUserSaver();
   private UserFinder userFinder = new InMemoryUserFinder();
-  private UserCreator userCreator = new UserCreator(userFinder);
 
   @Test
   void shouldThrowExceptionWhenCommandIsNull() {
-    assertThrows(NullPointerException.class, () -> userCreator.from(null));
+    assertThrows(NullPointerException.class, () -> UserCreator.from(null, userFinder));
   }
 
 
@@ -24,8 +23,8 @@ class UserCreatorTest {
     //given
     //when
     //then
-    assertThrows(IllegalArgumentException.class, () -> userCreator.from(CreateNewUser.builder().email("a").username(null).build()));
-    assertThrows(IllegalArgumentException.class, () -> userCreator.from(CreateNewUser.builder().username("a").email(null).build()));
+    assertThrows(IllegalArgumentException.class, () -> UserCreator.from(CreateNewUser.builder().email("a").username(null).build(), userFinder));
+    assertThrows(IllegalArgumentException.class, () -> UserCreator.from(CreateNewUser.builder().username("a").email(null).build(), userFinder));
   }
 
   @Test
@@ -35,7 +34,7 @@ class UserCreatorTest {
 
     CreateNewUser createNewUser = CreateNewUser.builder().email("email").username("username").build();
     //when
-    User user = userCreator.from(createNewUser);
+    User user = UserCreator.from(createNewUser, userFinder);
     //then
     assertThat(user).isEqualToComparingFieldByField(expected);
   }
@@ -48,7 +47,7 @@ class UserCreatorTest {
     CreateNewUser createNewUser = CreateNewUser.builder().email("email").username("username").build();
     //when
     //then
-    assertThrows(UserExistsException.class, () -> userCreator.from(createNewUser));
+    assertThrows(UserExistsException.class, () -> UserCreator.from(createNewUser, userFinder));
   }
 
 

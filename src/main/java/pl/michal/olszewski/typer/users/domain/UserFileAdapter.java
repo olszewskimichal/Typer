@@ -22,12 +22,12 @@ class UserFileAdapter {
   private static final String EMAIL = "email";
   private static final List<String> defaultColumns = Arrays.asList(EMAIL, USERNAME);
 
-  private final UserCreator userCreator;
+  private final UserFinder userFinder;
   private final UserSaver userSaver;
   private final FileStorageService fileStorageService;
 
-  public UserFileAdapter(UserCreator userCreator, UserSaver userSaver, FileStorageService fileStorageService) {
-    this.userCreator = userCreator;
+  public UserFileAdapter(UserFinder userFinder, UserSaver userSaver, FileStorageService fileStorageService) {
+    this.userFinder = userFinder;
     this.userSaver = userSaver;
     this.fileStorageService = fileStorageService;
   }
@@ -38,7 +38,7 @@ class UserFileAdapter {
         String username = fileAdapterRow.get(UserFileAdapter.USERNAME);
         String email = fileAdapterRow.get(UserFileAdapter.EMAIL);
         CreateNewUser createNewUser = CreateNewUser.builder().email(email).username(username).build();
-        User from = userCreator.from(createNewUser);
+        User from = UserCreator.from(createNewUser, userFinder);
         userSaver.save(from);
         log.debug("Zapisałem uzytkownika {}", from);
       }

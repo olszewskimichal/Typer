@@ -21,7 +21,7 @@ class BetFileAdapterTest {
     fileStorageProperties.setUploadDir("uploads");
     BetSaver betSaver = new InMemoryBetSaver();
     betFinder = new InMemoryBetFinder();
-    betFileAdapter = new BetFileAdapter(new BetCreator(), betSaver, new FileStorageService(fileStorageProperties));
+    betFileAdapter = new BetFileAdapter(betSaver, new FileStorageService(fileStorageProperties));
     betSaver.deleteAll();
   }
 

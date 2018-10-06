@@ -1,5 +1,6 @@
 package pl.michal.olszewski.typer.bet.dto.command;
 
+import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -16,10 +17,15 @@ import pl.michal.olszewski.typer.users.UserNotFoundException;
 @ToString
 public class CreateNewBet implements CommandValid {
 
+  @NotNull
   private Long betHomeGoals;
+  @NotNull
   private Long betAwayGoals;
+  @NotNull
   private Long matchId;
+  @NotNull
   private Long userId;
+  @NotNull
   private Long matchRoundId;
 
   @Override

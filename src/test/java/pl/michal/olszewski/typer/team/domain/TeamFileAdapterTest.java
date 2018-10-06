@@ -21,7 +21,7 @@ class TeamFileAdapterTest {
     fileStorageProperties.setUploadDir("uploads");
     TeamSaver teamSaver = new InMemoryTeamSaver();
     teamFinder = new InMemoryTeamFinder();
-    teamFileAdapter = new TeamFileAdapter(new TeamCreator(teamFinder), teamSaver, new FileStorageService(fileStorageProperties));
+    teamFileAdapter = new TeamFileAdapter(teamFinder, teamSaver, new FileStorageService(fileStorageProperties));
     teamSaver.deleteAll();
   }
 

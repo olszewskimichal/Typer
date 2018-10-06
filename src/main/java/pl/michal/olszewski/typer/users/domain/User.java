@@ -9,6 +9,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import pl.michal.olszewski.typer.users.dto.dto.UserInfo;
 
 @Entity
 @NoArgsConstructor
@@ -26,5 +27,9 @@ class User {
   private String email;
 
   private String username;
+
+  UserInfo toUserInfo() {
+    return new UserInfo(id, email, username);
+  }
 
 }

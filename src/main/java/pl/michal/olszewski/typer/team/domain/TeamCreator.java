@@ -10,13 +10,7 @@ import pl.michal.olszewski.typer.team.dto.command.CreateNewTeam;
 @Slf4j
 class TeamCreator {
 
-  private final TeamFinder teamFinder;
-
-  TeamCreator(TeamFinder teamFinder) {
-    this.teamFinder = teamFinder;
-  }
-
-  public Team from(CreateNewTeam command) {
+  static Team from(CreateNewTeam command, TeamFinder teamFinder) {
     log.debug("Creating team from command {}", command);
     Objects.requireNonNull(command);
     command.validCommand();

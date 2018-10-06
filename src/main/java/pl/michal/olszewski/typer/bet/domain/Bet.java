@@ -9,7 +9,9 @@ import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
+import pl.michal.olszewski.typer.bet.dto.read.BetInfo;
 
 @Entity
 @NoArgsConstructor
@@ -26,6 +28,7 @@ class Bet {
   @Builder.Default
   private BetStatus status = BetStatus.NEW;
   @Builder.Default
+  @Setter
   private Long points = 0L;
   private Long betHomeGoals;
   private Long betAwayGoals;
@@ -43,5 +46,13 @@ class Bet {
 
   void setStatusAsBlocked() {
     status = BetStatus.IN_PROGRESS;
+  }
+
+  boolean isChecked() {
+    return status.equals(BetStatus.CHECKED);
+  }
+
+  BetInfo toBetInfo() {
+    return new BetInfo(id, userId, matchId, matchRoundId, betHomeGoals, betAwayGoals, points, status);
   }
 }

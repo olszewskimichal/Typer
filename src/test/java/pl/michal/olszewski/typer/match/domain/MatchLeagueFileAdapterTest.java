@@ -21,7 +21,7 @@ class MatchLeagueFileAdapterTest {
     fileStorageProperties.setUploadDir("uploads");
     MatchLeagueSaver matchLeagueSaver = new InMemoryMatchLeagueSaver();
     leagueFinder = new InMemoryMatchLeagueFinder();
-    matchLeagueFileAdapter = new MatchLeagueFileAdapter(new MatchLeagueCreator(), matchLeagueSaver, new FileStorageService(fileStorageProperties));
+    matchLeagueFileAdapter = new MatchLeagueFileAdapter(matchLeagueSaver, new FileStorageService(fileStorageProperties));
     matchLeagueSaver.deleteAll();
   }
 

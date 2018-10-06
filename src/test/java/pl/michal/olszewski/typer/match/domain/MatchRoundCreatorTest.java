@@ -11,11 +11,10 @@ class MatchRoundCreatorTest {
 
   private MatchLeagueFinder matchLeagueFinder = new InMemoryMatchLeagueFinder();
   private MatchLeagueSaver matchLeagueSaver = new InMemoryMatchLeagueSaver();
-  private MatchRoundCreator matchRoundCreator = new MatchRoundCreator(matchLeagueFinder);
 
   @Test
   void shouldThrowExceptionWhenCommandIsNull() {
-    assertThrows(NullPointerException.class, () -> matchRoundCreator.from(null));
+    assertThrows(NullPointerException.class, () -> MatchRoundCreator.from(null, matchLeagueFinder));
   }
 
   @Test
@@ -31,7 +30,7 @@ class MatchRoundCreatorTest {
         .leagueId(1L)
         .build();
     //when
-    MatchRound from = matchRoundCreator.from(createNewMatch);
+    MatchRound from = MatchRoundCreator.from(createNewMatch, matchLeagueFinder);
     //then
     assertThat(from).isNotNull();
     assertThat(from).isEqualToComparingFieldByField(expected);
@@ -42,7 +41,7 @@ class MatchRoundCreatorTest {
     //given
     //when
     //then
-    assertThrows(IllegalArgumentException.class, () -> matchRoundCreator.from(CreateNewRound.builder().build()));
+    assertThrows(IllegalArgumentException.class, () -> MatchRoundCreator.from(CreateNewRound.builder().build(), matchLeagueFinder));
   }
 
   @Test
@@ -54,7 +53,7 @@ class MatchRoundCreatorTest {
         .build();
     //when
     //then
-    assertThrows(MatchLeagueNotFoundException.class, () -> matchRoundCreator.from(createNewMatch));
+    assertThrows(MatchLeagueNotFoundException.class, () -> MatchRoundCreator.from(createNewMatch, matchLeagueFinder));
   }
 
   @Test
@@ -67,7 +66,7 @@ class MatchRoundCreatorTest {
         .build();
     //when
     //then
-    assertThrows(MatchLeagueNotFoundException.class, () -> matchRoundCreator.from(createNewMatch));
+    assertThrows(MatchLeagueNotFoundException.class, () -> MatchRoundCreator.from(createNewMatch, matchLeagueFinder));
   }
 
 }

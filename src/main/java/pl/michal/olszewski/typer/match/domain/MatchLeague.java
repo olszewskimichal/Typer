@@ -13,6 +13,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import pl.michal.olszewski.typer.match.dto.read.MatchLeagueInfo;
 
 @Builder
 @NoArgsConstructor
@@ -45,6 +46,10 @@ class MatchLeague {
     matchRounds.add(matchRound);
     matchRound.setMatchLeague(this);
     matchRound.setBetTypePolicy(betTypePolicy);
+  }
+
+  MatchLeagueInfo toMatchLeagueInfo() {
+    return new MatchLeagueInfo(id, name, betTypePolicy);
   }
 
 }

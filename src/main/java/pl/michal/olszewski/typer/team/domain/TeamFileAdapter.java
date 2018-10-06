@@ -21,12 +21,12 @@ class TeamFileAdapter {
   private static final String NAME = "name";
   private static final List<String> DEFAULT_COLUMNS = Collections.singletonList(NAME);
 
-  private final TeamCreator teamCreator;
+  private final TeamFinder teamFinder;
   private final TeamSaver teamSaver;
   private final FileStorageService fileStorageService;
 
-  public TeamFileAdapter(TeamCreator teamCreator, TeamSaver teamSaver, FileStorageService fileStorageService) {
-    this.teamCreator = teamCreator;
+  public TeamFileAdapter(TeamFinder teamFinder, TeamSaver teamSaver, FileStorageService fileStorageService) {
+    this.teamFinder = teamFinder;
     this.teamSaver = teamSaver;
     this.fileStorageService = fileStorageService;
   }
@@ -36,7 +36,7 @@ class TeamFileAdapter {
       for (FileAdapterRow fileAdapterRow : fileAdapter) {
         String name = fileAdapterRow.get(TeamFileAdapter.NAME);
         CreateNewTeam createNewTeam = CreateNewTeam.builder().name(name).build();
-        Team from = teamCreator.from(createNewTeam);
+        Team from = TeamCreator.from(createNewTeam, teamFinder);
         teamSaver.save(from);
         log.debug("Zapisałem zespół {}", from);
       }

@@ -9,12 +9,12 @@ import pl.michal.olszewski.typer.team.dto.command.CreateNewTeam;
 
 class TeamCreatorTest {
 
-  private TeamCreator teamCreator = new TeamCreator(new InMemoryTeamFinder());
+  private TeamFinder teamFinder = new InMemoryTeamFinder();
   private TeamSaver teamSaver = new InMemoryTeamSaver();
 
   @Test
   void shouldThrowExceptionWhenCommandIsNull() {
-    assertThrows(NullPointerException.class, () -> teamCreator.from(null));
+    assertThrows(NullPointerException.class, () -> TeamCreator.from(null, teamFinder));
   }
 
   @Test
@@ -22,7 +22,7 @@ class TeamCreatorTest {
     //given
     //when
     //then
-    assertThrows(IllegalArgumentException.class, () -> teamCreator.from(CreateNewTeam.builder().name(null).build()));
+    assertThrows(IllegalArgumentException.class, () -> TeamCreator.from(CreateNewTeam.builder().name(null).build(), teamFinder));
   }
 
   @Test
@@ -33,7 +33,7 @@ class TeamCreatorTest {
     CreateNewTeam createNewUser = CreateNewTeam.builder().name("nazwa").build();
     //when
     //then
-    assertThrows(TeamExistsException.class, () -> teamCreator.from(createNewUser));
+    assertThrows(TeamExistsException.class, () -> TeamCreator.from(createNewUser, teamFinder));
   }
 
   @Test
@@ -43,7 +43,7 @@ class TeamCreatorTest {
 
     CreateNewTeam createNewTeam = CreateNewTeam.builder().name("name").build();
     //when
-    Team team = teamCreator.from(createNewTeam);
+    Team team = TeamCreator.from(createNewTeam, teamFinder);
     //then
     assertThat(team).isEqualToComparingFieldByField(expected);
   }
