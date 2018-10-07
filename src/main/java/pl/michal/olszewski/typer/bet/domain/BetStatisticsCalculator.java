@@ -7,14 +7,10 @@ import java.util.stream.Collectors;
 import lombok.NonNull;
 import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.annotation.Profile;
-import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.stereotype.Component;
 
 @Component
 @Slf4j
-@EnableJpaAuditing
-@Profile("prod")
 class BetStatisticsCalculator {
 
   private final BetStatisticsSaver betStatisticsSaver;
