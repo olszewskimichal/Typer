@@ -5,13 +5,13 @@ import java.util.Random;
 class InMemoryBetStatisticsSaver implements BetStatisticsSaver {
 
 
-    @Override
-    public BetStatisticsBase save(BetStatisticsBase betStatisticsBase) {
-        return InMemoryBetStatisticsFinder.map.put(betStatisticsBase.getId() != null ? betStatisticsBase.getId() : new Random().nextLong(), betStatisticsBase);
-    }
+  @Override
+  public BetStatisticsBase save(BetStatisticsBase betStatisticsBase) {
+    return InMemoryBetStatisticsFinder.map.put(betStatisticsBase.getId() != null ? betStatisticsBase.getId() : new Random().nextLong(), betStatisticsBase);
+  }
 
-    @Override
-    public void deleteAll() {
-        InMemoryBetStatisticsFinder.map.clear();
-    }
+  @Override
+  public void deleteAll() {
+    InMemoryBetStatisticsFinder.map.clear();
+  }
 }
