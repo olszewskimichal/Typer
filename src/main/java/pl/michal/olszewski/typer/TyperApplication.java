@@ -6,7 +6,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
-import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.jms.annotation.EnableJms;
 import org.springframework.jms.support.converter.MappingJackson2MessageConverter;
 import org.springframework.jms.support.converter.MessageConverter;
@@ -20,7 +19,6 @@ import pl.michal.olszewski.typer.file.FileStorageProperties;
 @EnableConfigurationProperties({
     FileStorageProperties.class
 })
-@EnableJpaAuditing
 public class TyperApplication {
 
   public static void main(String[] args) {
