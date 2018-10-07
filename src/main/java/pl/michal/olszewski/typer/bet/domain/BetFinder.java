@@ -1,5 +1,6 @@
 package pl.michal.olszewski.typer.bet.domain;
 
+import java.time.Instant;
 import java.util.List;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;
@@ -33,6 +34,8 @@ interface BetFinder extends Repository<Bet, Long> {
 
   @Query("Select sum(b.points) from Bet b where b.userId=?1 and b.matchRoundId in (select m.id from MatchRound m where m.matchLeague.id=?2) group by b.userId")
   Long findSumOfPointsForLeagueAndUser(Long userId, Long leagueId);
+
+  List<Bet> findByModifiedAfter(Instant from);
 
   default Bet findOneOrThrow(Long id) {
     Bet bet = findById(id);

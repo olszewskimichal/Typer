@@ -1,5 +1,6 @@
 package pl.michal.olszewski.typer.bet.domain;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
@@ -58,6 +59,11 @@ class InMemoryBetFinder implements BetFinder {
         .stream()
         .mapToLong(Bet::getPoints)
         .sum();
+  }
+
+  @Override
+  public List<Bet> findByModifiedAfter(Instant from) {
+    return findAll().stream().filter(v -> v.getModified() != null).filter(v -> v.getModified().isAfter(from)).collect(Collectors.toList());
   }
 
   @Override

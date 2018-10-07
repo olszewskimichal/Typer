@@ -3,6 +3,7 @@ package pl.michal.olszewski.typer.bet.domain;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.time.Instant;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -110,6 +111,21 @@ class BetFinderTest extends RepositoryTestBase {
     List<Bet> all = betFinder.findAll();
 
     assertThat(all).hasSize(3);
+  }
+
+  @Test
+  void shouldFindBetsModifiedFromDate() {
+    Instant now = Instant.now();
+
+    Bet bet1 = Bet.builder().userId(1L).points(3L).modified(now.minusSeconds(3)).build();
+    Bet bet2 = Bet.builder().userId(1L).points(6L).modified(now.plusSeconds(3)).build();
+    Bet bet3 = Bet.builder().userId(1L).points(6L).modified(now).build();
+    betSaver.save(bet1);
+    betSaver.save(bet2);
+    betSaver.save(bet3);
+
+    List<Bet> byModifiedAfter = betFinder.findByModifiedAfter(now);
+    assertThat(byModifiedAfter).isNotEmpty().hasSize(1);
   }
 
   private BetFactory givenBets() {
