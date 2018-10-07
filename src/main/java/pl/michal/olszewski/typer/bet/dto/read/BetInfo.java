@@ -9,7 +9,6 @@ public class BetInfo {
   private final Long id;
   private final Long userId;
   private final Long matchId;
-  private final Long roundId;
   private final Long homeGoals;
   private final Long awayGoals;
   private final Long points;

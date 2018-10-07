@@ -40,7 +40,6 @@ class BetRestControllerIntegrationTest extends RestControllerIntegrationTestBase
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8))
                 .andExpect(jsonPath("$.id", is(bet.getId().intValue())))
                 .andExpect(jsonPath("$.userId", is(1)))
-                .andExpect(jsonPath("$.roundId", is(2)))
                 .andExpect(jsonPath("$.matchId", is(3)))
                 .andExpect(jsonPath("$.homeGoals", is(4)))
                 .andExpect(jsonPath("$.awayGoals", is(5)))
