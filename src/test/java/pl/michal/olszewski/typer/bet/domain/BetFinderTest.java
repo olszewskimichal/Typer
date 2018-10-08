@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.time.Instant;
 import java.util.List;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import pl.michal.olszewski.typer.RepositoryTestBase;
@@ -19,6 +20,11 @@ class BetFinderTest extends RepositoryTestBase {
 
   @Autowired
   private BetSaver betSaver;
+
+  @BeforeEach
+  void setUp() {
+    betSaver.deleteAll();
+  }
 
   @Test
   void shouldFindAllBetForMatch() {
@@ -113,6 +119,7 @@ class BetFinderTest extends RepositoryTestBase {
     assertThat(all).hasSize(3);
   }
 
+  //@RepeatedTest(100)
   @Test
   void shouldFindBetsModifiedFromDate() {
     Instant now = Instant.now();
