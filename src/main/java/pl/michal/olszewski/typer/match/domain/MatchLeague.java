@@ -40,7 +40,6 @@ public class MatchLeague {
       orphanRemoval = true
   )
   @Builder.Default
-  @Getter
   private Set<MatchRound> matchRounds = new HashSet<>();
 
   void addMatchRound(MatchRound matchRound) {
