@@ -2,7 +2,7 @@ package pl.michal.olszewski.typer.match.domain;
 
 import java.util.Random;
 
-class InMemoryMatchLeagueSaver implements MatchLeagueSaver {
+public class InMemoryMatchLeagueSaver implements MatchLeagueSaver {
 
 
   @Override
@@ -14,4 +14,16 @@ class InMemoryMatchLeagueSaver implements MatchLeagueSaver {
   public void deleteAll() {
     InMemoryMatchLeagueFinder.map.clear();
   }
+
+  public void buildMatchLeague(Long leagueId) {
+    MatchLeague matchLeague = MatchLeague.builder().id(leagueId).build();
+    save(matchLeague);
+  }
+
+  public void buildMatchRound(Long leagueId, Long roundId) {
+    MatchRound matchRound = MatchRound.builder().id(roundId).matchLeague(InMemoryMatchLeagueFinder.map.get(leagueId)).build();
+    InMemoryMatchRoundFinder.map.put(roundId, matchRound);
+  }
 }
+
+

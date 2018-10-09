@@ -2,9 +2,11 @@ package pl.michal.olszewski.typer.match.domain;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
-class InMemoryMatchLeagueFinder implements MatchLeagueFinder {
+public class InMemoryMatchLeagueFinder implements MatchLeagueFinder {
 
   static ConcurrentHashMap<Long, MatchLeague> map = new ConcurrentHashMap<>();
 
@@ -16,6 +18,11 @@ class InMemoryMatchLeagueFinder implements MatchLeagueFinder {
   @Override
   public List<MatchLeague> findAll() {
     return new ArrayList<>(map.values());
+  }
+
+  @Override
+  public List<Long> findLeagueIdsForRounds(Set<Long> roundIds) {
+    return map.values().stream().map(MatchLeague::getId).collect(Collectors.toList());
   }
 
 }

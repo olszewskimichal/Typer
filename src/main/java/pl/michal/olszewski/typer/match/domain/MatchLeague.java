@@ -20,7 +20,7 @@ import pl.michal.olszewski.typer.match.dto.read.MatchLeagueInfo;
 @AllArgsConstructor
 @Entity
 @ToString(exclude = "matchRounds")
-class MatchLeague {
+public class MatchLeague {
 
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Id
@@ -40,6 +40,7 @@ class MatchLeague {
       orphanRemoval = true
   )
   @Builder.Default
+  @Getter
   private Set<MatchRound> matchRounds = new HashSet<>();
 
   void addMatchRound(MatchRound matchRound) {
