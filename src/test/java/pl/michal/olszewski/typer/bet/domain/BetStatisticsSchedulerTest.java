@@ -13,7 +13,7 @@ import pl.michal.olszewski.typer.match.domain.MatchLeagueFinder;
 
 class BetStatisticsSchedulerTest {
 
-  BetStatisticsScheduler betStatisticsScheduler;
+  private BetStatisticsScheduler betStatisticsScheduler;
   private BetFinder betFinder = new InMemoryBetFinder();
   private BetSaver betSaver = new InMemoryBetSaver();
   private MatchLeagueFinder matchLeagueFinder = new InMemoryMatchLeagueFinder();
@@ -29,13 +29,13 @@ class BetStatisticsSchedulerTest {
   @Test
   void shouldNotCalculateStatisticsWhenNothingChanged() {
     betStatisticsScheduler.calculateStatistics();
-    //Mockito.verify(betUpdater, times(1)).cancelBet(cancelBet);
     Mockito.verifyNoMoreInteractions(betStatisticsCalculator);
   }
 
   @Test
   void shouldCalculateStatistics() {
     InMemoryMatchLeagueSaver inMemoryMatchLeagueSaver = new InMemoryMatchLeagueSaver();
+    inMemoryMatchLeagueSaver.deleteAll();
     inMemoryMatchLeagueSaver.buildMatchLeague(1L);
     inMemoryMatchLeagueSaver.buildMatchRound(1L, 2L);
 

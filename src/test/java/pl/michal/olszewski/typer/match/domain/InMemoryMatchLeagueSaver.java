@@ -13,6 +13,7 @@ public class InMemoryMatchLeagueSaver implements MatchLeagueSaver {
   @Override
   public void deleteAll() {
     InMemoryMatchLeagueFinder.map.clear();
+    InMemoryMatchRoundFinder.map.clear();
   }
 
   public void buildMatchLeague(Long leagueId) {
