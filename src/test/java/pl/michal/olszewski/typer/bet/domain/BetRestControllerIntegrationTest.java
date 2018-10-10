@@ -55,6 +55,7 @@ class BetRestControllerIntegrationTest extends RestControllerIntegrationTestBase
     mvc.perform(post("/api/bet/")
         .param("matchId", "1")
         .param("userId", "1")
+        .param("leagueId", "1")
         .param("matchRoundId", "1")
         .param("betAwayGoals", "1")
         .param("betHomeGoals", "1"))

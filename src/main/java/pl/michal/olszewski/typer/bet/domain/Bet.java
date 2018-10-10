@@ -41,6 +41,7 @@ class Bet {
   private Long matchId;
   private Long userId;
   private Long matchRoundId; //Pole dla normalizacji i uproszczenia selectów bazodanowych
+  private Long leagueId; //Pole dla normalizacji i uproszczenia selectów bazodanowych
   @LastModifiedDate
   private Instant modified;
   @CreatedDate

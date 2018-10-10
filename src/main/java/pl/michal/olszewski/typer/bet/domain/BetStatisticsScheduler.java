@@ -9,7 +9,6 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import pl.michal.olszewski.typer.match.domain.MatchLeagueFinder;
 
 @Component
 @Profile("prod")
@@ -19,14 +18,11 @@ class BetStatisticsScheduler {
   private final BetFinder betFinder;
   private final BetStatisticsProperties statisticsProperties;
   private final BetStatisticsCalculator betStatisticsCalculator;
-  private final MatchLeagueFinder matchLeagueFinder;
 
-  BetStatisticsScheduler(BetFinder betFinder, BetStatisticsProperties statisticsProperties, BetStatisticsCalculator betStatisticsCalculator,
-      MatchLeagueFinder matchLeagueFinder) {
+  BetStatisticsScheduler(BetFinder betFinder, BetStatisticsProperties statisticsProperties, BetStatisticsCalculator betStatisticsCalculator) {
     this.betFinder = betFinder;
     this.statisticsProperties = statisticsProperties;
     this.betStatisticsCalculator = betStatisticsCalculator;
-    this.matchLeagueFinder = matchLeagueFinder;
   }
 
   @Scheduled(fixedDelay = 50000)
@@ -38,20 +34,19 @@ class BetStatisticsScheduler {
     }
     Instant now = Instant.now();
     Set<Long> roundForCalculation = modifiedAfter.stream().map(Bet::getMatchRoundId).collect(Collectors.toSet());
-    calculateStatsForRounds(modifiedAfter, now);
-    calculateStatsForLeagues(now, roundForCalculation);
+    Set<Long> leagueForCalculation = modifiedAfter.stream().map(Bet::getLeagueId).collect(Collectors.toSet());
+    calculateStatsForRounds(now, roundForCalculation);
+    calculateStatsForLeagues(now, leagueForCalculation);
   }
 
-  private void calculateStatsForLeagues(Instant now, Set<Long> roundForCalculation) {
-    List<Long> leagueIdsForRounds = matchLeagueFinder.findLeagueIdsForRounds(roundForCalculation);
-    for (Long leagueId : leagueIdsForRounds) {
+  private void calculateStatsForLeagues(Instant now, Set<Long> leagueForCalculation) {
+    for (Long leagueId : leagueForCalculation) {
       betStatisticsCalculator.calculateStatisticsForLeague(leagueId);
     }
     statisticsProperties.setLastLeagueStatisticCalculationDate(now);
   }
 
-  private void calculateStatsForRounds(List<Bet> modifiedAfter, Instant now) {
-    Set<Long> roundForCalculation = modifiedAfter.stream().map(Bet::getMatchRoundId).collect(Collectors.toSet());
+  private void calculateStatsForRounds(Instant now, Set<Long> roundForCalculation) {
     for (Long roundId : roundForCalculation) {
       betStatisticsCalculator.calculateStatisticsForRound(roundId);
     }

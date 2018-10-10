@@ -20,7 +20,7 @@ import pl.michal.olszewski.typer.match.dto.read.MatchLeagueInfo;
 @AllArgsConstructor
 @Entity
 @ToString(exclude = "matchRounds")
-public class MatchLeague {
+class MatchLeague {
 
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Id

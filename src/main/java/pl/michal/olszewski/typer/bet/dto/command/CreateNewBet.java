@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.ToString;
 import pl.michal.olszewski.typer.CommandValid;
 import pl.michal.olszewski.typer.bet.dto.IllegalGoalArgumentException;
+import pl.michal.olszewski.typer.match.dto.MatchLeagueNotFoundException;
 import pl.michal.olszewski.typer.match.dto.MatchNotFoundException;
 import pl.michal.olszewski.typer.match.dto.MatchRoundNotFoundException;
 import pl.michal.olszewski.typer.users.UserNotFoundException;
@@ -27,6 +28,8 @@ public class CreateNewBet implements CommandValid {
   private Long userId;
   @NotNull
   private Long matchRoundId;
+  @NotNull
+  private Long leagueId;
 
   @Override
   public void validCommand() {
@@ -42,6 +45,10 @@ public class CreateNewBet implements CommandValid {
 
     if (matchRoundId == null) {
       throw new MatchRoundNotFoundException("Nie podano z jakiej kolejki pochodzi obstawiany mecz");
+    }
+
+    if (leagueId == null) {
+      throw new MatchLeagueNotFoundException("Nie podano z jakiej ligi pochodzi obstawiany mecz");
     }
   }
 }
