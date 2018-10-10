@@ -12,6 +12,5 @@ import org.springframework.stereotype.Component;
 @Setter
 class BetStatisticsProperties {
 
-  private Instant lastRoundStatisticCalculationDate;
-  private Instant lastLeagueStatisticCalculationDate;
+  private Instant lastStatisticCalculationDate;
 }
