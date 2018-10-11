@@ -6,7 +6,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import pl.michal.olszewski.typer.bet.dto.BetNotFoundException;
-import pl.michal.olszewski.typer.bet.dto.read.RoundPoints;
 
 /**
  * select  USER_ID,sum(points) from BET group by USER_ID
@@ -28,12 +27,6 @@ interface BetFinder extends Repository<Bet, Long> {
 
   @Query("Select b from Bet b where b.matchRoundId=?1")
   List<Bet> findAllBetForRound(Long matchRoundId);
-
-  @Query("Select new pl.michal.olszewski.typer.bet.dto.read.RoundPoints(b.matchRoundId,sum(b.points)) from Bet b where b.userId=?1 and b.matchRoundId=?2 group by b.matchRoundId")
-  RoundPoints findSumOfPointsForRoundAndUser(Long userId, Long matchRoundId);
-
-  @Query("Select sum(b.points) from Bet b where b.userId=?1 and b.matchRoundId in (select m.id from MatchRound m where m.matchLeague.id=?2) group by b.userId")
-  Long findSumOfPointsForLeagueAndUser(Long userId, Long leagueId);
 
   List<Bet> findByModifiedAfter(Instant from);
 

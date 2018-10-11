@@ -6,6 +6,7 @@ import javax.persistence.MappedSuperclass;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @MappedSuperclass
 @NoArgsConstructor
@@ -15,6 +16,7 @@ class BetStatisticsBase {
 
   @GeneratedValue
   @Id
+  @Setter
   private Long id;
 
   private Long userId;

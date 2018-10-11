@@ -78,22 +78,27 @@ class BetStatisticsCalculator {
 
   private void saveStatsToDB(Long roundId, Long leagueId, UserPoints userPoints, long position) {
     if (roundId != null) {
-      BetRoundStatistics build = BetRoundStatistics.builder()
+      BetRoundStatistics betRoundStatistics = betStatisticsFinder.findByUserIdAndRoundId(userPoints.userId, roundId).orElse(new BetRoundStatistics());
+      BetRoundStatistics newRoundStats = BetRoundStatistics.builder()
           .points(userPoints.getPoints())
           .position(position)
           .roundId(roundId)
           .userId(userPoints.getUserId())
           .build();
+      newRoundStats.setId(betRoundStatistics.getId());
       log.trace("Zapisuje statystyke dla uzytkownika {} rundy {} z pozycja {} punktami {}", userPoints.userId, roundId, position, userPoints.points);
-      betStatisticsSaver.save(build);
+      betStatisticsSaver.save(newRoundStats);
     }
     if (leagueId != null) {
+      BetLeagueStatistics betLeagueStatistics = betStatisticsFinder.findByUserIdAndLeagueId(userPoints.userId, leagueId).orElse(new BetLeagueStatistics());
+
       BetLeagueStatistics build = BetLeagueStatistics.builder()
           .points(userPoints.getPoints())
           .position(position)
           .leagueId(leagueId)
           .userId(userPoints.getUserId())
           .build();
+      build.setId(betLeagueStatistics.getId());
       log.trace("Zapisuje statystyke dla uzytkownika {} ligi {} z pozycja {} punktami {}", userPoints.userId, leagueId, position, userPoints.points);
       betStatisticsSaver.save(build);
     }

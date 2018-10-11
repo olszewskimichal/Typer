@@ -2,10 +2,12 @@ package pl.michal.olszewski.typer.bet.domain;
 
 import javax.persistence.Entity;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 @Entity
+@Getter
 class BetRoundStatistics extends BetStatisticsBase {
 
   private Long roundId;
