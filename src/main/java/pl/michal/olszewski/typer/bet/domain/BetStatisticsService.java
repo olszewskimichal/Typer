@@ -9,21 +9,24 @@ import pl.michal.olszewski.typer.bet.dto.read.RoundPoints;
 @Component
 class BetStatisticsService {
 
-  private final BetStatisticsFinder betStatisticsFinder;
+  private final BetRoundStatisticsFinder betRoundStatisticsFinder;
+  private final BetLeagueStatisticsFinder betLeagueStatisticsFinder;
 
-  BetStatisticsService(BetStatisticsFinder betStatisticsFinder) {
-    this.betStatisticsFinder = betStatisticsFinder;
+  public BetStatisticsService(BetRoundStatisticsFinder betRoundStatisticsFinder, BetLeagueStatisticsFinder betLeagueStatisticsFinder) {
+    this.betRoundStatisticsFinder = betRoundStatisticsFinder;
+    this.betLeagueStatisticsFinder = betLeagueStatisticsFinder;
   }
 
   BetRoundUserStatistics getStatisticsForUserAndRound(Long userId, Long roundId) {
-    BetRoundStatistics betRoundStatistics = betStatisticsFinder.findByUserIdAndRoundId(userId, roundId)
+    BetRoundStatistics betRoundStatistics = betRoundStatisticsFinder.findByUserIdAndRoundId(userId, roundId)
         .orElseThrow(() -> new IllegalArgumentException("Wyniki jeszcze nie zostały naliczone"));
     return new BetRoundUserStatistics(userId, betRoundStatistics.getPosition(), new RoundPoints(roundId, betRoundStatistics.getPoints()));
   }
 
   BetLeagueUserStatistics getStatisticsForUserAndLeague(Long userId, Long leagueId) {
-    BetLeagueStatistics leagueStatistics = betStatisticsFinder.findByUserIdAndLeagueId(userId, leagueId)
+    BetLeagueStatistics leagueStatistics = betLeagueStatisticsFinder.findByUserIdAndLeagueId(userId, leagueId)
         .orElseThrow(() -> new IllegalArgumentException("Wyniki jeszcze nie zostały naliczone"));
+
     return new BetLeagueUserStatistics(userId, leagueStatistics.getPosition(), leagueId, leagueStatistics.getPoints());
   }
 

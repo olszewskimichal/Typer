@@ -12,7 +12,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-class BetStatisticsBase {
+abstract class BetStatisticsBase {
 
   @GeneratedValue
   @Id

@@ -13,19 +13,24 @@ import org.springframework.stereotype.Component;
 @Slf4j
 class BetStatisticsCalculator {
 
-  private final BetStatisticsSaver betStatisticsSaver;
-  private final BetStatisticsFinder betStatisticsFinder;
+  private final BetRoundStatisticsSaver betRoundStatisticsSaver;
+  private final BetLeagueStatisticsSaver betLeagueStatisticsSaver;
+  private final BetRoundStatisticsFinder betRoundStatisticsFinder;
+  private final BetLeagueStatisticsFinder betLeagueStatisticsFinder;
   private final BetFinder betFinder;
 
-  BetStatisticsCalculator(BetStatisticsSaver betStatisticsSaver, BetStatisticsFinder betStatisticsFinder, BetFinder betFinder) {
-    this.betStatisticsSaver = betStatisticsSaver;
-    this.betStatisticsFinder = betStatisticsFinder;
+  public BetStatisticsCalculator(BetRoundStatisticsSaver betRoundStatisticsSaver, BetLeagueStatisticsSaver betLeagueStatisticsSaver,
+      BetRoundStatisticsFinder betRoundStatisticsFinder, BetLeagueStatisticsFinder betLeagueStatisticsFinder, BetFinder betFinder) {
+    this.betRoundStatisticsSaver = betRoundStatisticsSaver;
+    this.betLeagueStatisticsSaver = betLeagueStatisticsSaver;
+    this.betRoundStatisticsFinder = betRoundStatisticsFinder;
+    this.betLeagueStatisticsFinder = betLeagueStatisticsFinder;
     this.betFinder = betFinder;
   }
 
   void calculateStatisticsForLeague(Long leagueId) {
     log.debug("Rozpoczynam naliczanie statystyk dla ligi {}", leagueId);
-    List<BetRoundStatistics> roundStatistics = betStatisticsFinder.findByLeague(leagueId);
+    List<BetRoundStatistics> roundStatistics = betRoundStatisticsFinder.findByLeague(leagueId);
     Map<Long, List<BetRoundStatistics>> roundStatsPerUser = roundStatistics.stream().collect(Collectors.groupingBy(BetStatisticsBase::getUserId));
     List<UserPoints> userPoints = roundStatsPerUser.entrySet()
         .stream()
@@ -78,7 +83,7 @@ class BetStatisticsCalculator {
 
   private void saveStatsToDB(Long roundId, Long leagueId, UserPoints userPoints, long position) {
     if (roundId != null) {
-      BetRoundStatistics betRoundStatistics = betStatisticsFinder.findByUserIdAndRoundId(userPoints.userId, roundId).orElse(new BetRoundStatistics());
+      BetRoundStatistics betRoundStatistics = betRoundStatisticsFinder.findByUserIdAndRoundId(userPoints.userId, roundId).orElse(new BetRoundStatistics());
       BetRoundStatistics newRoundStats = BetRoundStatistics.builder()
           .points(userPoints.getPoints())
           .position(position)
@@ -87,10 +92,10 @@ class BetStatisticsCalculator {
           .build();
       newRoundStats.setId(betRoundStatistics.getId());
       log.trace("Zapisuje statystyke dla uzytkownika {} rundy {} z pozycja {} punktami {}", userPoints.userId, roundId, position, userPoints.points);
-      betStatisticsSaver.save(newRoundStats);
+      betRoundStatisticsSaver.save(newRoundStats);
     }
     if (leagueId != null) {
-      BetLeagueStatistics betLeagueStatistics = betStatisticsFinder.findByUserIdAndLeagueId(userPoints.userId, leagueId).orElse(new BetLeagueStatistics());
+      BetLeagueStatistics betLeagueStatistics = betLeagueStatisticsFinder.findByUserIdAndLeagueId(userPoints.userId, leagueId).orElse(new BetLeagueStatistics());
 
       BetLeagueStatistics build = BetLeagueStatistics.builder()
           .points(userPoints.getPoints())
@@ -100,7 +105,7 @@ class BetStatisticsCalculator {
           .build();
       build.setId(betLeagueStatistics.getId());
       log.trace("Zapisuje statystyke dla uzytkownika {} ligi {} z pozycja {} punktami {}", userPoints.userId, leagueId, position, userPoints.points);
-      betStatisticsSaver.save(build);
+      betLeagueStatisticsSaver.save(build);
     }
   }
 
