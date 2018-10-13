@@ -10,7 +10,6 @@ interface MatchFinder extends Repository<Match, Long> {
 
   Match findById(Long id);
 
-
   @Query("select m from Match m where m.matchStatus=?1 and m.livescoreId is not null")
   List<Match> findByStatusForLivescoreUpdate(MatchStatus status);
 
