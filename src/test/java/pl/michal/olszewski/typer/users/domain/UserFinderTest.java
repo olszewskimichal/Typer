@@ -3,6 +3,7 @@ package pl.michal.olszewski.typer.users.domain;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,16 @@ class UserFinderTest extends RepositoryTestBase {
     //when
     //then
     assertThrows(UserNotFoundException.class, () -> userFinder.findOneOrThrow(1L));
+  }
+
+  @Test
+  void shouldFindAllUsers() {
+    entityManager.persist(User.builder().build());
+    entityManager.persist(User.builder().build());
+
+    List<User> all = userFinder.findAll();
+
+    assertThat(all).isNotEmpty().hasSize(2);
   }
 
   @Test
