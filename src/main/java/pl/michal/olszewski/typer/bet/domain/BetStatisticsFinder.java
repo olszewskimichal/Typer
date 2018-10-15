@@ -10,6 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 interface BetStatisticsFinder<T extends BetStatisticsBase> extends Repository<T, Long> {
 
-  List<T> findAll();  //TODO dopisac test i ograniczyc uzycie tej metody w testach
+  List<T> findAll();
 
 }
