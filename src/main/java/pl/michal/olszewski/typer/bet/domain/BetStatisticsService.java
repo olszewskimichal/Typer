@@ -1,6 +1,9 @@
 package pl.michal.olszewski.typer.bet.domain;
 
 
+import java.util.List;
+import java.util.stream.Collectors;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 import pl.michal.olszewski.typer.bet.dto.BetLeagueStatisticsNotCalculated;
 import pl.michal.olszewski.typer.bet.dto.BetRoundStatisticsNotCalculated;
@@ -30,6 +33,20 @@ class BetStatisticsService {
         .orElseThrow(() -> new BetLeagueStatisticsNotCalculated("Wyniki jeszcze nie zostały naliczone"));
 
     return new BetLeagueUserStatistics(userId, leagueStatistics.getPosition(), leagueId, leagueStatistics.getPoints());
+  }
+
+  List<BetLeagueUserStatistics> getLeagueTOP(Long leagueId, Long pageSize) {
+    return betLeagueStatisticsFinder.findByLeagueIdOrderByPointsDesc(leagueId, PageRequest.of(0, pageSize.intValue()))
+        .getContent().stream()
+        .map(v -> new BetLeagueUserStatistics(v.getUserId(), v.getPosition(), v.getLeagueId(), v.getPoints()))
+        .collect(Collectors.toList());
+  }
+
+  List<BetRoundUserStatistics> getRoundTOP(Long roundId, Long pageSize) {
+    return betRoundStatisticsFinder.findByRoundIdOrderByPointsDesc(roundId, PageRequest.of(0, pageSize.intValue()))
+        .getContent().stream()
+        .map(v -> new BetRoundUserStatistics(v.getUserId(), v.getPosition(), new RoundPoints(v.getRoundId(), v.getPoints())))
+        .collect(Collectors.toList());
   }
 
 }
