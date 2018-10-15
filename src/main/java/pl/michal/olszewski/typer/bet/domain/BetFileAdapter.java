@@ -20,11 +20,12 @@ class BetFileAdapter {
 
   private static final String MATCH_ID = "matchId";
   private static final String ROUND_ID = "roundId";
+  private static final String LEAGUE_ID = "leagueId";
   private static final String USER_ID = "userId";
   private static final String HOME_GOALS = "homeGoals";
   private static final String AWAY_GOALS = "awayGoals";
 
-  private static final List<String> defaultColumns = Arrays.asList(MATCH_ID, ROUND_ID, USER_ID, HOME_GOALS, AWAY_GOALS);
+  private static final List<String> defaultColumns = Arrays.asList(MATCH_ID, LEAGUE_ID, ROUND_ID, USER_ID, HOME_GOALS, AWAY_GOALS);
 
   private final BetSaver betSaver;
   private final FileStorageService fileStorageService;
@@ -40,6 +41,7 @@ class BetFileAdapter {
       for (FileAdapterRow fileAdapterRow : fileAdapter) {
         Long matchId = Long.valueOf(fileAdapterRow.get(BetFileAdapter.MATCH_ID));
         Long roundId = Long.valueOf(fileAdapterRow.get(BetFileAdapter.ROUND_ID));
+        Long leagueId = Long.valueOf(fileAdapterRow.get(BetFileAdapter.ROUND_ID));
         Long userId = Long.valueOf(fileAdapterRow.get(BetFileAdapter.USER_ID));
         Long homeGoals = Long.valueOf(fileAdapterRow.get(BetFileAdapter.HOME_GOALS));
         Long awayGoals = Long.valueOf(fileAdapterRow.get(BetFileAdapter.AWAY_GOALS));
@@ -47,6 +49,7 @@ class BetFileAdapter {
         Bet bet = BetCreator.from(CreateNewBet.builder()
             .matchId(matchId)
             .matchRoundId(roundId)
+            .leagueId(leagueId)
             .userId(userId)
             .betAwayGoals(awayGoals)
             .betHomeGoals(homeGoals)

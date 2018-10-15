@@ -19,6 +19,7 @@ class BetCreator {
         .matchId(createNewBet.getMatchId())
         .userId(createNewBet.getUserId())
         .matchRoundId(createNewBet.getMatchRoundId())
+        .leagueId(createNewBet.getLeagueId())
         .build();
   }
 

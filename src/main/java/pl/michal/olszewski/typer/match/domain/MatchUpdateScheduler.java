@@ -6,9 +6,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.stream.Collectors;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
 import pl.michal.olszewski.typer.match.dto.command.CheckMatchResults;
 
+@Component
+@Slf4j
 class MatchUpdateScheduler {
 
   private final MatchFinder matchFinder;
@@ -19,8 +23,9 @@ class MatchUpdateScheduler {
     this.matchPublisher = matchPublisher;
   }
 
-  @Scheduled(fixedDelay = 30000)
+  @Scheduled(fixedDelay = 300000)
   void createCheckMatchResultCommands() {
+    log.debug("Rozpoczynam sprawdzanie wyników meczu - online");
     List<Match> matchList = matchFinder.findByStatusForLivescoreUpdate(MatchStatus.NEW);
     List<Long> list = matchList
         .stream()

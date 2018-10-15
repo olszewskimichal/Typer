@@ -18,5 +18,4 @@ interface MatchLeagueFinder extends Repository<MatchLeague, Long> {
   }
 
   List<MatchLeague> findAll();
-
 }

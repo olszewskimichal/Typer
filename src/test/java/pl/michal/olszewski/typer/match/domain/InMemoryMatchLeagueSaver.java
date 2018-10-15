@@ -4,7 +4,6 @@ import java.util.Random;
 
 class InMemoryMatchLeagueSaver implements MatchLeagueSaver {
 
-
   @Override
   public MatchLeague save(MatchLeague matchLeague) {
     return InMemoryMatchLeagueFinder.map.put(matchLeague.getId() != null ? matchLeague.getId() : new Random().nextLong(), matchLeague);
@@ -14,4 +13,7 @@ class InMemoryMatchLeagueSaver implements MatchLeagueSaver {
   public void deleteAll() {
     InMemoryMatchLeagueFinder.map.clear();
   }
+
 }
+
+

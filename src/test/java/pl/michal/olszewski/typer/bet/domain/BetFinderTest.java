@@ -3,13 +3,13 @@ package pl.michal.olszewski.typer.bet.domain;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.time.Instant;
 import java.util.List;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import pl.michal.olszewski.typer.RepositoryTestBase;
 import pl.michal.olszewski.typer.bet.dto.BetNotFoundException;
-import pl.michal.olszewski.typer.bet.dto.read.RoundPoints;
-import pl.michal.olszewski.typer.match.domain.MatchLeagueFactory;
 
 class BetFinderTest extends RepositoryTestBase {
 
@@ -18,6 +18,11 @@ class BetFinderTest extends RepositoryTestBase {
 
   @Autowired
   private BetSaver betSaver;
+
+  @BeforeEach
+  void setUp() {
+    betSaver.deleteAll();
+  }
 
   @Test
   void shouldFindAllBetForMatch() {
@@ -71,38 +76,6 @@ class BetFinderTest extends RepositoryTestBase {
   }
 
   @Test
-  void shouldReturnPointsForUserAndRound() {
-    Bet bet1 = Bet.builder().userId(1L).matchRoundId(2L).points(3L).build();
-    Bet bet2 = Bet.builder().userId(1L).matchRoundId(2L).points(6L).build();
-    betSaver.save(bet1);
-    betSaver.save(bet2);
-
-    RoundPoints result = betFinder.findSumOfPointsForRoundAndUser(1L, 2L);
-    assertThat(result.getPoints()).isEqualTo(9L);
-    assertThat(result.getRoundId()).isEqualTo(2L);
-  }
-
-
-  @Test
-  void shouldReturnPointsForUserAndLeague() {
-
-    long leagueID = new MatchLeagueFactory(entityManager).buildMatchLeague();
-    long roundID = new MatchLeagueFactory(entityManager).buildMatchRound(leagueID);
-
-    Bet bet1 = Bet.builder().userId(1L).matchRoundId(roundID).points(3L).build();
-    Bet bet2 = Bet.builder().userId(1L).matchRoundId(roundID).points(6L).build();
-    Bet bet3 = Bet.builder().userId(1L).matchRoundId(roundID).points(6L).build();
-
-    betSaver.save(bet1);
-    betSaver.save(bet2);
-    betSaver.save(bet3);
-
-    Long result = betFinder.findSumOfPointsForLeagueAndUser(1L, leagueID);
-    assertThat(result).isEqualTo(15L);
-  }
-
-
-  @Test
   void shouldFindAllBets() {
     givenBets()
         .buildNumberOfBetsForMatchAndSave(3, 1L);
@@ -110,6 +83,21 @@ class BetFinderTest extends RepositoryTestBase {
     List<Bet> all = betFinder.findAll();
 
     assertThat(all).hasSize(3);
+  }
+
+  @Test
+  void shouldFindBetsModifiedFromDate() {
+    Instant now = Instant.now();
+
+    Bet bet1 = Bet.builder().userId(1L).points(3L).modified(now.minusSeconds(3)).build();
+    Bet bet2 = Bet.builder().userId(1L).points(6L).modified(now.plusSeconds(3)).build();
+    Bet bet3 = Bet.builder().userId(1L).points(6L).modified(now).build();
+    betSaver.save(bet1);
+    betSaver.save(bet2);
+    betSaver.save(bet3);
+
+    List<Bet> byModifiedAfter = betFinder.findByModifiedAfter(now);
+    assertThat(byModifiedAfter).isNotEmpty().hasSize(1);
   }
 
   private BetFactory givenBets() {

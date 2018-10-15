@@ -9,22 +9,21 @@ import pl.michal.olszewski.typer.bet.dto.read.BetRoundUserStatistics;
 
 class BetStatisticsServiceTest {
 
-  private BetFinder betFinder = new InMemoryBetFinder();
+  private BetRoundStatisticsFinder betRoundStatisticsFinder = new InMemoryBetRoundStatisticsFinder();
+  private BetLeagueStatisticsFinder betLeagueStatisticsFinder = new InMemoryBetLeagueStatisticsFinder();
+  private BetLeagueStatisticsSaver betLeagueStatisticsSaver = new InMemoryBetLeagueStatisticsSaver();
+  private BetRoundStatisticsSaver betRoundStatisticsSaver = new InMemoryBetRoundStatisticsSaver();
+
   private BetStatisticsService betStatisticsService;
 
   @BeforeEach
   void configureSystemUnderTests() {
-    betStatisticsService = new BetStatisticsService(betFinder);
-    givenBets()
-        .deleteAll();
+    betStatisticsService = new BetStatisticsService(betRoundStatisticsFinder, betLeagueStatisticsFinder);
   }
 
   @Test
   void shouldReturnStatisticsForUserAndRound() {
-    Bet bet1 = Bet.builder().id(1L).userId(1L).matchRoundId(2L).points(3L).build();
-    Bet bet2 = Bet.builder().id(2L).userId(1L).matchRoundId(2L).points(6L).build();
-    givenBets().save(bet1);
-    givenBets().save(bet2);
+    betRoundStatisticsSaver.save(BetRoundStatistics.builder().position(1L).points(9L).roundId(2L).userId(1L).build());
 
     BetRoundUserStatistics statisticsForUserAndRound = betStatisticsService.getStatisticsForUserAndRound(1L, 2L);
     assertThat(statisticsForUserAndRound.getPosition()).isEqualTo(1L);
@@ -35,10 +34,7 @@ class BetStatisticsServiceTest {
 
   @Test
   void shouldReturnStatisticsForUserAndLeague() {
-    Bet bet1 = Bet.builder().id(1L).userId(1L).matchRoundId(2L).points(3L).build();
-    Bet bet2 = Bet.builder().id(2L).userId(1L).matchRoundId(2L).points(6L).build();
-    givenBets().save(bet1);
-    givenBets().save(bet2);
+    betLeagueStatisticsSaver.save(BetLeagueStatistics.builder().position(1L).leagueId(2L).userId(1L).points(9L).build());
 
     BetLeagueUserStatistics statisticsForUserAndRound = betStatisticsService.getStatisticsForUserAndLeague(1L, 2L);
     assertThat(statisticsForUserAndRound.getPosition()).isEqualTo(1L);
@@ -47,7 +43,4 @@ class BetStatisticsServiceTest {
     assertThat(statisticsForUserAndRound.getLeagueId()).isEqualTo(2L);
   }
 
-  private BetFactory givenBets() {
-    return new BetFactory(new InMemoryBetSaver());
-  }
 }

@@ -3,6 +3,7 @@ package pl.michal.olszewski.typer.match.domain;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import pl.michal.olszewski.typer.RepositoryTestBase;
@@ -27,6 +28,17 @@ class MatchLeagueFinderTest extends RepositoryTestBase {
     //then
     assertThat(founded).isNotNull().isEqualToComparingFieldByField(matchLeague);
   }
+
+  @Test
+  void shouldFindAllMatchLeagues() {
+    entityManager.persist(MatchLeague.builder().build());
+    entityManager.persist(MatchLeague.builder().build());
+
+    List<MatchLeague> all = matchLeagueFinder.findAll();
+
+    assertThat(all).isNotEmpty().hasSize(2);
+  }
+
 
   @Test
   void shouldThrowExceptionWhenMatchLeagueNotFound() {

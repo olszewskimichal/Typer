@@ -1,10 +1,10 @@
 package pl.michal.olszewski.typer.bet.domain;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
-import pl.michal.olszewski.typer.bet.dto.read.RoundPoints;
 
 class InMemoryBetFinder implements BetFinder {
 
@@ -43,21 +43,8 @@ class InMemoryBetFinder implements BetFinder {
   }
 
   @Override
-  public RoundPoints findSumOfPointsForRoundAndUser(Long userId, Long matchRoundId) {
-    long sum = findAllBetForUser(userId)
-        .stream()
-        .filter(v -> v.getMatchRoundId().equals(matchRoundId))
-        .mapToLong(Bet::getPoints)
-        .sum();
-    return new RoundPoints(matchRoundId, sum);
-  }
-
-  @Override
-  public Long findSumOfPointsForLeagueAndUser(Long userId, Long leagueId) {
-    return findAllBetForUser(userId)
-        .stream()
-        .mapToLong(Bet::getPoints)
-        .sum();
+  public List<Bet> findByModifiedAfter(Instant from) {
+    return findAll().stream().filter(v -> v.getModified() != null).filter(v -> v.getModified().isAfter(from)).collect(Collectors.toList());
   }
 
   @Override

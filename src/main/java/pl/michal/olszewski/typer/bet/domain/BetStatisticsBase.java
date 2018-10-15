@@ -1,25 +1,27 @@
 package pl.michal.olszewski.typer.bet.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @MappedSuperclass
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-class BetStatisticsBase {
-    @GeneratedValue
-    @Id
-    private Long id;
+abstract class BetStatisticsBase {
 
-    private Long userId;
+  @GeneratedValue
+  @Id
+  @Setter
+  private Long id;
 
-    private Long points;
+  private Long userId;
 
-    private Long position;
+  private Long points;
+
+  private Long position;
 }

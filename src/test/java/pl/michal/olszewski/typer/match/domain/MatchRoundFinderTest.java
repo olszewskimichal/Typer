@@ -3,6 +3,7 @@ package pl.michal.olszewski.typer.match.domain;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import pl.michal.olszewski.typer.RepositoryTestBase;
@@ -34,6 +35,16 @@ class MatchRoundFinderTest extends RepositoryTestBase {
     //when
     //then
     assertThrows(MatchRoundNotFoundException.class, () -> matchRoundFinder.findOneOrThrow(1L));
+  }
+
+  @Test
+  void shouldFindAllMatchRounds() {
+    entityManager.persist(MatchRound.builder().build());
+    entityManager.persist(MatchRound.builder().build());
+
+    List<MatchRound> all = matchRoundFinder.findAll();
+
+    assertThat(all).isNotEmpty().hasSize(2);
   }
 
 }

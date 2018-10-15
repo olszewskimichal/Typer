@@ -1,11 +1,11 @@
 package pl.michal.olszewski.typer.bet.domain;
 
-import org.springframework.stereotype.Repository;
+import org.springframework.data.repository.NoRepositoryBean;
 
-@Repository
-interface BetStatisticsSaver extends org.springframework.data.repository.Repository<BetStatisticsBase, Long> {
+@NoRepositoryBean
+interface BetStatisticsSaver<T extends BetStatisticsBase> extends org.springframework.data.repository.Repository<T, Long> {
 
-    BetStatisticsBase save(BetStatisticsBase bet);
+  T save(T bet);
 
-    void deleteAll();
+  void deleteAll();
 }

@@ -1,126 +1,155 @@
 package pl.michal.olszewski.typer.bet.domain;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
-import static org.assertj.core.api.Assertions.assertThat;
-
 class BetStatisticsCalculatorTest {
-    private BetStatisticsCalculator betStatisticsCalculator;
-    private BetFinder betFinder = new InMemoryBetFinder();
-    private BetSaver betSaver = new InMemoryBetSaver();
-    private BetStatisticsFinder betStatisticsFinder = new InMemoryBetStatisticsFinder();
-    private BetStatisticsSaver betStatisticsSaver = new InMemoryBetStatisticsSaver();
 
-    @BeforeEach
-    void setUp() {
-        betSaver.deleteAll();
-        betStatisticsSaver.deleteAll();
-        betStatisticsCalculator = new BetStatisticsCalculator(betStatisticsSaver, betStatisticsFinder, betFinder);
-    }
+  private BetStatisticsCalculator betStatisticsCalculator;
+  private BetFinder betFinder = new InMemoryBetFinder();
+  private BetSaver betSaver = new InMemoryBetSaver();
+  private BetRoundStatisticsFinder betRoundStatisticsFinder = new InMemoryBetRoundStatisticsFinder();
+  private BetLeagueStatisticsFinder betLeagueStatisticsFinder = new InMemoryBetLeagueStatisticsFinder();
 
-    @Test
-    void shouldCalculateStatisticsPerRoundForMoreThen2Users() {
-        betSaver.save(Bet.builder().status(BetStatus.CHECKED).matchRoundId(1L).userId(1L).points(2L).build());
-        betSaver.save(Bet.builder().status(BetStatus.CHECKED).matchRoundId(1L).userId(2L).points(3L).build());
-        betSaver.save(Bet.builder().status(BetStatus.CHECKED).matchRoundId(1L).userId(3L).points(1L).build());
-        betSaver.save(Bet.builder().status(BetStatus.CHECKED).matchRoundId(1L).userId(3L).points(0L).build());
+  private BetRoundStatisticsSaver betRoundStatisticsSaver = new InMemoryBetRoundStatisticsSaver();
+  private BetLeagueStatisticsSaver betLeagueStatisticsSaver = new InMemoryBetLeagueStatisticsSaver();
 
-        betStatisticsCalculator.calculateStatisticsForRound(1L);
+  @BeforeEach
+  void setUp() {
+    betSaver.deleteAll();
+    betLeagueStatisticsSaver.deleteAll();
+    betRoundStatisticsSaver.deleteAll();
+    betStatisticsCalculator = new BetStatisticsCalculator(betRoundStatisticsSaver, betLeagueStatisticsSaver, betRoundStatisticsFinder, betLeagueStatisticsFinder, betFinder);
+  }
 
-        assertThat(betStatisticsFinder.findAll()).hasSize(3);
-        assertThat(forUser(1L, betStatisticsFinder.findAll()).getPosition()).isEqualTo(2L);
-        assertThat(forUser(1L, betStatisticsFinder.findAll()).getPoints()).isEqualTo(2L);
-        assertThat(forUser(2L, betStatisticsFinder.findAll()).getPosition()).isEqualTo(1L);
-        assertThat(forUser(2L, betStatisticsFinder.findAll()).getPoints()).isEqualTo(3L);
-        assertThat(forUser(3L, betStatisticsFinder.findAll()).getPosition()).isEqualTo(3L);
-        assertThat(forUser(3L, betStatisticsFinder.findAll()).getPoints()).isEqualTo(1L);
-    }
+  @Test
+  void shouldCalculateStatisticsPerRoundForMoreThen2Users() {
+    betSaver.save(Bet.builder().status(BetStatus.CHECKED).matchRoundId(1L).userId(1L).points(2L).build());
+    betSaver.save(Bet.builder().status(BetStatus.CHECKED).matchRoundId(1L).userId(2L).points(3L).build());
+    betSaver.save(Bet.builder().status(BetStatus.CHECKED).matchRoundId(1L).userId(3L).points(1L).build());
+    betSaver.save(Bet.builder().status(BetStatus.CHECKED).matchRoundId(1L).userId(3L).points(0L).build());
 
-    @Test
-    void shouldCalculateStatisticsPerRoundForMoreThen1UserHave1Points() {
-        betSaver.save(Bet.builder().status(BetStatus.CHECKED).matchRoundId(1L).userId(1L).points(1L).build());
-        betSaver.save(Bet.builder().status(BetStatus.CHECKED).matchRoundId(1L).userId(2L).points(3L).build());
-        betSaver.save(Bet.builder().status(BetStatus.CHECKED).matchRoundId(1L).userId(3L).points(1L).build());
-        betSaver.save(Bet.builder().status(BetStatus.CHECKED).matchRoundId(1L).userId(3L).points(0L).build());
+    betStatisticsCalculator.calculateStatisticsForRound(1L);
 
-        betStatisticsCalculator.calculateStatisticsForRound(1L);
+    assertThat(betRoundStatisticsFinder.findAll()).hasSize(3);
+    assertThat(betRoundStatisticsFinder.findByUserIdAndRoundId(1L, 1L).get().getPosition()).isEqualTo(2L);
+    assertThat(betRoundStatisticsFinder.findByUserIdAndRoundId(1L, 1L).get().getPoints()).isEqualTo(2L);
+    assertThat(betRoundStatisticsFinder.findByUserIdAndRoundId(2L, 1L).get().getPosition()).isEqualTo(1L);
+    assertThat(betRoundStatisticsFinder.findByUserIdAndRoundId(2L, 1L).get().getPoints()).isEqualTo(3L);
+    assertThat(betRoundStatisticsFinder.findByUserIdAndRoundId(3L, 1L).get().getPosition()).isEqualTo(3L);
+    assertThat(betRoundStatisticsFinder.findByUserIdAndRoundId(3L, 1L).get().getPoints()).isEqualTo(1L);
+  }
 
-        assertThat(betStatisticsFinder.findAll()).hasSize(3);
-        assertThat(forUser(1L, betStatisticsFinder.findAll()).getPosition()).isEqualTo(2L);
-        assertThat(forUser(1L, betStatisticsFinder.findAll()).getPoints()).isEqualTo(1L);
-        assertThat(forUser(2L, betStatisticsFinder.findAll()).getPosition()).isEqualTo(1L);
-        assertThat(forUser(2L, betStatisticsFinder.findAll()).getPoints()).isEqualTo(3L);
-        assertThat(forUser(3L, betStatisticsFinder.findAll()).getPosition()).isEqualTo(2L);
-        assertThat(forUser(3L, betStatisticsFinder.findAll()).getPoints()).isEqualTo(1L);
-    }
+  @Test
+  void shouldCalculateStatisticsPerRoundForMoreThen1UserHave1Points() {
+    betSaver.save(Bet.builder().status(BetStatus.CHECKED).matchRoundId(1L).userId(1L).points(1L).build());
+    betSaver.save(Bet.builder().status(BetStatus.CHECKED).matchRoundId(1L).userId(2L).points(3L).build());
+    betSaver.save(Bet.builder().status(BetStatus.CHECKED).matchRoundId(1L).userId(3L).points(1L).build());
+    betSaver.save(Bet.builder().status(BetStatus.CHECKED).matchRoundId(1L).userId(3L).points(0L).build());
 
-    @Test
-    void shouldCalculateStatisticsPerRoundForLessThen2Users() {
-        betSaver.save(Bet.builder().status(BetStatus.CHECKED).matchRoundId(1L).userId(1L).points(2L).build());
+    betStatisticsCalculator.calculateStatisticsForRound(1L);
 
-        betStatisticsCalculator.calculateStatisticsForRound(1L);
+    assertThat(betRoundStatisticsFinder.findAll()).hasSize(3);
+    assertThat(betRoundStatisticsFinder.findByUserIdAndRoundId(1L, 1L).get().getPosition()).isEqualTo(2L);
+    assertThat(betRoundStatisticsFinder.findByUserIdAndRoundId(1L, 1L).get().getPoints()).isEqualTo(1L);
+    assertThat(betRoundStatisticsFinder.findByUserIdAndRoundId(2L, 1L).get().getPosition()).isEqualTo(1L);
+    assertThat(betRoundStatisticsFinder.findByUserIdAndRoundId(2L, 1L).get().getPoints()).isEqualTo(3L);
+    assertThat(betRoundStatisticsFinder.findByUserIdAndRoundId(3L, 1L).get().getPosition()).isEqualTo(2L);
+    assertThat(betRoundStatisticsFinder.findByUserIdAndRoundId(3L, 1L).get().getPoints()).isEqualTo(1L);
+  }
 
-        assertThat(betStatisticsFinder.findAll()).hasSize(1);
-        assertThat(forUser(1L, betStatisticsFinder.findAll()).getPosition()).isEqualTo(1L);
-        assertThat(forUser(1L, betStatisticsFinder.findAll()).getPoints()).isEqualTo(2L);
-    }
+  @Test
+  void shouldCalculateStatisticsPerRoundForLessThen2Users() {
+    betSaver.save(Bet.builder().status(BetStatus.CHECKED).matchRoundId(1L).userId(1L).points(2L).build());
 
-    @Test
-    void shouldCalculateStatisticsPerLeagueForMoreThen2Users() {
-        betStatisticsSaver.save(BetRoundStatistics.builder().roundId(1L).userId(1L).points(2L).build());
-        betStatisticsSaver.save(BetRoundStatistics.builder().roundId(1L).userId(2L).points(3L).build());
-        betStatisticsSaver.save(BetRoundStatistics.builder().roundId(1L).userId(3L).points(1L).build());
-        betStatisticsSaver.save(BetRoundStatistics.builder().roundId(1L).userId(3L).points(0L).build());
+    betStatisticsCalculator.calculateStatisticsForRound(1L);
 
-        betStatisticsCalculator.calculateStatisticsForLeague(1L);
+    assertThat(betRoundStatisticsFinder.findAll()).hasSize(1);
+    assertThat(betRoundStatisticsFinder.findByUserIdAndRoundId(1L, 1L).get().getPosition()).isEqualTo(1L);
+    assertThat(betRoundStatisticsFinder.findByUserIdAndRoundId(1L, 1L).get().getPoints()).isEqualTo(2L);
+  }
 
-        List<BetStatisticsBase> statisticsBaseList = betStatisticsFinder.findAll().stream().filter(v -> v instanceof BetLeagueStatistics).collect(Collectors.toList());
-        assertThat(statisticsBaseList).hasSize(3);
-        assertThat(forUser(1L, statisticsBaseList).getPosition()).isEqualTo(2L);
-        assertThat(forUser(1L, statisticsBaseList).getPoints()).isEqualTo(2L);
-        assertThat(forUser(2L, statisticsBaseList).getPosition()).isEqualTo(1L);
-        assertThat(forUser(2L, statisticsBaseList).getPoints()).isEqualTo(3L);
-        assertThat(forUser(3L, statisticsBaseList).getPosition()).isEqualTo(3L);
-        assertThat(forUser(3L, statisticsBaseList).getPoints()).isEqualTo(1L);
-    }
+  @Test
+  void shouldCalculateStatisticsPerLeagueForMoreThen2Users() {
+    betRoundStatisticsSaver.save(BetRoundStatistics.builder().roundId(1L).userId(1L).points(2L).build());
+    betRoundStatisticsSaver.save(BetRoundStatistics.builder().roundId(1L).userId(2L).points(3L).build());
+    betRoundStatisticsSaver.save(BetRoundStatistics.builder().roundId(1L).userId(3L).points(1L).build());
+    betRoundStatisticsSaver.save(BetRoundStatistics.builder().roundId(1L).userId(3L).points(0L).build());
 
-    @Test
-    void shouldCalculateStatisticsPerLeagueForMoreThen1UserHave1Points() {
-        betStatisticsSaver.save(BetRoundStatistics.builder().roundId(1L).userId(1L).points(1L).build());
-        betStatisticsSaver.save(BetRoundStatistics.builder().roundId(1L).userId(2L).points(3L).build());
-        betStatisticsSaver.save(BetRoundStatistics.builder().roundId(1L).userId(3L).points(1L).build());
-        betStatisticsSaver.save(BetRoundStatistics.builder().roundId(1L).userId(3L).points(0L).build());
+    betStatisticsCalculator.calculateStatisticsForLeague(1L);
 
-        betStatisticsCalculator.calculateStatisticsForLeague(1L);
+    List<BetLeagueStatistics> statisticsBaseList = betLeagueStatisticsFinder.findAll();
+    assertThat(statisticsBaseList).hasSize(3);
+    assertThat(betLeagueStatisticsFinder.findByUserIdAndLeagueId(1L, 1L).get().getPosition()).isEqualTo(2L);
+    assertThat(betLeagueStatisticsFinder.findByUserIdAndLeagueId(1L, 1L).get().getPoints()).isEqualTo(2L);
+    assertThat(betLeagueStatisticsFinder.findByUserIdAndLeagueId(2L, 1L).get().getPosition()).isEqualTo(1L);
+    assertThat(betLeagueStatisticsFinder.findByUserIdAndLeagueId(2L, 1L).get().getPoints()).isEqualTo(3L);
+    assertThat(betLeagueStatisticsFinder.findByUserIdAndLeagueId(3L, 1L).get().getPosition()).isEqualTo(3L);
+    assertThat(betLeagueStatisticsFinder.findByUserIdAndLeagueId(3L, 1L).get().getPoints()).isEqualTo(1L);
+  }
 
-        List<BetStatisticsBase> statisticsBaseList = betStatisticsFinder.findAll().stream().filter(v -> v instanceof BetLeagueStatistics).collect(Collectors.toList());
-        assertThat(statisticsBaseList).hasSize(3);
-        assertThat(forUser(1L, statisticsBaseList).getPosition()).isEqualTo(2L);
-        assertThat(forUser(1L, statisticsBaseList).getPoints()).isEqualTo(1L);
-        assertThat(forUser(2L, statisticsBaseList).getPosition()).isEqualTo(1L);
-        assertThat(forUser(2L, statisticsBaseList).getPoints()).isEqualTo(3L);
-        assertThat(forUser(3L, statisticsBaseList).getPosition()).isEqualTo(2L);
-        assertThat(forUser(3L, statisticsBaseList).getPoints()).isEqualTo(1L);
-    }
+  @Test
+  void shouldCalculateStatisticsPerLeagueForMoreThen1UserHave1Points() {
+    betRoundStatisticsSaver.save(BetRoundStatistics.builder().roundId(1L).userId(1L).points(1L).build());
+    betRoundStatisticsSaver.save(BetRoundStatistics.builder().roundId(1L).userId(2L).points(3L).build());
+    betRoundStatisticsSaver.save(BetRoundStatistics.builder().roundId(1L).userId(3L).points(1L).build());
+    betRoundStatisticsSaver.save(BetRoundStatistics.builder().roundId(1L).userId(3L).points(0L).build());
 
-    @Test
-    void shouldCalculateStatisticsPerLeagueForLessThen2Users() {
-        betStatisticsSaver.save(BetRoundStatistics.builder().roundId(1L).userId(1L).points(2L).build());
+    betStatisticsCalculator.calculateStatisticsForLeague(1L);
 
-        betStatisticsCalculator.calculateStatisticsForLeague(1L);
+    List<BetLeagueStatistics> statisticsBaseList = betLeagueStatisticsFinder.findAll();
+    assertThat(statisticsBaseList).hasSize(3);
+    assertThat(betLeagueStatisticsFinder.findByUserIdAndLeagueId(1L, 1L).get().getPosition()).isEqualTo(2L);
+    assertThat(betLeagueStatisticsFinder.findByUserIdAndLeagueId(1L, 1L).get().getPoints()).isEqualTo(1L);
+    assertThat(betLeagueStatisticsFinder.findByUserIdAndLeagueId(2L, 1L).get().getPosition()).isEqualTo(1L);
+    assertThat(betLeagueStatisticsFinder.findByUserIdAndLeagueId(2L, 1L).get().getPoints()).isEqualTo(3L);
+    assertThat(betLeagueStatisticsFinder.findByUserIdAndLeagueId(3L, 1L).get().getPosition()).isEqualTo(2L);
+    assertThat(betLeagueStatisticsFinder.findByUserIdAndLeagueId(3L, 1L).get().getPoints()).isEqualTo(1L);
+  }
 
-        List<BetStatisticsBase> statisticsBaseList = betStatisticsFinder.findAll().stream().filter(v -> v instanceof BetLeagueStatistics).collect(Collectors.toList());
-        assertThat(statisticsBaseList).hasSize(1);
-        assertThat(forUser(1L, statisticsBaseList).getPosition()).isEqualTo(1L);
-        assertThat(forUser(1L, statisticsBaseList).getPoints()).isEqualTo(2L);
-    }
+  @Test
+  void shouldCalculateStatisticsPerLeagueForLessThen2Users() {
+    betRoundStatisticsSaver.save(BetRoundStatistics.builder().roundId(1L).userId(1L).points(2L).build());
 
-    BetStatisticsBase forUser(Long userId, List<BetStatisticsBase> list) {
-        return list.stream().filter(v -> v.getUserId().equals(userId)).findAny().get();
-    }
+    betStatisticsCalculator.calculateStatisticsForLeague(1L);
+
+    List<BetLeagueStatistics> statisticsBaseList = betLeagueStatisticsFinder.findAll();
+    assertThat(statisticsBaseList).hasSize(1);
+    assertThat(betLeagueStatisticsFinder.findByUserIdAndLeagueId(1L, 1L).get().getPosition()).isEqualTo(1L);
+    assertThat(betLeagueStatisticsFinder.findByUserIdAndLeagueId(1L, 1L).get().getPoints()).isEqualTo(2L);
+  }
+
+  @Test
+  void shouldRecalculateRoundStatisticsWhenHaveOne() {
+    betRoundStatisticsSaver.save(BetRoundStatistics.builder().roundId(1L).userId(1L).points(2L).build());
+    BetLeagueStatistics betLeagueStatistics = BetLeagueStatistics.builder().id(2L).userId(1L).leagueId(1L).build();
+    betLeagueStatisticsSaver.save(betLeagueStatistics);
+
+    betStatisticsCalculator.calculateStatisticsForLeague(1L);
+
+    List<BetLeagueStatistics> statisticsBaseList = betLeagueStatisticsFinder.findAll();
+    assertThat(statisticsBaseList).hasSize(1);
+    assertThat(betLeagueStatisticsFinder.findByUserIdAndLeagueId(1L, 1L).get().getPosition()).isEqualTo(1L);
+    assertThat(betLeagueStatisticsFinder.findByUserIdAndLeagueId(1L, 1L).get().getPoints()).isEqualTo(2L);
+    assertThat(betLeagueStatisticsFinder.findByUserIdAndLeagueId(1L, 1L).get().getId()).isEqualTo(2L);
+
+  }
+
+  @Test
+  void shouldRecalculateLeagueStatisticsWhenHaveOne() {
+    betSaver.save(Bet.builder().status(BetStatus.CHECKED).matchRoundId(1L).userId(1L).points(2L).build());
+    BetRoundStatistics betRoundStatistics = BetRoundStatistics.builder().id(2L).userId(1L).roundId(1L).build();
+    betRoundStatisticsSaver.save(betRoundStatistics);
+
+    betStatisticsCalculator.calculateStatisticsForRound(1L);
+
+    assertThat(betRoundStatisticsFinder.findAll()).hasSize(1);
+    assertThat(betRoundStatisticsFinder.findByUserIdAndRoundId(1L, 1L).get().getPosition()).isEqualTo(1L);
+    assertThat(betRoundStatisticsFinder.findByUserIdAndRoundId(1L, 1L).get().getPoints()).isEqualTo(2L);
+    assertThat(betRoundStatisticsFinder.findByUserIdAndRoundId(1L, 1L).get().getId()).isEqualTo(2L);
+  }
 
 }

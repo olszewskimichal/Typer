@@ -43,7 +43,7 @@ class BetRestControllerUnitTest {
   @Test
   void shouldCreateNewBet() {
 
-    CreateNewBet createNewBet = CreateNewBet.builder().betHomeGoals(1L).betAwayGoals(1L).userId(1L).matchId(1L).matchRoundId(1L).build();
+    CreateNewBet createNewBet = CreateNewBet.builder().betHomeGoals(1L).betAwayGoals(1L).userId(1L).matchId(1L).matchRoundId(1L).leagueId(1L).build();
     ResponseEntity<String> responseEntity = betRestController.createNewBet(createNewBet);
 
     assertThat(responseEntity.getStatusCodeValue()).isEqualTo(201);

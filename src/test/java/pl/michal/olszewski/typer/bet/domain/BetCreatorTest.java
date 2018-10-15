@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.Test;
 import pl.michal.olszewski.typer.bet.dto.IllegalGoalArgumentException;
 import pl.michal.olszewski.typer.bet.dto.command.CreateNewBet;
+import pl.michal.olszewski.typer.match.dto.MatchLeagueNotFoundException;
 import pl.michal.olszewski.typer.match.dto.MatchNotFoundException;
 import pl.michal.olszewski.typer.match.dto.MatchRoundNotFoundException;
 import pl.michal.olszewski.typer.users.UserNotFoundException;
@@ -16,7 +17,7 @@ class BetCreatorTest {
 
   @Test
   void shouldThrowExceptionWhenCommandIsNull() {
-    assertThrows(NullPointerException.class, () -> betCreator.from(null));
+    assertThrows(NullPointerException.class, () -> BetCreator.from(null));
   }
 
   @Test
@@ -30,6 +31,7 @@ class BetCreatorTest {
         .points(0L)
         .status(BetStatus.NEW)
         .matchRoundId(2L)
+        .leagueId(4L)
         .build();
     CreateNewBet command = CreateNewBet.builder()
         .betAwayGoals(1L)
@@ -37,9 +39,10 @@ class BetCreatorTest {
         .matchId(1L)
         .userId(3L)
         .matchRoundId(2L)
+        .leagueId(4L)
         .build();
     //when
-    Bet bet = betCreator.from(command);
+    Bet bet = BetCreator.from(command);
     //then
     assertThat(bet).isNotNull().isEqualToComparingFieldByField(expected);
   }
@@ -56,8 +59,8 @@ class BetCreatorTest {
         .build();
     //when
     //then
-    assertThrows(IllegalGoalArgumentException.class, () -> betCreator.from(command));
-    assertThrows(IllegalGoalArgumentException.class, () -> betCreator.from(command2));
+    assertThrows(IllegalGoalArgumentException.class, () -> BetCreator.from(command));
+    assertThrows(IllegalGoalArgumentException.class, () -> BetCreator.from(command2));
   }
 
   @Test
@@ -68,7 +71,7 @@ class BetCreatorTest {
         .build();
     //when
     //then
-    assertThrows(MatchNotFoundException.class, () -> betCreator.from(command));
+    assertThrows(MatchNotFoundException.class, () -> BetCreator.from(command));
   }
 
   @Test
@@ -80,7 +83,7 @@ class BetCreatorTest {
         .build();
     //when
     //then
-    assertThrows(UserNotFoundException.class, () -> betCreator.from(command));
+    assertThrows(UserNotFoundException.class, () -> BetCreator.from(command));
   }
 
   @Test
@@ -93,7 +96,21 @@ class BetCreatorTest {
         .build();
     //when
     //then
-    assertThrows(MatchRoundNotFoundException.class, () -> betCreator.from(command));
+    assertThrows(MatchRoundNotFoundException.class, () -> BetCreator.from(command));
+  }
+
+  @Test
+  void shouldThrowExceptionWhenMatchLeagueIdIsNull() {
+    CreateNewBet command = CreateNewBet.builder()
+        .betAwayGoals(1L)
+        .betHomeGoals(2L)
+        .matchRoundId(6L)
+        .matchId(3L)
+        .userId(1L)
+        .build();
+    //when
+    //then
+    assertThrows(MatchLeagueNotFoundException.class, () -> BetCreator.from(command));
   }
 
 }

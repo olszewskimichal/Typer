@@ -1,17 +1,15 @@
 package pl.michal.olszewski.typer.bet.domain;
 
-import org.springframework.data.jpa.repository.Query;
+import java.util.List;
+import org.springframework.data.repository.NoRepositoryBean;
 import org.springframework.data.repository.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 
-
-@org.springframework.stereotype.Repository
+@NoRepositoryBean
 @Transactional(readOnly = true)
-interface BetStatisticsFinder extends Repository<BetStatisticsBase, Long> {
-    List<BetStatisticsBase> findAll();
+interface BetStatisticsFinder<T extends BetStatisticsBase> extends Repository<T, Long> {
 
-    @Query("Select b from BetRoundStatistics b where b.roundId in (select m.id from MatchRound m where m.matchLeague.id=?1)")
-    List<BetRoundStatistics> findByLeague(Long leagueId);
+  List<T> findAll();  //TODO dopisac test i ograniczyc uzycie tej metody w testach
+
 }
