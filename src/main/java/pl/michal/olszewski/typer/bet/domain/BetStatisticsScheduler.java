@@ -1,6 +1,7 @@
 package pl.michal.olszewski.typer.bet.domain;
 
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -27,10 +28,10 @@ class BetStatisticsScheduler {
     this.betStatisticsCalculator = betStatisticsCalculator;
   }
 
-  @Scheduled(fixedDelay = 50000)
+  @Scheduled(fixedDelay = 500000)
   void calculateStatistics() {
-    Instant lastCalcTime = Optional.ofNullable(statisticsProperties.getLastStatisticCalculationDate()).orElse(Instant.MIN);
-    log.debug("Rozpoczynam naliczanie statystyk od daty {}", statisticsProperties.getLastStatisticCalculationDate());
+    Instant lastCalcTime = Optional.ofNullable(statisticsProperties.getLastStatisticCalculationDate()).orElse(Instant.now().minus(100, ChronoUnit.DAYS));
+    log.debug("Rozpoczynam naliczanie statystyk od daty {}", lastCalcTime);
     List<Bet> modifiedAfter = betFinder.findByModifiedAfter(lastCalcTime);
     if (modifiedAfter.isEmpty()) {
       return;
