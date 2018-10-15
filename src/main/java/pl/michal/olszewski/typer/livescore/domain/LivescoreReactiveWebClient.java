@@ -1,10 +1,11 @@
-package pl.michal.olszewski.typer.livescore;
+package pl.michal.olszewski.typer.livescore.domain;
 
 import java.time.LocalDate;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
+import pl.michal.olszewski.typer.livescore.read.PastMatchesDTO;
 import reactor.core.publisher.Mono;
 
 @Service

@@ -1,4 +1,4 @@
-package pl.michal.olszewski.typer.livescore;
+package pl.michal.olszewski.typer.livescore.domain;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;

@@ -1,4 +1,4 @@
-package pl.michal.olszewski.typer.livescore;
+package pl.michal.olszewski.typer.livescore.read;
 
 import static java.lang.Long.valueOf;
 
@@ -9,7 +9,7 @@ import lombok.Value;
 
 @Value
 @Builder
-class MatchDTO {
+public class MatchDTO {
 
   private Long id;
   private LocalDate date;
@@ -17,11 +17,11 @@ class MatchDTO {
   @JsonProperty("league_id")
   private Long leagueId;
 
-  Long getHomeGoals() {
+  public Long getHomeGoals() {
     return valueOf(getScore().split("-")[0].trim());
   }
 
-  Long getAwayGoals() {
+  public Long getAwayGoals() {
     return valueOf(getScore().split("-")[1].trim());
   }
 }

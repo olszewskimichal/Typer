@@ -1,4 +1,4 @@
-package pl.michal.olszewski.typer.livescore;
+package pl.michal.olszewski.typer.livescore.domain;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
@@ -10,6 +10,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import pl.michal.olszewski.typer.livescore.command.FinishLivescoreMatch;
+import pl.michal.olszewski.typer.livescore.read.MatchDTO;
+import pl.michal.olszewski.typer.livescore.read.PastMatchesDTO;
+import pl.michal.olszewski.typer.livescore.read.PastMatchesDataDTO;
 import pl.michal.olszewski.typer.match.dto.command.CheckMatchResults;
 import reactor.core.publisher.Mono;
 

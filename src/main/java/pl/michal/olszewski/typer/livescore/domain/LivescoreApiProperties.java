@@ -1,4 +1,4 @@
-package pl.michal.olszewski.typer.livescore;
+package pl.michal.olszewski.typer.livescore.domain;
 
 import lombok.Getter;
 import lombok.Setter;
