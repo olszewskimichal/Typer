@@ -7,7 +7,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.jms.core.JmsTemplate;
-import pl.michal.olszewski.typer.livescore.command.FinishLivescoreMatch;
+import pl.michal.olszewski.typer.livescore.dto.command.FinishLivescoreMatch;
 
 class LivescoreMatchEventPublisherTest {
 

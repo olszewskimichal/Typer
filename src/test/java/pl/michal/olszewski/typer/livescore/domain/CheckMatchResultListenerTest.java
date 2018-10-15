@@ -9,10 +9,10 @@ import java.util.Collections;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-import pl.michal.olszewski.typer.livescore.command.FinishLivescoreMatch;
-import pl.michal.olszewski.typer.livescore.read.MatchDTO;
-import pl.michal.olszewski.typer.livescore.read.PastMatchesDTO;
-import pl.michal.olszewski.typer.livescore.read.PastMatchesDataDTO;
+import pl.michal.olszewski.typer.livescore.dto.command.FinishLivescoreMatch;
+import pl.michal.olszewski.typer.livescore.dto.read.MatchDTO;
+import pl.michal.olszewski.typer.livescore.dto.read.PastMatchesDTO;
+import pl.michal.olszewski.typer.livescore.dto.read.PastMatchesDataDTO;
 import pl.michal.olszewski.typer.match.dto.command.CheckMatchResults;
 import reactor.core.publisher.Mono;
 

@@ -4,7 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Component;
-import pl.michal.olszewski.typer.livescore.command.FinishLivescoreMatch;
+import pl.michal.olszewski.typer.livescore.dto.command.FinishLivescoreMatch;
 
 @Component
 @Slf4j

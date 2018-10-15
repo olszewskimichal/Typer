@@ -1,4 +1,4 @@
-package pl.michal.olszewski.typer.livescore.command;
+package pl.michal.olszewski.typer.livescore.dto.command;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

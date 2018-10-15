@@ -1,4 +1,4 @@
-package pl.michal.olszewski.typer.livescore.read;
+package pl.michal.olszewski.typer.livescore.dto.read;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
