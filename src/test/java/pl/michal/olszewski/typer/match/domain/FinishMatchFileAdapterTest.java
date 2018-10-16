@@ -26,7 +26,7 @@ class FinishMatchFileAdapterTest {
     MatchSaver matchSaver = new InMemoryMatchSaver();
     matchSaver.save(Match.builder().id(1L).matchRound(new MatchRound()).build());
     MatchFinder matchFinder = new InMemoryMatchFinder();
-    MatchUpdater matchUpdater = new MatchUpdater(matchFinder, eventPublisher);
+    MatchUpdater matchUpdater = new MatchUpdater(matchFinder, matchSaver, eventPublisher);
     matchLeagueFileAdapter = new FinishMatchFileAdapter(matchUpdater, new FileStorageService(fileStorageProperties));
 
   }

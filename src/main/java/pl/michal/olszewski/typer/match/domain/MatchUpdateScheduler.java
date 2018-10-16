@@ -34,6 +34,7 @@ class MatchUpdateScheduler {
     if (list.isEmpty()) {
       return;
     }
+    log.debug("Sprawdzam dla nastepujacych livescoreId meczów {}", list);
     Map<Long, List<Match>> listMap = matchList.stream()
         .filter(v -> v.getLivescoreLeagueId() != null)
         .collect(Collectors.groupingBy(Match::getLivescoreLeagueId));
@@ -44,7 +45,7 @@ class MatchUpdateScheduler {
           .map(Match::getStartDate)
           .map(v -> v.atZone(ZoneId.systemDefault()).toLocalDate())
           .min(LocalDate::compareTo)
-          .orElseThrow(() -> new IllegalArgumentException("Nie może byc sytuacji że są mecze a nie mają daty rozpoczęcia"));
+          .orElse(LocalDate.now().minusWeeks(2));
       CheckMatchResults checkMatchResults = CheckMatchResults.builder().date(date).livescoreLeagueId(entry.getKey()).livescoreIds(list).build();
       matchPublisher.sendCheckMatchCommandToJms(checkMatchResults);
     }

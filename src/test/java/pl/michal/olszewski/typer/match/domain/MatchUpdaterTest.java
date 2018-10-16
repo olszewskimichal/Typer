@@ -25,7 +25,7 @@ class MatchUpdaterTest {
   @BeforeEach
   void configureSystemUnderTests() {
     eventPublisher = mock(MatchEventPublisher.class);
-    matchUpdater = new MatchUpdater(matchFinder, eventPublisher);
+    matchUpdater = new MatchUpdater(matchFinder, new InMemoryMatchSaver(), eventPublisher);
     givenMatch().deleteAll();
   }
 

@@ -24,7 +24,7 @@ class MatchRestControllerUnitTest {
   private MatchRoundFinder matchRoundFinder = new InMemoryMatchRoundFinder();
   private MatchRoundSaver matchRoundSaver = new InMemoryMatchRoundSaver();
   private MatchEventPublisher matchEventPublisher = mock(MatchEventPublisher.class);
-  private MatchUpdater matchUpdater = new MatchUpdater(matchFinder, matchEventPublisher);
+  private MatchUpdater matchUpdater = new MatchUpdater(matchFinder, matchSaver, matchEventPublisher);
 
   @BeforeEach
   void setUp() {

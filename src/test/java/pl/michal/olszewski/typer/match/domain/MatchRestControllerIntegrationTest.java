@@ -3,6 +3,7 @@ package pl.michal.olszewski.typer.match.domain;
 import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -74,5 +75,18 @@ class MatchRestControllerIntegrationTest extends RestControllerIntegrationTestBa
         .andDo(print())
         .andExpect(status().isBadRequest());
   }
+
+  @Test
+  void shouldIntegrateMatchWithLivescore() throws Exception {
+    Match match = Match.builder().id(1L).build();
+    matchSaver.save(match);
+
+    mvc.perform(put("/api/match/integrate")
+        .param("matchId", "1")
+        .param("livescoreId", "1")
+        .param("livescoreLeagueId", "2"))
+        .andExpect(status().isCreated());
+  }
+
 
 }
