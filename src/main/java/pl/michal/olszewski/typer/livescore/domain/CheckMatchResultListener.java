@@ -28,6 +28,8 @@ class CheckMatchResultListener {
     pastMatchesForLeagueFromDate
         .map(PastMatchesDTO::getData)
         .flatMapIterable(PastMatchesDataDTO::getMatches)
+        .filter(v -> command.getLivescoreIds().contains(v.getId()))
+        .doOnEach(v -> log.trace(v.toString()))
         .map(v -> new FinishLivescoreMatch(v.getId(), v.getHomeGoals(), v.getAwayGoals()))
         .subscribe(publisher::sendMatchFinishedToJMS);
   }
