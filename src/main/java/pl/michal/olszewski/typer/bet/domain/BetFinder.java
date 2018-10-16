@@ -25,8 +25,8 @@ interface BetFinder extends Repository<Bet, Long> {
   @Query("Select b from Bet b where b.userId=?1")
   List<Bet> findAllBetForUser(Long userId);
 
-  @Query("Select b from Bet b where b.matchRoundId=?1")
-  List<Bet> findAllBetForRound(Long matchRoundId);
+  @Query("Select b from Bet b where b.status=2 and b.matchRoundId=?1")
+  List<Bet> findAllFinishedBetForRound(Long matchRoundId);
 
   List<Bet> findByModifiedAfter(Instant from);
 

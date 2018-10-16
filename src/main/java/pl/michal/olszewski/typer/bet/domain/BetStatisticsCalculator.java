@@ -70,7 +70,7 @@ class BetStatisticsCalculator {
 
   void calculateStatisticsForRound(Long roundId) {
     log.debug("Rozpoczynam naliczanie statystyk dla rundy {}", roundId);
-    List<Bet> bets = betFinder.findAllBetForRound(roundId); //TODO find only checked
+    List<Bet> bets = betFinder.findAllFinishedBetForRound(roundId);
     log.trace("Pobralem {} zakladów do naliczenia", bets.size());
     Map<Long, List<Bet>> betsPerUser = bets.stream().collect(Collectors.groupingBy(Bet::getUserId));
     List<UserPoints> userPoints = betsPerUser.entrySet()

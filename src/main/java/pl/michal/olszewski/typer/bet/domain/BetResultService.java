@@ -34,7 +34,7 @@ class BetResultService {
   }
 
   List<BetResult> getBetResultsForRound(Long roundId) {
-    return betFinder.findAllBetForRound(roundId)
+    return betFinder.findAllFinishedBetForRound(roundId)
         .stream()
         .filter(Bet::isChecked)
         .map(v -> new BetResult(v.getId(), v.getMatchId(), v.getUserId(), v.getPoints()))

@@ -34,10 +34,11 @@ class InMemoryBetFinder implements BetFinder {
   }
 
   @Override
-  public List<Bet> findAllBetForRound(Long matchRoundId) {
+  public List<Bet> findAllFinishedBetForRound(Long matchRoundId) {
     return map
         .values()
         .stream()
+        .filter(v -> v.getStatus().equals(BetStatus.CHECKED))
         .filter(v -> v.getMatchRoundId().equals(matchRoundId))
         .collect(Collectors.toList());
   }

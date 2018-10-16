@@ -46,12 +46,14 @@ class BetFinderTest extends RepositoryTestBase {
   }
 
   @Test
-  void shouldFindAllBetForRound() {
-    givenBets().buildNumberOfBetsForMatchRoundAndSave(2, 3L);
-    givenBets().buildNumberOfBetsForMatchRoundAndSave(1, 4L);
+  void shouldFindAllFinishedBetForRound() {
+    givenBets().buildNumberOfBetsForMatchRoundAndStatus(2, 3L, BetStatus.CHECKED);
+    givenBets().buildNumberOfBetsForMatchRoundAndStatus(2, 3L, BetStatus.IN_PROGRESS);
+    givenBets().buildNumberOfBetsForMatchRoundAndStatus(1, 4L, BetStatus.CHECKED);
+    givenBets().buildNumberOfBetsForMatchRoundAndStatus(1, 4L, BetStatus.IN_PROGRESS);
 
-    assertThat(betFinder.findAllBetForRound(3L)).hasSize(2);
-    assertThat(betFinder.findAllBetForRound(4L)).hasSize(1);
+    assertThat(betFinder.findAllFinishedBetForRound(3L)).hasSize(2);
+    assertThat(betFinder.findAllFinishedBetForRound(4L)).hasSize(1);
   }
 
   @Test
