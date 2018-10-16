@@ -1,5 +1,6 @@
 package pl.michal.olszewski.typer.match.dto.command;
 
+import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -11,6 +12,7 @@ import pl.michal.olszewski.typer.match.dto.MatchNotFoundException;
 @Builder
 public class CancelMatch implements CommandValid {
 
+  @NotNull
   private Long matchId;
 
   @Override

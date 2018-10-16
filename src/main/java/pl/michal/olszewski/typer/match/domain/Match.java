@@ -72,7 +72,7 @@ class Match {
     this.matchStatus = MatchStatus.FINISHED;
     setHomeGoals(finalHomeGoals);
     setAwayGoals(finalAwayGoals);
-    return new MatchFinished(id, homeGoals, awayGoals, matchRound.getBetTypePolicy());
+    return new MatchFinished(id, homeGoals, awayGoals, matchRound != null ? matchRound.getBetTypePolicy() : null);
   }
 
   void integrateMatchWithLivescore(Long livescoreId, Long livescoreLeagueId) {

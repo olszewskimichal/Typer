@@ -2,6 +2,7 @@ package pl.michal.olszewski.typer.match.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.mock;
 
 import java.time.Instant;
 import org.junit.jupiter.api.AfterEach;
@@ -9,7 +10,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.ResponseEntity;
 import pl.michal.olszewski.typer.match.dto.MatchNotFoundException;
+import pl.michal.olszewski.typer.match.dto.command.CancelMatch;
 import pl.michal.olszewski.typer.match.dto.command.CreateNewMatch;
+import pl.michal.olszewski.typer.match.dto.command.FinishMatch;
+import pl.michal.olszewski.typer.match.dto.command.IntegrateMatchWithLivescore;
 import pl.michal.olszewski.typer.match.dto.read.MatchInfo;
 
 class MatchRestControllerUnitTest {
@@ -19,10 +23,12 @@ class MatchRestControllerUnitTest {
   private MatchFinder matchFinder = new InMemoryMatchFinder();
   private MatchRoundFinder matchRoundFinder = new InMemoryMatchRoundFinder();
   private MatchRoundSaver matchRoundSaver = new InMemoryMatchRoundSaver();
+  private MatchEventPublisher matchEventPublisher = mock(MatchEventPublisher.class);
+  private MatchUpdater matchUpdater = new MatchUpdater(matchFinder, matchEventPublisher);
 
   @BeforeEach
   void setUp() {
-    matchRestController = new MatchRestController(matchRoundFinder, matchFinder, matchSaver);
+    matchRestController = new MatchRestController(matchRoundFinder, matchFinder, matchSaver, matchUpdater);
   }
 
   @Test
@@ -51,6 +57,36 @@ class MatchRestControllerUnitTest {
 
     assertThat(responseEntity.getStatusCodeValue()).isEqualTo(201);
     assertThat(responseEntity.getBody()).isNull();
+  }
+
+  @Test
+  void shouldCancelMatch() {
+    givenMatchs().buildAndSave(1L, MatchStatus.NEW);
+
+    CancelMatch cancel = CancelMatch.builder().matchId(1L).build();
+    ResponseEntity<String> responseEntity = matchRestController.cancelMatch(cancel);
+
+    assertThat(responseEntity.getStatusCodeValue()).isEqualTo(201);
+  }
+
+  @Test
+  void shouldFinishMatch() {
+    givenMatchs().buildAndSave(1L, MatchStatus.NEW);
+
+    FinishMatch finishMatch = FinishMatch.builder().homeGoals(1L).awayGoals(2L).matchId(1L).build();
+    ResponseEntity<String> responseEntity = matchRestController.finishMatch(finishMatch);
+
+    assertThat(responseEntity.getStatusCodeValue()).isEqualTo(201);
+  }
+
+  @Test
+  void shouldIntegrateMatchWithLivescore() {
+    givenMatchs().buildAndSave(1L, MatchStatus.NEW);
+
+    IntegrateMatchWithLivescore integrateMatchWithLivescore = IntegrateMatchWithLivescore.builder().livescoreId(1L).livescoreLeagueId(2L).matchId(1L).build();
+    ResponseEntity<String> responseEntity = matchRestController.integrateMatchWithLivescore(integrateMatchWithLivescore);
+
+    assertThat(responseEntity.getStatusCodeValue()).isEqualTo(201);
   }
 
   @AfterEach

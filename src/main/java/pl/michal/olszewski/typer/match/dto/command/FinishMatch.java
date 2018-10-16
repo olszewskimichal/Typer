@@ -1,5 +1,6 @@
 package pl.michal.olszewski.typer.match.dto.command;
 
+import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,8 +15,11 @@ import pl.michal.olszewski.typer.match.dto.MatchNotFoundException;
 @ToString
 public class FinishMatch implements CommandValid {
 
+  @NotNull
   private Long matchId;
+  @NotNull
   private Long homeGoals;
+  @NotNull
   private Long awayGoals;
 
   @Override
