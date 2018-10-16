@@ -8,6 +8,9 @@ import pl.michal.olszewski.typer.bet.dto.command.CreateNewBet;
 @Slf4j
 class BetCreator {
 
+  private BetCreator() {
+  }
+
   static Bet from(CreateNewBet createNewBet) {
     log.debug("Creating match from command {}", createNewBet);
     Objects.requireNonNull(createNewBet);

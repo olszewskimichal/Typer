@@ -8,11 +8,9 @@ import pl.michal.olszewski.typer.match.dto.command.CreateNewLeague;
 
 class MatchLeagueTest {
 
-  private MatchLeagueCreator matchLeagueCreator = new MatchLeagueCreator();
-
   @Test
   void shouldThrowExceptionWhenCommandIsNull() {
-    assertThrows(NullPointerException.class, () -> matchLeagueCreator.from(null));
+    assertThrows(NullPointerException.class, () -> MatchLeagueCreator.from(null));
   }
 
   @Test
@@ -26,7 +24,7 @@ class MatchLeagueTest {
         .betTypePolicy(3L)
         .build();
     //when
-    MatchLeague from = matchLeagueCreator.from(createNewLeague);
+    MatchLeague from = MatchLeagueCreator.from(createNewLeague);
     //then
     assertThat(from).isNotNull();
     assertThat(from).isEqualToComparingFieldByField(expected);
@@ -41,7 +39,7 @@ class MatchLeagueTest {
         .build();
     //when
     //then
-    assertThrows(IllegalArgumentException.class, () -> matchLeagueCreator.from(createNewLeague));
+    assertThrows(IllegalArgumentException.class, () -> MatchLeagueCreator.from(createNewLeague));
   }
 
   @Test
@@ -53,7 +51,7 @@ class MatchLeagueTest {
         .build();
     //when
     //then
-    assertThrows(IllegalArgumentException.class, () -> matchLeagueCreator.from(createNewLeague));
+    assertThrows(IllegalArgumentException.class, () -> MatchLeagueCreator.from(createNewLeague));
   }
 
 }

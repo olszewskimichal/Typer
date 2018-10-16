@@ -54,7 +54,7 @@ class BetStatisticsCalculator {
       long position = 1L;
       long positionTmp = 1L;
       saveStatsToDB(roundId, leagueId, first, position);
-      for (; iter.hasNext(); ) {
+      while (iter.hasNext()) {
         UserPoints second = iter.next();
         if (first.getPoints().equals(second.getPoints())) {
           positionTmp++;

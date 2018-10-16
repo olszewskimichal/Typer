@@ -12,9 +12,7 @@ import pl.michal.olszewski.typer.match.dto.MatchRoundNotFoundException;
 import pl.michal.olszewski.typer.users.UserNotFoundException;
 
 class BetCreatorTest {
-
-  private BetCreator betCreator = new BetCreator();
-
+  
   @Test
   void shouldThrowExceptionWhenCommandIsNull() {
     assertThrows(NullPointerException.class, () -> BetCreator.from(null));

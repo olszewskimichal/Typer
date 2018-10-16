@@ -8,6 +8,9 @@ import pl.michal.olszewski.typer.users.dto.command.CreateNewUser;
 @Slf4j
 class UserCreator {
 
+  private UserCreator() {
+  }
+
   static User from(CreateNewUser command, UserFinder userFinder) {
     log.debug("Creating user from command {}", command);
     Objects.requireNonNull(command);

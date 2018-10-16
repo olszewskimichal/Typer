@@ -7,6 +7,9 @@ import pl.michal.olszewski.typer.match.dto.command.CreateNewRound;
 @Slf4j
 class MatchRoundCreator {
 
+  private MatchRoundCreator() {
+  }
+
   static MatchRound from(CreateNewRound createNewRound, MatchLeagueFinder matchLeagueFinder) {
     log.debug("Creating round from command {}", createNewRound);
     Objects.requireNonNull(createNewRound);

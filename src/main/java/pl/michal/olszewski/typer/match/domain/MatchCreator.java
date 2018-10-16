@@ -7,6 +7,9 @@ import pl.michal.olszewski.typer.match.dto.command.CreateNewMatch;
 @Slf4j
 class MatchCreator {
 
+  private MatchCreator() {
+  }
+
   static Match from(CreateNewMatch createNewMatch, MatchRoundFinder matchRoundFinder) {
     log.debug("Creating match from command {}", createNewMatch);
     Objects.requireNonNull(createNewMatch);
