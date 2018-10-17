@@ -1,8 +1,10 @@
 package pl.michal.olszewski.typer.users.dto.dto;
 
-import lombok.Value;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
-@Value
+@AllArgsConstructor
+@Getter
 public class UserInfo {
 
   private final Long id;

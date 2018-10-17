@@ -1,8 +1,10 @@
 package pl.michal.olszewski.typer.match.dto.read;
 
-import lombok.Value;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
-@Value
+@AllArgsConstructor
+@Getter
 public class MatchRoundInfo {
 
   private final Long id;

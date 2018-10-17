@@ -2,10 +2,12 @@ package pl.michal.olszewski.typer.match.dto.command;
 
 import java.time.LocalDate;
 import java.util.List;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Value;
+import lombok.Getter;
 
-@Value
+@AllArgsConstructor
+@Getter
 @Builder
 public class CheckMatchResults {
 
