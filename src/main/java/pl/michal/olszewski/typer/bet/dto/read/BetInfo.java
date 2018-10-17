@@ -1,9 +1,11 @@
 package pl.michal.olszewski.typer.bet.dto.read;
 
-import lombok.Value;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import pl.michal.olszewski.typer.bet.domain.BetStatus;
 
-@Value
+@AllArgsConstructor
+@Getter
 public class BetInfo {
 
   private final Long id;

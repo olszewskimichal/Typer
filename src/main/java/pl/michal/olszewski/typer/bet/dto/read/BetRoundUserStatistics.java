@@ -1,8 +1,10 @@
 package pl.michal.olszewski.typer.bet.dto.read;
 
-import lombok.Value;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
-@Value
+@AllArgsConstructor
+@Getter
 public class BetRoundUserStatistics {
 
   private final Long userId;

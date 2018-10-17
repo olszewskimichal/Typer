@@ -26,6 +26,7 @@ class CheckMatchResultListener {
     log.info("Received {}", command);
     Mono<PastMatchesDTO> pastMatchesForLeagueFromDate = livescoreApiClient.getPastMatchesForLeagueFromDate(command.getLivescoreLeagueId(), command.getDate());
     pastMatchesForLeagueFromDate
+        .filter(PastMatchesDTO::isSuccess)
         .map(PastMatchesDTO::getData)
         .flatMapIterable(PastMatchesDataDTO::getMatches)
         .filter(v -> command.getLivescoreIds().contains(v.getId()))

@@ -1,9 +1,11 @@
 package pl.michal.olszewski.typer.match.dto.read;
 
-import lombok.Value;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import pl.michal.olszewski.typer.match.domain.MatchStatus;
 
-@Value
+@AllArgsConstructor
+@Getter
 public class MatchInfo {
 
   private final Long id;
