@@ -3,10 +3,12 @@ package pl.michal.olszewski.typer.match.dto.events;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Getter
 @ToString(callSuper = true)
+@NoArgsConstructor
 public final class MatchFinished extends MatchEventBase {
 
   private Long homeGoals;

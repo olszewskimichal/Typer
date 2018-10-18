@@ -23,7 +23,7 @@ class MatchUpdateScheduler {
     this.matchPublisher = matchPublisher;
   }
 
-  @Scheduled(fixedDelay = 300000)
+  @Scheduled(fixedDelay = 3000000)
   void createCheckMatchResultCommands() {
     log.debug("Rozpoczynam sprawdzanie wyników meczu - online");
     List<Match> matchList = matchFinder.findByStatusForLivescoreUpdate(MatchStatus.NEW);
