@@ -4,8 +4,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NonNull;
-import lombok.Value;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -118,8 +119,9 @@ class BetStatisticsCalculator {
     return statistics.stream().mapToLong(BetRoundStatistics::getPoints).sum();
   }
 
-  @Value
-  private class UserPoints {
+  @AllArgsConstructor
+  @Getter
+  private final class UserPoints {
 
     private final Long userId;
     private final Long points;
