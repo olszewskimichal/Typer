@@ -202,6 +202,51 @@ class MatchUpdaterTest {
     assertThat(matchUpdater.integrateMatch(command)).isEqualToComparingFieldByField(expected);
   }
 
+  @Test
+  void shouldThrowExceptionWhenIntegrationCommandIsNull() {
+    assertThrows(NullPointerException.class, () -> matchUpdater.integrateMatch(null));
+  }
+
+  @Test
+  void shouldThrowExceptionWhenIntegrateMatchIdIsNull() {
+    IntegrateMatchWithLivescore integrateMatchWithLivescore = IntegrateMatchWithLivescore
+        .builder()
+        .matchId(null)
+        .build();
+
+    assertThrows(IllegalArgumentException.class, () -> matchUpdater.integrateMatch(integrateMatchWithLivescore));
+  }
+
+  @Test
+  void shouldThrowExceptionWhenIntegrationMatchIsNotFound() {
+    IntegrateMatchWithLivescore livescore = IntegrateMatchWithLivescore
+        .builder()
+        .matchId(1L)
+        .livescoreId(3L)
+        .livescoreLeagueId(4L)
+        .build();
+
+    assertThrows(MatchNotFoundException.class, () -> matchUpdater.integrateMatch(livescore));
+  }
+
+  @Test
+  void shouldIntegrateMatchWithLivescoreWhenCommandIsValidAndMatchIsFound() {
+    givenMatch()
+        .buildAndSave(2L, MatchStatus.CANCELED);
+
+    IntegrateMatchWithLivescore livescore = IntegrateMatchWithLivescore
+        .builder()
+        .livescoreId(3L)
+        .livescoreLeagueId(4L)
+        .matchId(2L)
+        .build();
+
+    Match match = matchUpdater.integrateMatch(livescore);
+
+    assertThat(match).isNotNull();
+    assertThat(match.getLivescoreId()).isEqualTo(3L);
+  }
+
 
   private MatchFactory givenMatch() {
     return new MatchFactory(new InMemoryMatchSaver());
