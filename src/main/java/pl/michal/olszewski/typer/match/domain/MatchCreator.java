@@ -20,6 +20,7 @@ class MatchCreator {
         .homeTeamId(createNewMatch.getHomeTeamId())
         .awayTeamId(createNewMatch.getAwayTeamId())
         .matchStatus(MatchStatus.NEW)
+        .startDate(createNewMatch.getStartDate())
         .build();
     round.addMatch(match);
     return match;

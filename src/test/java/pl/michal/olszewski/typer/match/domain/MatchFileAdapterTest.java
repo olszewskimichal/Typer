@@ -42,6 +42,18 @@ class MatchFileAdapterTest {
   }
 
   @Test
+  void shouldImportMatchDateTimeFromFile() throws IOException {
+    //given
+    Path file = Paths.get("testresources/match.xlsx");
+
+    //when
+    matchFileAdapter.loadMatchesFromFile(file);
+
+    //then
+    assertThat(matchFinder.findAll().get(0).getStartDate()).isNotNull();
+  }
+
+  @Test
   void shouldCreateOneMatchLeagueFromXlsFile() throws IOException {
     Path file = Paths.get("testresources/match.xls");
 
