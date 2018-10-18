@@ -1,6 +1,7 @@
 package pl.michal.olszewski.typer.match.domain;
 
 import java.util.Objects;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import pl.michal.olszewski.typer.livescore.dto.command.FinishLivescoreMatch;
 import pl.michal.olszewski.typer.match.dto.MatchNotFoundException;
@@ -11,6 +12,7 @@ import pl.michal.olszewski.typer.match.dto.events.MatchCanceled;
 import pl.michal.olszewski.typer.match.dto.events.MatchFinished;
 
 @Component
+@Slf4j
 class MatchUpdater {
 
   private final MatchFinder matchFinder;
@@ -24,6 +26,7 @@ class MatchUpdater {
   }
 
   Match cancelMatch(CancelMatch command) {
+    log.trace("START cancelMatch command {}", command);
     Objects.requireNonNull(command);
     command.validCommand();
 
@@ -32,10 +35,12 @@ class MatchUpdater {
     MatchCanceled matchCanceled = match.setStatusAsCanceled();
     eventPublisher.sendMatchCanceledToJMS(matchCanceled);
     matchSaver.save(match);
+    log.trace("STOP cancelMatch command {}", command);
     return match;
   }
 
   Match finishMatch(FinishMatch command) {
+    log.trace("START finishMatch command {}", command);
     Objects.requireNonNull(command);
     command.validCommand();
 
@@ -44,16 +49,19 @@ class MatchUpdater {
     MatchFinished matchFinished = match.setFinalResult(command.getHomeGoals(), command.getAwayGoals());
     eventPublisher.sendMatchFinishedToJMS(matchFinished);
     matchSaver.save(match);
+
     return match;
   }
 
-  Match finishLivescoreMatch(FinishLivescoreMatch finishLivescoreMatch) {
-    Objects.requireNonNull(finishLivescoreMatch);
-    finishLivescoreMatch.validCommand();
+  Match finishLivescoreMatch(FinishLivescoreMatch command) {
+    log.trace("START finishLivescoreMatch command {}", command);
+    Objects.requireNonNull(command);
+    command.validCommand();
 
-    Match match = matchFinder.findByLivescoreId(finishLivescoreMatch.getLivescoreMatchId())
-        .orElseThrow(() -> new MatchNotFoundException(String.format("Mecz o livescoreId %s nie istnieje", finishLivescoreMatch.getLivescoreMatchId())));
-    match.setFinalResult(finishLivescoreMatch.getHomeGoals(), finishLivescoreMatch.getAwayGoals());
+    Match match = matchFinder.findByLivescoreId(command.getLivescoreMatchId())
+        .orElseThrow(() -> new MatchNotFoundException(String.format("Mecz o livescoreId %s nie istnieje", command.getLivescoreMatchId())));
+    match.setFinalResult(command.getHomeGoals(), command.getAwayGoals());
+    log.trace("STOP finishLivescoreMatch command {}", command);
     return matchSaver.save(match);
   }
 
