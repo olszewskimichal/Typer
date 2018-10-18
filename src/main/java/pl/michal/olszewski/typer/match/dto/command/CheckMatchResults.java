@@ -5,13 +5,17 @@ import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @AllArgsConstructor
 @Getter
 @Builder
+@NoArgsConstructor
+@ToString
 public class CheckMatchResults {
 
-  private final LocalDate date;
-  private final Long livescoreLeagueId;
-  private final List<Long> livescoreIds;
+  private LocalDate date;
+  private Long livescoreLeagueId;
+  private List<Long> livescoreIds;
 }

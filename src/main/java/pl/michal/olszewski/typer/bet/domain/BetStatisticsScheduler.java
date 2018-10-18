@@ -13,7 +13,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 @Component
-@Profile("prod")
+@Profile("development")
 @EnableJpaAuditing
 @Slf4j
 class BetStatisticsScheduler {

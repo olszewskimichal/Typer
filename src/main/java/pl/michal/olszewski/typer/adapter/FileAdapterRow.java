@@ -27,7 +27,7 @@ public class FileAdapterRow {
   }
 
   public String get(String colName) {
-    Optional<String> ret = excelValue(row.getCell(xlsLabels.getOrDefault(colName, -1), MissingCellPolicy.RETURN_BLANK_AS_NULL));
+    Optional<String> ret = excelValue(row.getCell(xlsLabels.getOrDefault(colName, Integer.MAX_VALUE), MissingCellPolicy.RETURN_BLANK_AS_NULL));
     return ret.map(String::trim).orElse("");
   }
 

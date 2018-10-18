@@ -66,6 +66,7 @@ class MatchUpdater {
   }
 
   Match integrateMatch(IntegrateMatchWithLivescore command) {
+    log.trace("START integrateMatch command {}", command);
     Objects.requireNonNull(command);
     command.validCommand();
 
@@ -73,6 +74,7 @@ class MatchUpdater {
 
     match.integrateMatchWithLivescore(command.getLivescoreId(), command.getLivescoreLeagueId());
     matchSaver.save(match);
+    log.trace("STOP integrateMatch command {}", command);
     return match;
   }
 
