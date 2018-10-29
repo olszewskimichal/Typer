@@ -29,8 +29,9 @@ class CheckMatchResultListener {
         .filter(PastMatchesDTO::isSuccess)
         .map(PastMatchesDTO::getData)
         .flatMapIterable(PastMatchesDataDTO::getMatches)
+        .doOnEach(v -> log.debug(v.toString()))
         .filter(v -> command.getLivescoreIds().contains(v.getId()))
-        .doOnEach(v -> log.trace(v.toString()))
+        .doOnEach(v -> log.debug(v.toString()))
         .map(v -> new FinishLivescoreMatch(v.getId(), v.getHomeGoals(), v.getAwayGoals()))
         .subscribe(publisher::sendMatchFinishedToJMS);
   }
