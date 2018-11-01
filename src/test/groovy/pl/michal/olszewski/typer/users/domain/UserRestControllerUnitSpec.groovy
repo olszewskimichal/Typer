@@ -11,7 +11,7 @@ class UserRestControllerUnitSpec extends Specification {
     UserFinder finder = new InMemoryUserFinder()
     UserRestController controller = new UserRestController(finder, saver)
 
-    def cleanupSpec() {
+    def setup() {
         saver.deleteAll()
     }
 

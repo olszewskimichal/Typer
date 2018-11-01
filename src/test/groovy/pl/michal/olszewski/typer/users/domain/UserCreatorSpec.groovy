@@ -17,9 +17,9 @@ class UserCreatorSpec extends Specification {
     }
 
     @Unroll
-    def 'should thrown exception when incorrect message'() {
+    def 'should throw exception when incorrect message'() {
 
-        given: 'Having one user with email = email'
+        given: 'Having one user in DB with email = email'
         saver.save(User.builder().id(3L).email("email").build())
         when:
         UserCreator.from(b, finder)

@@ -1,21 +1,28 @@
-package pl.michal.olszewski.typer.users.domain
+package pl.michal.olszewski.typer.team.domain
 
+import org.springframework.beans.factory.annotation.Autowired
 
 import static groovy.json.JsonOutput.toJson
 import static org.springframework.http.MediaType.APPLICATION_JSON
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 
-class UserCreationApiSpec extends UserMvcSpec {
+class TeamCreationApiSpec extends TeamMvcSpec {
 
-    def 'Should create new user'() {
+    @Autowired
+    TeamSaver saver
+
+    def setup() {
+        saver.deleteAll()
+    }
+
+    def 'Should create new team'() {
         given:
         Map request = [
-                email   : 'email1234',
-                username: 'user'
+                name: 'nowaNazwa'
         ]
         when:
-        def results = doRequest(post("/api/user").contentType(APPLICATION_JSON).content(toJson(request)))
+        def results = doRequest(post("/api/team").contentType(APPLICATION_JSON).content(toJson(request)))
         then:
         results.andExpect(status().isCreated())
     }

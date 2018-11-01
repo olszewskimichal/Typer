@@ -1,23 +1,13 @@
 package pl.michal.olszewski.typer.users.domain
 
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
-import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager
+import pl.michal.olszewski.typer.BaseDataJpaSpec
 import pl.michal.olszewski.typer.users.UserNotFoundException
-import spock.lang.Specification
 
-@DataJpaTest
-class UserFinderSpec extends Specification {
+class UserFinderSpec extends BaseDataJpaSpec {
 
     @Autowired
     UserFinder finder
-
-    @Autowired
-    TestEntityManager entityManager
-
-    def cleanup() {
-        entityManager.clear()
-    }
 
     def 'should find user by id when exists in database'() {
         given: 'persist user in database'
