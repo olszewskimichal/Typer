@@ -26,8 +26,6 @@ class Team {
   @Getter
   private String name;
 
-  private Long livescoreId;
-
   TeamInfo toTeamInfo() {
     return new TeamInfo(id, name);
   }

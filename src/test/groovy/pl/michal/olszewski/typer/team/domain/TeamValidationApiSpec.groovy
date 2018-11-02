@@ -1,6 +1,8 @@
 package pl.michal.olszewski.typer.team.domain
 
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.context.TestConfiguration
+import org.springframework.context.annotation.Bean
 import org.springframework.http.HttpStatus
 import spock.lang.Unroll
 
@@ -30,5 +32,20 @@ class TeamValidationApiSpec extends TeamMvcSpec {
         name   | result
         null   | HttpStatus.UNPROCESSABLE_ENTITY.value()
         'name' | HttpStatus.CONFLICT.value()
+    }
+
+    @TestConfiguration
+    static class StubConfig {
+
+        @Bean
+        TeamFinder registrationFinder() {
+            return new InMemoryTeamFinder()
+        }
+
+        @Bean
+        TeamSaver registrationSaver() {
+            return new InMemoryTeamSaver()
+        }
+
     }
 }

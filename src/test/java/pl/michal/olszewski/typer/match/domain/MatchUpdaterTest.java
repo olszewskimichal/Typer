@@ -12,7 +12,6 @@ import pl.michal.olszewski.typer.bet.dto.IllegalGoalArgumentException;
 import pl.michal.olszewski.typer.match.dto.MatchNotFoundException;
 import pl.michal.olszewski.typer.match.dto.command.CancelMatch;
 import pl.michal.olszewski.typer.match.dto.command.FinishMatch;
-import pl.michal.olszewski.typer.match.dto.command.IntegrateMatchWithLivescore;
 import pl.michal.olszewski.typer.match.dto.events.MatchCanceled;
 import pl.michal.olszewski.typer.match.dto.events.MatchFinished;
 
@@ -135,119 +134,7 @@ class MatchUpdaterTest {
     assertThat(match).isEqualToComparingFieldByField(expected);
     Mockito.verify(eventPublisher, times(1)).sendMatchFinishedToJMS(Mockito.any(MatchFinished.class));
   }
-
-
-  @Test
-  void shouldThrowExceptionWhenIntegratingCommandIsNull() {
-    assertThrows(NullPointerException.class, () -> matchUpdater.integrateMatch(null));
-  }
-
-  @Test
-  void shouldThrowExceptionWhenIntegratedMatchIdIsNull() {
-    IntegrateMatchWithLivescore command = IntegrateMatchWithLivescore.builder()
-        .livescoreId(2L)
-        .livescoreLeagueId(5L)
-        .build();
-
-    assertThrows(IllegalArgumentException.class, () -> matchUpdater.integrateMatch(command));
-  }
-
-  @Test
-  void shouldThrowExceptionWhenIntegratedLeagueIdIsNull() {
-    IntegrateMatchWithLivescore command = IntegrateMatchWithLivescore.builder()
-        .livescoreId(2L)
-        .matchId(4L)
-        .build();
-
-    assertThrows(IllegalArgumentException.class, () -> matchUpdater.integrateMatch(command));
-  }
-
-  @Test
-  void shouldThrowExceptionWhenExternalSystemMatchIdIsNull() {
-    IntegrateMatchWithLivescore command = IntegrateMatchWithLivescore.builder()
-        .matchId(2L)
-        .build();
-
-    assertThrows(IllegalArgumentException.class, () -> matchUpdater.integrateMatch(command));
-  }
-
-  @Test
-  void shouldThrowExceptionWhenMatchIsNotFound() {
-    IntegrateMatchWithLivescore command = IntegrateMatchWithLivescore.builder()
-        .matchId(2L)
-        .livescoreId(3L)
-        .livescoreLeagueId(7L)
-        .build();
-
-    assertThrows(MatchNotFoundException.class, () -> matchUpdater.integrateMatch(command));
-  }
-
-
-  @Test
-  void shouldSetLivescoreMatchIdWhenCommandIsCorrect() {
-    Match expected = givenMatch()
-        .buildAndSave(4L, MatchStatus.NEW);
-    expected.setLivescoreId(3L);
-    expected.setLivescoreLeagueId(5L);
-
-    givenMatch()
-        .build(4L, MatchStatus.NEW);
-
-    IntegrateMatchWithLivescore command = IntegrateMatchWithLivescore.builder()
-        .matchId(4L)
-        .livescoreId(3L)
-        .livescoreLeagueId(5L)
-        .build();
-
-    assertThat(matchUpdater.integrateMatch(command)).isEqualToComparingFieldByField(expected);
-  }
-
-  @Test
-  void shouldThrowExceptionWhenIntegrationCommandIsNull() {
-    assertThrows(NullPointerException.class, () -> matchUpdater.integrateMatch(null));
-  }
-
-  @Test
-  void shouldThrowExceptionWhenIntegrateMatchIdIsNull() {
-    IntegrateMatchWithLivescore integrateMatchWithLivescore = IntegrateMatchWithLivescore
-        .builder()
-        .matchId(null)
-        .build();
-
-    assertThrows(IllegalArgumentException.class, () -> matchUpdater.integrateMatch(integrateMatchWithLivescore));
-  }
-
-  @Test
-  void shouldThrowExceptionWhenIntegrationMatchIsNotFound() {
-    IntegrateMatchWithLivescore livescore = IntegrateMatchWithLivescore
-        .builder()
-        .matchId(1L)
-        .livescoreId(3L)
-        .livescoreLeagueId(4L)
-        .build();
-
-    assertThrows(MatchNotFoundException.class, () -> matchUpdater.integrateMatch(livescore));
-  }
-
-  @Test
-  void shouldIntegrateMatchWithLivescoreWhenCommandIsValidAndMatchIsFound() {
-    givenMatch()
-        .buildAndSave(2L, MatchStatus.CANCELED);
-
-    IntegrateMatchWithLivescore livescore = IntegrateMatchWithLivescore
-        .builder()
-        .livescoreId(3L)
-        .livescoreLeagueId(4L)
-        .matchId(2L)
-        .build();
-
-    Match match = matchUpdater.integrateMatch(livescore);
-
-    assertThat(match).isNotNull();
-    assertThat(match.getLivescoreId()).isEqualTo(3L);
-  }
-
-
+  
   private MatchFactory givenMatch() {
     return new MatchFactory(new InMemoryMatchSaver());
   }

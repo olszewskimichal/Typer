@@ -44,21 +44,7 @@ class MatchFinderTest extends RepositoryTestBase {
 
     assertThat(all).isNotEmpty().hasSize(2);
   }
-
-  @Test
-  void shouldFindMatchByStatusWithNotNullLivescoreId() {
-    givenPersistedMatch()
-        .buildLivescoreMatchAndSave(null, MatchStatus.FINISHED, 3L, null);
-    givenPersistedMatch()
-        .buildLivescoreMatchAndSave(null, MatchStatus.NEW, null, null);
-    Match match = givenPersistedMatch()
-        .buildLivescoreMatchAndSave(null, MatchStatus.NEW, 3L, null);
-
-    List<Match> matchList = matchFinder.findByStatusForLivescoreUpdate(MatchStatus.NEW);
-
-    assertThat(matchList).isNotNull().isNotEmpty().hasSize(1).contains(match);
-  }
-
+  
   @Test
   void shouldThrowExceptionWhenMatchNotFound() {
     //given

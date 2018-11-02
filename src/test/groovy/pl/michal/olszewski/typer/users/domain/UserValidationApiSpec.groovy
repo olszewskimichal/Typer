@@ -1,6 +1,8 @@
 package pl.michal.olszewski.typer.users.domain
 
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.context.TestConfiguration
+import org.springframework.context.annotation.Bean
 import org.springframework.http.HttpStatus
 import spock.lang.Unroll
 
@@ -32,5 +34,20 @@ class UserValidationApiSpec extends UserMvcSpec {
         null            | 'user'   | HttpStatus.UNPROCESSABLE_ENTITY.value()
         'email'         | null     | HttpStatus.UNPROCESSABLE_ENTITY.value()
         'existingEmail' | 'name'   | HttpStatus.CONFLICT.value()
+    }
+
+    @TestConfiguration
+    static class StubConfig {
+
+        @Bean
+        UserFinder registrationFinder() {
+            return new InMemoryUserFinder()
+        }
+
+        @Bean
+        UserSaver registrationSaver() {
+            return new InMemoryUserSaver()
+        }
+
     }
 }

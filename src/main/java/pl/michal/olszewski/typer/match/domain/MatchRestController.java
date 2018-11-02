@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 import pl.michal.olszewski.typer.match.dto.command.CancelMatch;
 import pl.michal.olszewski.typer.match.dto.command.CreateNewMatch;
 import pl.michal.olszewski.typer.match.dto.command.FinishMatch;
-import pl.michal.olszewski.typer.match.dto.command.IntegrateMatchWithLivescore;
 import pl.michal.olszewski.typer.match.dto.read.MatchInfo;
 
 @RestController
@@ -57,11 +56,5 @@ class MatchRestController {
     matchUpdater.finishMatch(finishMatch);
     return new ResponseEntity<>(HttpStatus.CREATED);
   }
-
-  @PutMapping("integrate")
-  ResponseEntity<String> integrateMatchWithLivescore(@Valid @ModelAttribute("integrate") IntegrateMatchWithLivescore integrate) {
-    matchUpdater.integrateMatch(integrate);
-    return new ResponseEntity<>(HttpStatus.CREATED);
-  }
-
+  
 }

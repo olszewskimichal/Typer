@@ -1,6 +1,8 @@
 package pl.michal.olszewski.typer.team.domain
 
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.context.TestConfiguration
+import org.springframework.context.annotation.Bean
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
@@ -31,5 +33,21 @@ class TeamInfoReturningApiSpec extends TeamMvcSpec {
         and:
         results.andExpect(jsonPath('$.id').value(team.getId().intValue()))
         results.andExpect jsonPath('$.name').value(team.name)
+    }
+
+
+    @TestConfiguration
+    static class StubConfig {
+
+        @Bean
+        TeamFinder registrationFinder() {
+            return new InMemoryTeamFinder()
+        }
+
+        @Bean
+        TeamSaver registrationSaver() {
+            return new InMemoryTeamSaver()
+        }
+
     }
 }

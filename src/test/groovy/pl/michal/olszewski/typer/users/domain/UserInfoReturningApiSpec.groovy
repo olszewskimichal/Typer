@@ -1,6 +1,8 @@
 package pl.michal.olszewski.typer.users.domain
 
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.context.TestConfiguration
+import org.springframework.context.annotation.Bean
 
 import static org.springframework.http.MediaType.APPLICATION_JSON_UTF8
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get
@@ -32,5 +34,20 @@ class UserInfoReturningApiSpec extends UserMvcSpec {
         results.andExpect(jsonPath('$.id').value(user.getId().intValue()))
         results.andExpect(jsonPath('$.email').value(user.getEmail()))
         results.andExpect(jsonPath('$.username').value(user.username))
+    }
+
+    @TestConfiguration
+    static class StubConfig {
+
+        @Bean
+        UserFinder registrationFinder() {
+            return new InMemoryUserFinder()
+        }
+
+        @Bean
+        UserSaver registrationSaver() {
+            return new InMemoryUserSaver()
+        }
+
     }
 }

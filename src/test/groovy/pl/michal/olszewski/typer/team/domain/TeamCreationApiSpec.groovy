@@ -1,6 +1,8 @@
 package pl.michal.olszewski.typer.team.domain
 
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.context.TestConfiguration
+import org.springframework.context.annotation.Bean
 
 import static groovy.json.JsonOutput.toJson
 import static org.springframework.http.MediaType.APPLICATION_JSON
@@ -25,5 +27,21 @@ class TeamCreationApiSpec extends TeamMvcSpec {
         def results = doRequest(post("/api/team").contentType(APPLICATION_JSON).content(toJson(request)))
         then:
         results.andExpect(status().isCreated())
+    }
+
+
+    @TestConfiguration
+    static class StubConfig {
+
+        @Bean
+        TeamFinder registrationFinder() {
+            return new InMemoryTeamFinder()
+        }
+
+        @Bean
+        TeamSaver registrationSaver() {
+            return new InMemoryTeamSaver()
+        }
+
     }
 }

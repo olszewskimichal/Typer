@@ -13,7 +13,6 @@ import pl.michal.olszewski.typer.match.dto.MatchNotFoundException;
 import pl.michal.olszewski.typer.match.dto.command.CancelMatch;
 import pl.michal.olszewski.typer.match.dto.command.CreateNewMatch;
 import pl.michal.olszewski.typer.match.dto.command.FinishMatch;
-import pl.michal.olszewski.typer.match.dto.command.IntegrateMatchWithLivescore;
 import pl.michal.olszewski.typer.match.dto.read.MatchInfo;
 
 class MatchRestControllerUnitTest {
@@ -75,16 +74,6 @@ class MatchRestControllerUnitTest {
 
     FinishMatch finishMatch = FinishMatch.builder().homeGoals(1L).awayGoals(2L).matchId(1L).build();
     ResponseEntity<String> responseEntity = matchRestController.finishMatch(finishMatch);
-
-    assertThat(responseEntity.getStatusCodeValue()).isEqualTo(201);
-  }
-
-  @Test
-  void shouldIntegrateMatchWithLivescore() {
-    givenMatchs().buildAndSave(1L, MatchStatus.NEW);
-
-    IntegrateMatchWithLivescore integrateMatchWithLivescore = IntegrateMatchWithLivescore.builder().livescoreId(1L).livescoreLeagueId(2L).matchId(1L).build();
-    ResponseEntity<String> responseEntity = matchRestController.integrateMatchWithLivescore(integrateMatchWithLivescore);
 
     assertThat(responseEntity.getStatusCodeValue()).isEqualTo(201);
   }

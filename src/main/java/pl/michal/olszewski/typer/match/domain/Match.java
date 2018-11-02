@@ -49,14 +49,6 @@ class Match {
   @Getter
   private MatchStatus matchStatus;
 
-  @Setter
-  @Getter
-  private Long livescoreId;
-
-  @Getter
-  @Setter
-  private Long livescoreLeagueId; //Zdenormalizowana kolumna by ograniczyć liczbę zapytań
-
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "ROUND_ID")
   @Setter
@@ -73,11 +65,6 @@ class Match {
     setHomeGoals(finalHomeGoals);
     setAwayGoals(finalAwayGoals);
     return new MatchFinished(id, homeGoals, awayGoals, matchRound != null ? matchRound.getBetTypePolicy() : null);
-  }
-
-  void integrateMatchWithLivescore(Long livescoreId, Long livescoreLeagueId) {
-    setLivescoreId(livescoreId);
-    setLivescoreLeagueId(livescoreLeagueId);
   }
 
   MatchInfo toMatchInfo() {
