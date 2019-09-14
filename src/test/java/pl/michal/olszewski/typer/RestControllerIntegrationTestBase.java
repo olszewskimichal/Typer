@@ -17,6 +17,4 @@ public abstract class RestControllerIntegrationTestBase {
   protected WebApplicationContext wac;
 
   protected MockMvc mvc;
-
-
 }

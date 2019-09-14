@@ -12,7 +12,7 @@ class UserFileAdapterSpec extends Specification {
     UserFinder finder = new InMemoryUserFinder()
     UserFileAdapter adapter = new UserFileAdapter(finder, saver, new FileStorageService(new FileStorageProperties("uploads")))
 
-    def cleanup() {
+    def setup() {
         saver.deleteAll()
     }
 

@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -89,7 +90,7 @@ class BetFinderTest extends RepositoryTestBase {
 
   @Test
   void shouldFindBetsModifiedFromDate() {
-    Instant now = Instant.now();
+    Instant now = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
     Bet bet1 = Bet.builder().userId(1L).points(3L).modified(now.minusSeconds(3)).build();
     Bet bet2 = Bet.builder().userId(1L).points(6L).modified(now.plusSeconds(3)).build();
