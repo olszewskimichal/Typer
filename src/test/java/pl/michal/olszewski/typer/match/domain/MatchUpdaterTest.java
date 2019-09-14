@@ -134,7 +134,7 @@ class MatchUpdaterTest {
     assertThat(match).isEqualToComparingFieldByField(expected);
     Mockito.verify(eventPublisher, times(1)).sendMatchFinishedToJMS(Mockito.any(MatchFinished.class));
   }
-  
+
   private MatchFactory givenMatch() {
     return new MatchFactory(new InMemoryMatchSaver());
   }

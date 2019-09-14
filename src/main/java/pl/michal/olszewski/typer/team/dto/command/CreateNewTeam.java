@@ -15,15 +15,15 @@ public class CreateNewTeam implements CommandValid {
   @NotNull
   private final String name;
 
+  @JsonCreator
+  public CreateNewTeam(@NotNull String name) {
+    this.name = name;
+  }
+
   @Override
   public void validCommand() {
     if (name == null) {
       throw new IllegalArgumentException("Nie mozna stworzyc zespołu bez nazwy");
     }
-  }
-
-  @JsonCreator
-  public CreateNewTeam(@NotNull String name) {
-    this.name = name;
   }
 }

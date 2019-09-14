@@ -36,6 +36,12 @@ class BetFileAdapter {
     this.fileStorageService = fileStorageService;
   }
 
+  public Path uploadFile(MultipartFile file) throws IOException {
+    Path path = fileStorageService.storeFile(file);
+    loadBetsFromFile(path);
+    return path;
+  }
+
   void loadBetsFromFile(Path path) throws IOException {
     try (FileAdapter fileAdapter = selectAdapter(path)) {
       for (FileAdapterRow fileAdapterRow : fileAdapter) {
@@ -66,11 +72,5 @@ class BetFileAdapter {
     } else {
       return new XlsAdapter(path, BetFileAdapter.defaultColumns);
     }
-  }
-
-  public Path uploadFile(MultipartFile file) throws IOException {
-    Path path = fileStorageService.storeFile(file);
-    loadBetsFromFile(path);
-    return path;
   }
 }

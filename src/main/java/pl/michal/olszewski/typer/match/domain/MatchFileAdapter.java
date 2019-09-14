@@ -38,6 +38,12 @@ class MatchFileAdapter {
     this.fileStorageService = fileStorageService;
   }
 
+  public Path uploadFile(MultipartFile file) throws IOException {
+    Path path = fileStorageService.storeFile(file);
+    loadMatchesFromFile(path);
+    return path;
+  }
+
   void loadMatchesFromFile(Path path) throws IOException {
     try (FileAdapter fileAdapter = selectAdapter(path)) {
       for (FileAdapterRow fileAdapterRow : fileAdapter) {
@@ -62,11 +68,5 @@ class MatchFileAdapter {
     } else {
       return new XlsAdapter(path, MatchFileAdapter.defaultColumns);
     }
-  }
-
-  public Path uploadFile(MultipartFile file) throws IOException {
-    Path path = fileStorageService.storeFile(file);
-    loadMatchesFromFile(path);
-    return path;
   }
 }

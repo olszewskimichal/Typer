@@ -45,6 +45,11 @@ public class Error {
   }
 
   @Override
+  public int hashCode() {
+    return Objects.hash(code, path, message, details, userMessage);
+  }
+
+  @Override
   public boolean equals(Object obj) {
     if (!(obj instanceof Error)) {
       return false;
@@ -56,11 +61,6 @@ public class Error {
         && Objects.equals(message, other.message)
         && Objects.equals(details, other.details)
         && Objects.equals(userMessage, other.userMessage);
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(code, path, message, details, userMessage);
   }
 
   @Override

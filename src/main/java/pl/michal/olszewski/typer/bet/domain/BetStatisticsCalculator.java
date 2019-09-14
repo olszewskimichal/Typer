@@ -42,6 +42,19 @@ class BetStatisticsCalculator {
     calculateAndSave(null, leagueId, userPoints);
   }
 
+  void calculateStatisticsForRound(Long roundId) {
+    log.debug("Rozpoczynam naliczanie statystyk dla rundy {}", roundId);
+    List<Bet> bets = betFinder.findAllFinishedBetForRound(roundId);
+    log.trace("Pobralem {} zakladów do naliczenia", bets.size());
+    Map<Long, List<Bet>> betsPerUser = bets.stream().collect(Collectors.groupingBy(Bet::getUserId));
+    List<UserPoints> userPoints = betsPerUser.entrySet()
+        .stream()
+        .sorted((v1, v2) -> sumOfPoints(v2.getValue()).compareTo(sumOfPoints(v1.getValue())))
+        .map(v -> new UserPoints(v.getKey(), sumOfPoints(v.getValue())))
+        .collect(Collectors.toList());
+    calculateAndSave(roundId, null, userPoints);
+  }
+
   private void calculateAndSave(Long roundId, Long leagueId, @NonNull List<UserPoints> userPoints) {
     if (userPoints.size() < 2) {
       log.trace("Mamy mniej niz 2 statystyki do naliczenia");
@@ -67,19 +80,6 @@ class BetStatisticsCalculator {
         }
       }
     }
-  }
-
-  void calculateStatisticsForRound(Long roundId) {
-    log.debug("Rozpoczynam naliczanie statystyk dla rundy {}", roundId);
-    List<Bet> bets = betFinder.findAllFinishedBetForRound(roundId);
-    log.trace("Pobralem {} zakladów do naliczenia", bets.size());
-    Map<Long, List<Bet>> betsPerUser = bets.stream().collect(Collectors.groupingBy(Bet::getUserId));
-    List<UserPoints> userPoints = betsPerUser.entrySet()
-        .stream()
-        .sorted((v1, v2) -> sumOfPoints(v2.getValue()).compareTo(sumOfPoints(v1.getValue())))
-        .map(v -> new UserPoints(v.getKey(), sumOfPoints(v.getValue())))
-        .collect(Collectors.toList());
-    calculateAndSave(roundId, null, userPoints);
   }
 
   private void saveStatsToDB(Long roundId, Long leagueId, UserPoints userPoints, long position) {

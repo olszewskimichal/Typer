@@ -26,15 +26,15 @@ class ExceptionMapperHelper {
         ).collect(Collectors.toList());
   }
 
+  ResponseEntity<ErrorsHolder> mapResponseWithoutLogging(ErrorsHolder errors, HttpStatus httpStatus) {
+    return ResponseEntity.status(httpStatus).contentType(MediaType.APPLICATION_JSON).body(errors);
+  }
+
   private String getPath(ObjectError objectError) {
     return (objectError instanceof FieldError) ? ((FieldError) objectError).getField() : objectError.getObjectName();
   }
 
   private Object getRejectedValue(ObjectError objectError) {
     return (objectError instanceof FieldError) ? ((FieldError) objectError).getRejectedValue() : OBJECT_ERROR_REJECTED_VALUE;
-  }
-
-  ResponseEntity<ErrorsHolder> mapResponseWithoutLogging(ErrorsHolder errors, HttpStatus httpStatus) {
-    return ResponseEntity.status(httpStatus).contentType(MediaType.APPLICATION_JSON).body(errors);
   }
 }

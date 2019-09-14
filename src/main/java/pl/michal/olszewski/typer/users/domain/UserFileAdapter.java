@@ -45,17 +45,17 @@ class UserFileAdapter {
     }
   }
 
+  Path uploadFile(MultipartFile file) throws IOException {
+    Path path = fileStorageService.storeFile(file);
+    loadUsersFromFile(path);
+    return path;
+  }
+
   private FileAdapter selectAdapter(Path path) throws IOException {
     if (path.getFileName().toString().toLowerCase().endsWith(".xlsx")) {
       return new XlsxAdapter(path, UserFileAdapter.defaultColumns);
     } else {
       return new XlsAdapter(path, UserFileAdapter.defaultColumns);
     }
-  }
-
-  Path uploadFile(MultipartFile file) throws IOException {
-    Path path = fileStorageService.storeFile(file);
-    loadUsersFromFile(path);
-    return path;
   }
 }

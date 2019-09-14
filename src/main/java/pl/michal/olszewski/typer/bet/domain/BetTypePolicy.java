@@ -38,9 +38,9 @@ enum BetTypePolicy {
     throw new IllegalArgumentException(String.format("Nieprawidlowy identyfikator polityki - takowa o id %s nie istnieje", value));
   }
 
-  abstract BetPolicy getBetPolicy();
-
   public long getValue() {
     return value;
   }
+
+  abstract BetPolicy getBetPolicy();
 }

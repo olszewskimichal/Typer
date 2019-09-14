@@ -5,5 +5,5 @@ import pl.michal.olszewski.typer.BaseWebMvcSpec
 
 @WebMvcTest(controllers = [TeamRestController])
 abstract class TeamMvcSpec extends BaseWebMvcSpec {
-    
+
 }

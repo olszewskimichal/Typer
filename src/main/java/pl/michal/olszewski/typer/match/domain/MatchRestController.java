@@ -56,5 +56,5 @@ class MatchRestController {
     matchUpdater.finishMatch(finishMatch);
     return new ResponseEntity<>(HttpStatus.CREATED);
   }
-  
+
 }

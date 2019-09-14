@@ -31,6 +31,12 @@ class MatchLeagueFileAdapter {
     this.fileStorageService = fileStorageService;
   }
 
+  public Path uploadFile(MultipartFile file) throws IOException {
+    Path path = fileStorageService.storeFile(file);
+    loadLeaguesFromFile(path);
+    return path;
+  }
+
   void loadLeaguesFromFile(Path path) throws IOException {
     try (FileAdapter fileAdapter = selectAdapter(path)) {
       for (FileAdapterRow fileAdapterRow : fileAdapter) {
@@ -49,11 +55,5 @@ class MatchLeagueFileAdapter {
     } else {
       return new XlsAdapter(path, MatchLeagueFileAdapter.DEFAULT_COLUMNS);
     }
-  }
-
-  public Path uploadFile(MultipartFile file) throws IOException {
-    Path path = fileStorageService.storeFile(file);
-    loadLeaguesFromFile(path);
-    return path;
   }
 }

@@ -44,7 +44,7 @@ class MatchFinderTest extends RepositoryTestBase {
 
     assertThat(all).isNotEmpty().hasSize(2);
   }
-  
+
   @Test
   void shouldThrowExceptionWhenMatchNotFound() {
     //given

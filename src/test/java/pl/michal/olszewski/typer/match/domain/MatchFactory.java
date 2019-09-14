@@ -9,7 +9,11 @@ class MatchFactory {
   MatchFactory(MatchSaver matchSaver) {
     saver = matchSaver;
   }
-  
+
+  public void deleteAll() {
+    saver.deleteAll();
+  }
+
   Match buildAndSave(Long id, MatchStatus status) {
     Match match = build(id, status);
     saver.save(match);
@@ -35,9 +39,5 @@ class MatchFactory {
         .awayGoals(awayGoals)
         .startDate(Instant.now())
         .build();
-  }
-
-  public void deleteAll() {
-    saver.deleteAll();
   }
 }
